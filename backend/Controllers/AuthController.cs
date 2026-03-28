@@ -6,14 +6,14 @@ using backend.Data;
 using backend.Models;
 using backend.Filters;
 using backend.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 
-namespace Website.Server.Controllers
+namespace backend.Controllers
 {
     //[ApiController]
-    //[Route("[controller]")]
     [AntiCSRF]
-    public class AuthController(WebsiteDbContext websiteDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger) : ControllerBase
+    public class AuthController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger) : ControllerBase
     {
 
         [HttpPost]
@@ -25,14 +25,14 @@ namespace Website.Server.Controllers
                 return BadRequest(ModelState.Format());
             }
 
-            AccessCode? accessCodeObject = websiteDbContext.AccessCodes.FirstOrDefault(item => item.Name == signupForm.AccessCode && item.Uses >= 1);
+            AccessCode? accessCodeObject = await appDbContext.AccessCodes.FirstOrDefaultAsync(item => item.Name == signupForm.AccessCode && item.Uses >= 1);
             if (accessCodeObject == null)
             {
                 logger.LogWarning("Invalid Access Code: {AccessCode}", signupForm.AccessCode);
                 return BadRequest("Access Code is invalid.");
             }
 
-            using (var transaction = await websiteDbContext.Database.BeginTransactionAsync())
+            using (var transaction = await appDbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
@@ -48,9 +48,9 @@ namespace Website.Server.Controllers
                     {
                         accessCodeObject.Uses--;
 
-                        await websiteDbContext.SaveChangesAsync();
+                        await appDbContext.SaveChangesAsync();
                         await transaction.CommitAsync();
-                        logger.LogWarning("Account Creation: {Username}", signupForm.Username);
+                        logger.LogInformation("Account Creation: {Username}", signupForm.Username);
                         return Ok("Your account has successfully been created.");
                     }
                     else if (errors.Count != 0)
@@ -85,7 +85,7 @@ namespace Website.Server.Controllers
             Microsoft.AspNetCore.Identity.SignInResult accountAccess = await signInManager.PasswordSignInAsync(signinForm.Username, signinForm.Password, false, false);
             if (accountAccess.Succeeded)
             {
-                logger.LogWarning("Success: {Username}", signinForm.Username);
+                logger.LogInformation("Success: {Username}", signinForm.Username);
                 return Ok("You have successfully signed in.");
             }
             else if (accountAccess.IsNotAllowed)

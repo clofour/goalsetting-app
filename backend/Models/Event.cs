@@ -8,16 +8,17 @@ namespace backend.Models
         Unknown
     }
 
-    public class Event(string name, int uses)
+    public class Event(User user, Goal goal, string name, DateTime startTime, DateTime endTime, EventState eventState, Reflection? reflection)
     {
-        public string ID = id;
+
+        public string ID;
         public User user = user;
         public Goal goal = goal;
 
         public string name = name;
 
-        public DateTime start = start;
-        public DateTime end = end;
+        public DateTime start = startTime;
+        public DateTime end = endTime;
         
         public EventState eventState = eventState;
         public Reflection? reflection = reflection;

@@ -18,10 +18,9 @@ namespace backend.Models
         Stick
     }
 
-    public class Goal(Guid guid, User user, string name, string description, GoalType goalType, Goal parent, string specific, string measurable, string attainable, string realistic, string timeBound, string why, GoalImportance importance, string difficulty, string strengths, string weaknesses, string obstacles, MotivationType motivationType, string motivation, string backupPlan, string killConditions)
+    public class Goal(User user, string name, string description, GoalType goalType, Goal parent, string specific, string measurable, string attainable, string realistic, string timeBound, string why, GoalImportance importance, string difficulty, string strengths, string weaknesses, string obstacles, MotivationType motivationType, string motivation, string backupPlan, string killConditions)
     {
-        [Key]
-        public Guid guid = Guid.NewGuid();
+        public string ID;
         public User user = user;
 
         public string name = name;
@@ -32,7 +31,7 @@ namespace backend.Models
 
         public string specific = specific;
         public string measurable = measurable;
-        public string attainable = attainble;
+        public string attainable = attainable;
         public string realistic = realistic;
         public string timeBound = timeBound;
 
