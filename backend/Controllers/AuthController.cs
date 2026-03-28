@@ -82,7 +82,7 @@ namespace backend.Controllers
                 return BadRequest(ModelState.Format());
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult accountAccess = await signInManager.PasswordSignInAsync(signinForm.Username, signinForm.Password, false, false);
+            Microsoft.AspNetCore.Identity.SignInResult accountAccess = await signInManager.PasswordSignInAsync(signinForm.Username, signinForm.Password, false, true);
             if (accountAccess.Succeeded)
             {
                 logger.LogInformation("Success: {Username}", signinForm.Username);

@@ -11,6 +11,6 @@ namespace backend.Data
         public DbSet<AccessCode> AccessCodes { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Event> Events { get; set; }
-
+        public DbSet<Reflection> Reflections { get; set; }
     }
 }
