@@ -1,51 +1,39 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { Outlet } from "react-router";
+import { AppShell, Burger, Group, Text, NavLink } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
-function App() {
-    const [forecasts, setForecasts] = useState();
+export default function App() {
+    const navLinks = [
+        { href: "/app/dashboard", label: "Home" },
+        { href: "/app/calendar", label: "Calendar" },
+        { href: "/app/goals", label: "Goals" }
+    ];
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+    const [opened, { toggle }] = useDisclosure();
 
     return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-    
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
-    }
+        <AppShell
+            header={{ height: 60 }}
+            navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+            padding="md"
+        >
+            <AppShell.Header>
+                <Group h="100%" px="md">
+                    <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+                    Header has a burger icon below sm breakpoint
+                </Group>
+            </AppShell.Header>
+            <AppShell.Navbar p="md">
+                {navLinks.map((link) => (
+                    <NavLink
+                        label={link.label}
+                        href={link.href}
+                    />
+                ))}
+            </AppShell.Navbar>
+            <AppShell.Main>
+                <Outlet />
+            </AppShell.Main>
+        </AppShell>
+    )
 }
-
-export default App;
