@@ -2,14 +2,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.Models
 {
-    public class Reflection(User user, Event anEvent, string whatWorked, string whatDidntWork, string improvement)
+    public class Reflection()
     {
-        public string ID;
-        public User user = user;
-        public Event anEvent = anEvent;
+        public string ID { get; set; }
+        public User user { get; set; }
+        public string EventId { get; set; }
+        public Event Event { get; set; }
 
-        public string whatWorked = whatWorked;
-        public string whatDidntWork = whatDidntWork;
-        public string improvement = improvement;
+        public string whatWorked { get; set; }
+        public string whatDidntWork { get; set; }
+        public string improvement { get; set; }
     }
 }

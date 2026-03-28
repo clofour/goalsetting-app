@@ -18,35 +18,35 @@ namespace backend.Models
         Stick
     }
 
-    public class Goal(User user, string name, string description, GoalType goalType, Goal parent, string specific, string measurable, string attainable, string realistic, string timeBound, string why, GoalImportance importance, string difficulty, string strengths, string weaknesses, string obstacles, MotivationType motivationType, string motivation, string backupPlan, string killConditions)
+    public class Goal()
     {
-        public string ID;
-        public User user = user;
+        public string ID { get; set; }
+        public User user { get; set; }
 
-        public string name = name;
-        public string description = description;
+        public string name { get; set; }
+        public string description { get; set; }
 
-        public GoalType goalType = goalType;
-        public Goal parent = parent;
+        public GoalType goalType { get; set; }
+        public Goal parent { get; set; }
 
-        public string specific = specific;
-        public string measurable = measurable;
-        public string attainable = attainable;
-        public string realistic = realistic;
-        public string timeBound = timeBound;
+        public string specific { get; set; }
+        public string measurable { get; set; }
+        public string attainable { get; set; }
+        public string realistic { get; set; }
+        public string timeBound { get; set; }
 
-        public string why = why;
-        public GoalImportance importance = importance;
-        public string difficulty = difficulty;
-        public string strengths = strengths;
-        public string weaknesses = weaknesses;
+        public string why { get; set; }
+        public GoalImportance importance { get; set; }
+        public string difficulty { get; set; }
+        public string strengths { get; set; }
+        public string weaknesses { get; set; }
         
-        public string obstacles = obstacles;
-        public MotivationType motivationType = motivationType;
-        public string motivation = motivation;
+        public string obstacles { get; set; }
+        public MotivationType motivationType { get; set; }
+        public string motivation { get; set; }
 
-        public string backupPlan = backupPlan;
+        public string backupPlan { get; set; }
 
-        public string killConditions = killConditions;
+        public string killConditions { get; set; }
     }
 }

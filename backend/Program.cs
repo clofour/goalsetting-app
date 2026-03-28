@@ -10,6 +10,7 @@ using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using backend.Enrichers;
 using Serilog.Events;
 using Destructurama;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,8 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
     .Destructure.UsingAttributes()
-    .Enrich.WithProperty("Name", "Messaging")
-    .Enrich.WithProperty("Version", "1.0.0")
+    .Enrich.WithProperty("Name", "Goalsetting")
+    .Enrich.WithProperty("Version", "0.1.0")
     .Enrich.WithProperty("Environment", environment)
     .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers().WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
     .Enrich.With<RequestEnricher>()
@@ -37,7 +38,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql($"Host=/var/run/postgresql;Username={environment.ToLower()};Password={(environment == "Production" ? File.ReadAllText("/run/secrets/p_db_user_password") : "testing")};Database={environment.ToLower()}")
+    options.UseNpgsql($"Host=localhost:5432;Username={environment.ToLower()};Password={(environment == "Production" ? File.ReadAllText("/run/secrets/p_db_user_password") : "testing")};Database={environment.ToLower()}")
     .UseSeeding((context, _) =>
     {
         AppDbContext appDbContext = (AppDbContext)context;
@@ -68,7 +69,9 @@ builder.Services.AddIdentityCore<User>(options =>
     options.Lockout.MaxFailedAccessAttempts = 3;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(1);
 
-}).AddEntityFrameworkStores<AppDbContext>();
+})
+.AddSignInManager<SignInManager<User>>()
+.AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -91,7 +94,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication().AddCookie("Identity.Application");
 
 builder.Services.AddAuthorization();
 
@@ -116,12 +119,6 @@ builder.Services.AddRateLimiter(options =>
 });
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
