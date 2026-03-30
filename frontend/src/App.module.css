@@ -1,0 +1,26 @@
+﻿.navigationLink {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+  line-height: 2.75rem;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+
+  @mixin hover {
+    color: var(--mantine-color-bright);
+  }
+}
+
+.navigationLinkActive {
+    border-bottom-color: light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-5));
+    color: var(--mantine-color-bright);
+  }
+
+.headerNavigation {
+  height: 2.75rem;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--mantine-spacing-lg);
+}
