@@ -2,6 +2,7 @@ import { Box, Stack, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton,
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
+import PageTitle from '@/components/PageTitle';
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -123,6 +124,9 @@ export default function Goals() {
   // TODO: Make tree structure more clear
   return (
     <Stack gap="sm">
+
+      <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
+
 
       {stars.map((star) => (
         <Paper key="he" p="xs" withBorder>
