@@ -1,12 +1,13 @@
 import { Outlet } from "react-router";
-import { AppShell, Burger, Group, Text, NavLink } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconLayoutDashboard, IconCalendar, IconSparkles } from '@tabler/icons-react';
 
 export default function App() {
     const navLinks = [
-        { href: "/app/dashboard", label: "Home" },
-        { href: "/app/calendar", label: "Calendar" },
-        { href: "/app/goals", label: "Goals" }
+        { href: "/app/dashboard", label: "Home", icon: IconLayoutDashboard },
+        { href: "/app/calendar", label: "Calendar", icon: IconCalendar },
+        { href: "/app/goals", label: "Goals", icon: IconSparkles }
     ];
 
     const [opened, { toggle }] = useDisclosure();
@@ -26,8 +27,9 @@ export default function App() {
             <AppShell.Navbar p="md">
                 {navLinks.map((link) => (
                     <NavLink
-                        label={link.label}
                         href={link.href}
+                        label={link.label}
+                        leftSection={<link.icon size={18} />}
                     />
                 ))}
             </AppShell.Navbar>
