@@ -101,7 +101,7 @@ export default function Goals() {
   const GoalMenu = () => (
     <Menu>
       <Menu.Target>
-        <ActionIcon variant="subtle" size="sm">
+        <ActionIcon variant="subtle" size="sm" aria-label="Open goal actions">
           <IconDots size={16} />
         </ActionIcon>
       </Menu.Target>
@@ -124,31 +124,25 @@ export default function Goals() {
   // TODO: Make tree structure more clear
   return (
     <Stack gap="sm">
-
       <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
 
       {stars.map((star) => (
         <Paper key="he" p="xs" withBorder>
-
           <Stack pr="md">
-
             <Stack pl="md">
-
               <Goal
                 name={star.name}
                 type="star"
                 description={star.description}
                 left={<IconStar size={16} />}
-                ight={<Badge variant="light"
+                right={<Badge variant="light"
                   color={priorityColors[star.priority]}>{star.priority}</Badge>}
               />
 
               <Stack pl="xl">
-
                 {star.bearings.map((bearing) =>
                 (
                   <>
-
                     <Goal
                       name={bearing.name}
                       type="bearing"
@@ -157,36 +151,27 @@ export default function Goals() {
                     />
 
                     <Stack pl="xl">
-
                       {bearing.movements.map((movement) =>
                       (
-
                         <Goal
                           name={movement.name}
                           type="movement"
                           description={movement.description}
                           left={<IconActivity size={14} />}
                         />
-
                       ))}
 
                       <GoalAddButton text="Add Movement" />
-
                     </Stack>
                   </>
                 ))}
 
                 <GoalAddButton text="Add Bearing" />
-
               </Stack>
-
             </Stack>
-
           </Stack>
-
         </Paper>
       ))}
-
     </Stack>
   );
 }
