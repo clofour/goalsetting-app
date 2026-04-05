@@ -85,7 +85,7 @@ export default function Goals() {
     "None": "gray"
   }
 
-  const Star = ({ name, type, description, left, right }) => (
+  const Goal = ({ name, type, description, left, right }) => (
     <Flex align="center" gap="sm">
       {left}
       <Box key="helop" flex={1}>
@@ -93,11 +93,11 @@ export default function Goals() {
         <Text size="xs" c="dimmed">{description}</Text>
       </Box>
       {right}
-      <StarMenu />
+      <GoalMenu />
     </Flex>
   )
 
-  const StarMenu = () => (
+  const GoalMenu = () => (
     <Menu>
       <Menu.Target>
         <ActionIcon variant="subtle" size="sm">
@@ -111,7 +111,7 @@ export default function Goals() {
     </Menu>
   )
 
-  const StarAddButton = ({ text }) => (
+  const GoalAddButton = ({ text }) => (
     <UnstyledButton w="100%">
       <Group gap="md">
         <IconPlus size={12} />
@@ -131,7 +131,7 @@ export default function Goals() {
 
             <Stack pl="md">
 
-              <Star
+              <Goal
                 name={star.name}
                 type="star"
                 description={star.description}
@@ -146,7 +146,7 @@ export default function Goals() {
                 (
                   <>
 
-                    <Star
+                    <Goal
                       name={bearing.name}
                       type="bearing"
                       description={bearing.description}
@@ -158,7 +158,7 @@ export default function Goals() {
                       {bearing.movements.map((movement) =>
                       (
 
-                        <Star
+                        <Goal
                           name={movement.name}
                           type="movement"
                           description={movement.description}
@@ -167,13 +167,13 @@ export default function Goals() {
 
                       ))}
 
-                      <StarAddButton text="Add Movement" />
+                      <GoalAddButton text="Add Movement" />
 
                     </Stack>
                   </>
                 ))}
 
-                <StarAddButton text="Add Bearing" />
+                <GoalAddButton text="Add Bearing" />
 
               </Stack>
 
