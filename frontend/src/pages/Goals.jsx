@@ -127,7 +127,6 @@ export default function Goals() {
 
       <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
 
-
       {stars.map((star) => (
         <Paper key="he" p="xs" withBorder>
 

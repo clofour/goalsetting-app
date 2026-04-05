@@ -1,6 +1,5 @@
 import { Title, Text } from "@mantine/core";
 
-
 export default function PageTitle({ name, description }) {
     return (
         <div>
