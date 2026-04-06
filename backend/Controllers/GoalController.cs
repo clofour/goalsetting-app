@@ -13,12 +13,20 @@ namespace backend.Controllers
 {
     //[ApiController]
     [AntiCSRF]
-    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger) : ControllerBase
+    [Authorize]
+    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(new List<Goal>());
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            return Ok(user.Goals);
         }
 
         [HttpPost]

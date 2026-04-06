@@ -6,5 +6,6 @@ namespace backend.Models
     {
         public string AccessCode { get; set; } = accessCode;
 
+        public List<Goal> Goals {get; set; } = new List<Goal>();
     }
 }
