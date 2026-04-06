@@ -1,5 +1,7 @@
-import { Text } from '@mantine/core';
+import PageTitle from '@/components/PageTitle';
 
 export default function Calendar() {
-    return <Text>Hi</Text>;
+    return (
+        <PageTitle name="Calendar" description="Track your movements." />
+    );
 }

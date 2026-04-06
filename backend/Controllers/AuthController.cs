@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-    //[ApiController]
+    [ApiController]
+    [Route("api/[controller]/[action]")]
     [AntiCSRF]
     public class AuthController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger) : ControllerBase
     {

@@ -12,5 +12,16 @@ namespace backend.Data
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Reflection> Reflections { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Goal>()
+                .HasDiscriminator<GoalType>("GoalType")
+                .HasValue<NorthStar>(GoalType.NorthStar)
+                .HasValue<Movement>(GoalType.Movement)
+                .HasValue<Bearing>(GoalType.Bearing);
+
+            base.OnModelCreating(builder);
+        }
     }
 }

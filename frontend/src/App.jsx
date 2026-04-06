@@ -1,12 +1,15 @@
-import { Outlet } from "react-router";
-import { AppShell, Burger, Group, Text, NavLink } from '@mantine/core';
+import { Outlet, useLocation } from "react-router";
+import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconLayoutDashboard, IconCalendar, IconSparkles, IconStarFilled } from '@tabler/icons-react';
 
 export default function App() {
+    const location = useLocation();
+
     const navLinks = [
-        { href: "/app/dashboard", label: "Home" },
-        { href: "/app/calendar", label: "Calendar" },
-        { href: "/app/goals", label: "Goals" }
+        { href: "/app/dashboard", label: "Home", icon: IconLayoutDashboard },
+        { href: "/app/calendar", label: "Calendar", icon: IconCalendar },
+        { href: "/app/goals", label: "Goals", icon: IconSparkles }
     ];
 
     const [opened, { toggle }] = useDisclosure();
@@ -20,14 +23,19 @@ export default function App() {
             <AppShell.Header>
                 <Group h="100%" px="md">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    Header has a burger icon below sm breakpoint
+                    <Group gap="sm">
+                        <IconStarFilled size={22} fill="var(--mantine-primary-color-filled)" />
+                        <Text size="lg" fw="700">Nordar</Text>
+                    </Group>
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
                 {navLinks.map((link) => (
                     <NavLink
-                        label={link.label}
                         href={link.href}
+                        label={link.label}
+                        leftSection={<link.icon size={18} />}
+                        active={location.pathname.startsWith(link.href)}
                     />
                 ))}
             </AppShell.Navbar>

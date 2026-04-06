@@ -14,9 +14,12 @@
     "@mantine/form": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
     "@tabler/icons-react": "^3.41.0",
+    "axios": "^1.14.0",
+    "msw": "^2.12.14",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router": "^7.13.2",
+    "swr": "^2.4.1",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
@@ -28,6 +31,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "orval": "^8.6.2",
     "postcss": "^8.5.8",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",

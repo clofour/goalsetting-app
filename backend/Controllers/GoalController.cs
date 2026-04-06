@@ -1,0 +1,79 @@
+using backend.Viewmodels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using backend.Data;
+using backend.Models;
+using backend.Filters;
+using backend.Helpers;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+
+
+namespace backend.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]/[action]")]
+    [AntiCSRF]
+    [Authorize]
+    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
+    {
+        [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            return Ok(user.Goals);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarForm northStarForm)
+        {
+            if (!ModelState.IsValid)
+            {
+                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, northStarForm);
+                return BadRequest(ModelState.Format());
+            }
+
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            NorthStar northStar = new NorthStar();
+            mapper.Map(northStarForm, northStar);
+
+            user.Goals.Add(northStar);
+
+            await appDbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string ID)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            Goal? goal = await appDbContext.Goals.FindAsync(ID);
+            if (goal != null && goal.user == user)
+            {
+                return Ok();
+            }
+
+            return Ok();
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import './index.css'
@@ -12,9 +12,13 @@ import Dashboard from './pages/Dashboard.jsx'
 import Calendar from './pages/Calendar.jsx'
 import Goals from './pages/Goals.jsx'
 
+const theme = createTheme({
+  fontFamily: 'Inter'
+})
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route index element={<AuthRequired />} />
