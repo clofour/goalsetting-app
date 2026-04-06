@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 namespace backend.Models
 {
     public enum GoalType {
-        Superordinate,
-        Intermediate,
-        Subordinate
+        NorthStar,
+        Bearing,
+        Movement
     }
 
     public abstract class Goal
