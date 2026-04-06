@@ -1,8 +1,9 @@
-import { Box, Stack, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group } from '@mantine/core';
+import { Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
 import PageTitle from '@/components/PageTitle';
+import { useState } from 'react';
 
 const stars = [
   {
@@ -67,58 +68,16 @@ const stars = [
     ]
   }
 ];
-const priorityColors = {
-  "High": "red",
-  "None": "gray"
-}
-const goalColors = {
-  "star": "red",
-  "bearing": "green",
-  "movement": "blue"
-}
 
-const Goal = ({ name, type, description, left, right }) => (
-  <Paper p="sm" withBorder style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors[type] }}>
-    <Flex align="center" gap="sm">
-      {left}
-      <Box key="helop" flex={1}>
-        <Text>{name}</Text>
-        <Text size="xs" c="dimmed">{description}</Text>
-      </Box>
-      {right}
-      <GoalMenu />
-    </Flex>
-  </Paper>
-)
 
-const GoalMenu = () => (
-  <Menu>
-    <Menu.Target>
-      <ActionIcon variant="subtle" size="sm" aria-label="Open goal actions">
-        <IconDots size={16} />
-      </ActionIcon>
-    </Menu.Target>
-    <Menu.Dropdown>
-      <Menu.Item leftSection={<IconPencil size={14} />}>Edit</Menu.Item>
-      <Menu.Item leftSection={<IconTrash size={14} />} color="red">Delete</Menu.Item>
-    </Menu.Dropdown>
-  </Menu>
-)
 
-const onGoalAdd = () => {
-  
+const CreateNorthStarForm = () => {
+
 }
-const GoalAddButton = ({ text }) => (
-  <UnstyledButton w="100%" onClick={onGoalAdd}>
-    <Group gap="md">
-      <IconPlus size={12} />
-      <Text size="xs" c="dimmed">{text}</Text>
-    </Group>
-  </UnstyledButton>
-)
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
+  const [activeForm, setActiveForm] = useState();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -131,15 +90,33 @@ export default function Goals() {
     },
   });
 
-  // TODO: Make tree structure more clear
+  const onGoalAdd = () => {
+    setActiveForm("hello");
+    open();
+  }
+
+  const GoalAddButton = ({ text }) => (
+    <UnstyledButton w="100%" onClick={onGoalAdd}>
+      <Group gap="md">
+        <IconPlus size={12} />
+        <Text size="xs" c="dimmed">{text}</Text>
+      </Group>
+    </UnstyledButton>
+  )
+
+
   return (
     <Stack gap="sm">
       <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
 
+      <Modal opened={opened} onClose={close} title="Create GoalCard">
+        {activeForm}
+      </Modal>
+
       {stars.map((star) => (
         <Stack>
           <Stack>
-            <Goal
+            <GoalCard
               name={star.name}
               type="star"
               description={star.description}
@@ -152,7 +129,7 @@ export default function Goals() {
               {star.bearings.map((bearing) =>
               (
                 <Stack gap="sm">
-                  <Goal
+                  <GoalCard
                     name={bearing.name}
                     type="bearing"
                     description={bearing.description}
@@ -162,7 +139,7 @@ export default function Goals() {
                   <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["bearing"] }}>
                     {bearing.movements.map((movement) =>
                     (
-                      <Goal
+                      <GoalCard
                         name={movement.name}
                         type="movement"
                         description={movement.description}
