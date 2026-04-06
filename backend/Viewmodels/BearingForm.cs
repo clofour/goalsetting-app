@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Bearing : Goal
+    public class BearingForm : GoalForm
     {
-        public Goal parent { get; set; }
+        public string parentID { get; set; }
 
         public string description { get; set; }
         public string justification { get; set; }

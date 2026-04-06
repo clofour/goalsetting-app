@@ -8,11 +8,6 @@ namespace backend.Models
         Subordinate
     }
 
-    public enum MotivationType {
-        Carrot,
-        Stick
-    }
-
     public abstract class Goal
     {
         public string ID { get; set; }

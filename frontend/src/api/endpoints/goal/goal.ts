@@ -17,7 +17,7 @@ import type {
 } from 'swr/mutation';
 
 import type {
-  Goal,
+  NorthStarForm,
   PostApiGoalDeleteParams
 } from '../../models';
 
@@ -90,64 +90,64 @@ export const useGetApiGoalGet = <TError = Promise<unknown>>(
     ...query
   }
 }
-export type postApiGoalCreateResponse200 = {
+export type postApiGoalCreateNorthStarResponse200 = {
   data: void
   status: 200
 }
 
-export type postApiGoalCreateResponseSuccess = (postApiGoalCreateResponse200) & {
+export type postApiGoalCreateNorthStarResponseSuccess = (postApiGoalCreateNorthStarResponse200) & {
   headers: Headers;
 };
 ;
 
-export type postApiGoalCreateResponse = (postApiGoalCreateResponseSuccess)
+export type postApiGoalCreateNorthStarResponse = (postApiGoalCreateNorthStarResponseSuccess)
 
-export const getPostApiGoalCreateUrl = () => {
-
-
+export const getPostApiGoalCreateNorthStarUrl = () => {
 
 
-  return `/api/Goal/Create`
+
+
+  return `/api/Goal/CreateNorthStar`
 }
 
-export const postApiGoalCreate = async (goal: Goal, options?: RequestInit): Promise<postApiGoalCreateResponse> => {
+export const postApiGoalCreateNorthStar = async (northStarForm: NorthStarForm, options?: RequestInit): Promise<postApiGoalCreateNorthStarResponse> => {
 
-  const res = await fetch(getPostApiGoalCreateUrl(),
+  const res = await fetch(getPostApiGoalCreateNorthStarUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      goal,)
+      northStarForm,)
   }
 )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: postApiGoalCreateResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as postApiGoalCreateResponse
+  const data: postApiGoalCreateNorthStarResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as postApiGoalCreateNorthStarResponse
 }
 
 
 
 
-export const getPostApiGoalCreateMutationFetcher = ( options?: RequestInit) => {
-  return (_: Key, { arg }: { arg: Goal }) => {
-    return postApiGoalCreate(arg, options);
+export const getPostApiGoalCreateNorthStarMutationFetcher = ( options?: RequestInit) => {
+  return (_: Key, { arg }: { arg: NorthStarForm }) => {
+    return postApiGoalCreateNorthStar(arg, options);
   }
 }
-export const getPostApiGoalCreateMutationKey = () => [`/api/Goal/Create`] as const;
+export const getPostApiGoalCreateNorthStarMutationKey = () => [`/api/Goal/CreateNorthStar`] as const;
 
-export type PostApiGoalCreateMutationResult = NonNullable<Awaited<ReturnType<typeof postApiGoalCreate>>>
+export type PostApiGoalCreateNorthStarMutationResult = NonNullable<Awaited<ReturnType<typeof postApiGoalCreateNorthStar>>>
 
-export const usePostApiGoalCreate = <TError = Promise<unknown>>(
-   options?: { swr?:SWRMutationConfiguration<Awaited<ReturnType<typeof postApiGoalCreate>>, TError, Key, Goal, Awaited<ReturnType<typeof postApiGoalCreate>>> & { swrKey?: string }, fetch?: RequestInit}
+export const usePostApiGoalCreateNorthStar = <TError = Promise<unknown>>(
+   options?: { swr?:SWRMutationConfiguration<Awaited<ReturnType<typeof postApiGoalCreateNorthStar>>, TError, Key, NorthStarForm, Awaited<ReturnType<typeof postApiGoalCreateNorthStar>>> & { swrKey?: string }, fetch?: RequestInit}
 ) => {
 
   const {swr: swrOptions, fetch: fetchOptions} = options ?? {}
 
-  const swrKey = swrOptions?.swrKey ?? getPostApiGoalCreateMutationKey();
-  const swrFn = getPostApiGoalCreateMutationFetcher(fetchOptions);
+  const swrKey = swrOptions?.swrKey ?? getPostApiGoalCreateNorthStarMutationKey();
+  const swrFn = getPostApiGoalCreateNorthStarMutationFetcher(fetchOptions);
 
   const query = useSWRMutation(swrKey, swrFn, swrOptions)
 

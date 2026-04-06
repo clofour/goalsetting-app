@@ -24,8 +24,8 @@ export const getGetApiGoalGetMockHandler = (overrideResponse?: void | ((info: Pa
   }, options)
 }
 
-export const getPostApiGoalCreateMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
-  return http.post('*/api/Goal/Create', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/Goal/CreateNorthStar', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
   if (typeof overrideResponse === 'function') {await overrideResponse(info); }
 
     return new HttpResponse(null,
@@ -45,6 +45,6 @@ export const getPostApiGoalDeleteMockHandler = (overrideResponse?: void | ((info
 }
 export const getGoalMock = () => [
   getGetApiGoalGetMockHandler(),
-  getPostApiGoalCreateMockHandler(),
+  getPostApiGoalCreateNorthStarMockHandler(),
   getPostApiGoalDeleteMockHandler()
 ]

@@ -7,31 +7,10 @@
 import * as zod from 'zod';
 
 
-export const postApiGoalCreateBodyUserAccessFailedCountRegExpOne = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const postApiGoalCreateBodyUserAccessFailedCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-
-
-export const PostApiGoalCreateBody = zod.object({
-  "id": zod.string().optional(),
-  "user": zod.object({
-  "accessCode": zod.string(),
-  "goals": zod.array(zod.unknown()).optional(),
-  "id": zod.string().nullish(),
-  "userName": zod.string().nullish(),
-  "normalizedUserName": zod.string().nullish(),
-  "email": zod.string().nullish(),
-  "normalizedEmail": zod.string().nullish(),
-  "emailConfirmed": zod.boolean().optional(),
-  "passwordHash": zod.string().nullish(),
-  "securityStamp": zod.string().nullish(),
-  "concurrencyStamp": zod.string().nullish(),
-  "phoneNumber": zod.string().nullish(),
-  "phoneNumberConfirmed": zod.boolean().optional(),
-  "twoFactorEnabled": zod.boolean().optional(),
-  "lockoutEnd": zod.string().datetime({}).nullish(),
-  "lockoutEnabled": zod.boolean().optional(),
-  "accessFailedCount": zod.union([zod.number().regex(postApiGoalCreateBodyUserAccessFailedCountRegExpOne),zod.string().regex(postApiGoalCreateBodyUserAccessFailedCountRegExpTwo)]).optional()
-}).optional(),
+export const PostApiGoalCreateNorthStarBody = zod.object({
+  "description": zod.string().optional(),
+  "importance": zod.number().optional(),
+  "justification": zod.string().optional(),
   "name": zod.string().optional(),
   "goalType": zod.number().optional()
 })

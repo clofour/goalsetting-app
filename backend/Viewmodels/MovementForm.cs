@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
     public enum MotivationType
     {
@@ -8,9 +8,9 @@ namespace backend.Models
         Stick
     }
 
-    public class Movement : Goal
+    public class MovementForm : GoalForm
     {
-        public Goal parent { get; set; }
+        public string parentID { get; set; }
 
         public MotivationType? motivationType { get; set; }
         public string? motivation { get; set; }

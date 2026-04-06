@@ -7,6 +7,7 @@ using backend.Models;
 using backend.Filters;
 using backend.Helpers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 
 namespace backend.Controllers
@@ -15,7 +16,7 @@ namespace backend.Controllers
     [Route("api/[controller]/[action]")]
     [AntiCSRF]
     [Authorize]
-    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger) : ControllerBase
+    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult> Get()
@@ -31,15 +32,27 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] Goal goal) // TODO: Use a viewmodel
+        public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarForm northStarForm)
         {
-            Console.Write(goal);
+            if (!ModelState.IsValid)
+            {
+                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, northStarForm);
+                return BadRequest(ModelState.Format());
+            }
 
-            // if (!ModelState.IsValid)
-            // {
-            //     logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, goalForm);
-            //     return BadRequest(ModelState.Format());
-            // }
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            NorthStar northStar = new NorthStar();
+            mapper.Map(northStarForm, northStar);
+
+            user.Goals.Add(northStar);
+
+            await appDbContext.SaveChangesAsync();
 
             return Ok();
         }

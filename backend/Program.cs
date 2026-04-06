@@ -11,6 +11,7 @@ using backend.Enrichers;
 using Serilog.Events;
 using Destructurama;
 using Microsoft.AspNetCore.Identity;
+using backend.Viewmodels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,6 +120,11 @@ builder.Services.AddRateLimiter(options =>
 });
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<NorthStarForm, NorthStar>();
+});
 
 var app = builder.Build();
 
