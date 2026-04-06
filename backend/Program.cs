@@ -118,6 +118,8 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -149,6 +151,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseRateLimiter();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 app.MapControllerRoute(
     name: "default",
