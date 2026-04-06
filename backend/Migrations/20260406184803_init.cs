@@ -174,41 +174,47 @@ namespace backend.Migrations
                 name: "Goals",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     userId = table.Column<string>(type: "text", nullable: true),
                     name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false),
                     goalType = table.Column<int>(type: "integer", nullable: false),
-                    parentID = table.Column<string>(type: "text", nullable: false),
-                    specific = table.Column<string>(type: "text", nullable: false),
-                    measurable = table.Column<string>(type: "text", nullable: false),
-                    attainable = table.Column<string>(type: "text", nullable: false),
-                    realistic = table.Column<string>(type: "text", nullable: false),
-                    timeBound = table.Column<string>(type: "text", nullable: false),
-                    why = table.Column<string>(type: "text", nullable: false),
-                    importance = table.Column<int>(type: "integer", nullable: false),
-                    difficulty = table.Column<string>(type: "text", nullable: false),
-                    strengths = table.Column<string>(type: "text", nullable: false),
-                    weaknesses = table.Column<string>(type: "text", nullable: false),
-                    obstacles = table.Column<string>(type: "text", nullable: false),
-                    motivationType = table.Column<int>(type: "integer", nullable: false),
-                    motivation = table.Column<string>(type: "text", nullable: false),
-                    backupPlan = table.Column<string>(type: "text", nullable: false),
-                    killConditions = table.Column<string>(type: "text", nullable: false)
+                    GoalType = table.Column<int>(type: "integer", nullable: false),
+                    parentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    description = table.Column<string>(type: "text", nullable: true),
+                    justification = table.Column<string>(type: "text", nullable: true),
+                    strengths = table.Column<string>(type: "text", nullable: true),
+                    weaknesses = table.Column<string>(type: "text", nullable: true),
+                    Movement_parentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    motivationType = table.Column<int>(type: "integer", nullable: true),
+                    motivation = table.Column<string>(type: "text", nullable: true),
+                    triggers = table.Column<string>(type: "text", nullable: true),
+                    temptations = table.Column<string>(type: "text", nullable: true),
+                    opts = table.Column<string>(type: "text", nullable: true),
+                    obstacles = table.Column<string>(type: "text", nullable: true),
+                    killConditions = table.Column<string>(type: "text", nullable: true),
+                    NorthStar_description = table.Column<string>(type: "text", nullable: true),
+                    importance = table.Column<int>(type: "integer", nullable: true),
+                    NorthStar_justification = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Goals", x => x.ID);
+                    table.PrimaryKey("PK_Goals", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Goals_AspNetUsers_userId",
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Goals_Goals_parentID",
-                        column: x => x.parentID,
+                        name: "FK_Goals_Goals_Movement_parentId",
+                        column: x => x.Movement_parentId,
                         principalTable: "Goals",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Goals_Goals_parentId",
+                        column: x => x.parentId,
+                        principalTable: "Goals",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -218,7 +224,7 @@ namespace backend.Migrations
                 {
                     ID = table.Column<string>(type: "text", nullable: false),
                     userId = table.Column<string>(type: "text", nullable: true),
-                    goalID = table.Column<string>(type: "text", nullable: true),
+                    goalId = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     end = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -233,17 +239,18 @@ namespace backend.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Events_Goals_goalID",
-                        column: x => x.goalID,
+                        name: "FK_Events_Goals_goalId",
+                        column: x => x.goalId,
                         principalTable: "Goals",
-                        principalColumn: "ID");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Reflections",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     userId = table.Column<string>(type: "text", nullable: true),
                     EventId = table.Column<string>(type: "text", nullable: false),
                     whatWorked = table.Column<string>(type: "text", nullable: false),
@@ -252,7 +259,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reflections", x => x.ID);
+                    table.PrimaryKey("PK_Reflections", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Reflections_AspNetUsers_userId",
                         column: x => x.userId,
@@ -304,9 +311,9 @@ namespace backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_goalID",
+                name: "IX_Events_goalId",
                 table: "Events",
-                column: "goalID");
+                column: "goalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_userId",
@@ -314,9 +321,14 @@ namespace backend.Migrations
                 column: "userId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_parentID",
+                name: "IX_Goals_Movement_parentId",
                 table: "Goals",
-                column: "parentID");
+                column: "Movement_parentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Goals_parentId",
+                table: "Goals",
+                column: "parentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Goals_userId",

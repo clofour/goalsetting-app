@@ -8,14 +8,14 @@ interface GoalCardProps {
     type: "star" | "bearing" | "movement";
     description: string;
     left: ReactElement;
-    right: ReactElement;
+    right?: ReactElement;
 }
 
 export default function GoalCard({ name, type, description, left, right }: GoalCardProps) {
     return (<Paper p="sm" withBorder style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal[type] }}>
         <Flex align="center" gap="sm">
             {left}
-            <Box key="helop" flex={1}>
+            <Box flex={1}>
                 <Text>{name}</Text>
                 <Text size="xs" c="dimmed">{description}</Text>
             </Box>

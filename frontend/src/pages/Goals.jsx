@@ -4,6 +4,9 @@ import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
 import PageTitle from '@/components/PageTitle';
 import { useState } from 'react';
+import GoalCard from '@/components/goals/GoalCard.js';
+import { theme } from '@/Theme.jsx';
+import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm.js';
 
 const stars = [
   {
@@ -69,12 +72,6 @@ const stars = [
   }
 ];
 
-
-
-const CreateNorthStarForm = () => {
-
-}
-
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
   const [activeForm, setActiveForm] = useState();
@@ -91,7 +88,7 @@ export default function Goals() {
   });
 
   const onGoalAdd = () => {
-    setActiveForm("hello");
+    setActiveForm(<CreateNorthStarForm />);
     open();
   }
 
@@ -109,7 +106,7 @@ export default function Goals() {
     <Stack gap="sm">
       <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
 
-      <Modal opened={opened} onClose={close} title="Create GoalCard">
+      <Modal opened={opened} onClose={close} title="Create Goal">
         {activeForm}
       </Modal>
 
@@ -122,10 +119,10 @@ export default function Goals() {
               description={star.description}
               left={<IconStar size={16} />}
               right={<Badge variant="light"
-                color={priorityColors[star.priority]}>{star.priority}</Badge>}
+                color={theme.colors.priority[star.priority]}>{star.priority}</Badge>}
             />
 
-            <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["star"] }}>
+            <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["star"] }}>
               {star.bearings.map((bearing) =>
               (
                 <Stack gap="sm">
@@ -136,7 +133,7 @@ export default function Goals() {
                     left={<IconCompass size={14} />}
                   />
 
-                  <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["bearing"] }}>
+                  <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["bearing"] }}>
                     {bearing.movements.map((movement) =>
                     (
                       <GoalCard

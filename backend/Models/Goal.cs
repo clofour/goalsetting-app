@@ -10,7 +10,7 @@ namespace backend.Models
 
     public abstract class Goal
     {
-        public string ID { get; set; }
+        public Guid Id { get; set; }
         public User user { get; set; }
 
         public string name { get; set; }

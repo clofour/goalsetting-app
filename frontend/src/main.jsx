@@ -5,7 +5,7 @@ import '@mantine/core/styles.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import './index.css'
 import AuthRequired from './AuthRequired.jsx'
-import NotFound from './pages/NotFound.js'
+import NotFound from './pages/NotFound.tsx'
 import Authentication from './pages/Authentication.jsx'
 import App from './App.jsx'
 import Dashboard from './pages/Dashboard.jsx'

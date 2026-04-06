@@ -4,7 +4,7 @@ namespace backend.Models
 {
     public class Reflection()
     {
-        public string ID { get; set; }
+        public Guid Id { get; set; }
         public User user { get; set; }
         public string EventId { get; set; }
         public Event Event { get; set; }

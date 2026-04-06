@@ -34,7 +34,7 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     }
 }
 
-const target = 'https://localhost:5076';
+const target = 'http://localhost:5076';
 
 // https://vitejs.dev/config/
 export default defineConfig({

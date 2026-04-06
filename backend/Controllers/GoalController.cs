@@ -14,7 +14,6 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [AntiCSRF]
     [Authorize]
     public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
     {
@@ -50,6 +49,9 @@ namespace backend.Controllers
             NorthStar northStar = new NorthStar();
             mapper.Map(northStarForm, northStar);
 
+            logger.LogError("North Star: {@NorthStar}", northStar);
+
+            appDbContext.Goals.Add(northStar);
             user.Goals.Add(northStar);
 
             await appDbContext.SaveChangesAsync();
