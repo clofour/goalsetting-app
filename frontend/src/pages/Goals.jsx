@@ -1,4 +1,4 @@
-import { Box, Stack, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group, Divider } from '@mantine/core';
+import { Box, Stack, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
@@ -85,17 +85,24 @@ export default function Goals() {
     "High": "red",
     "None": "gray"
   }
+  const goalColors = {
+    "star": "red",
+    "bearing": "green",
+    "movement": "blue"
+  }
 
   const Goal = ({ name, type, description, left, right }) => (
-    <Flex align="center" gap="sm">
-      {left}
-      <Box key="helop" flex={1}>
-        <Text>{name}</Text>
-        <Text size="xs" c="dimmed">{description}</Text>
-      </Box>
-      {right}
-      <GoalMenu />
-    </Flex>
+    <Paper p="sm" withBorder style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors[type] }}>
+      <Flex align="center" gap="sm">
+        {left}
+        <Box key="helop" flex={1}>
+          <Text>{name}</Text>
+          <Text size="xs" c="dimmed">{description}</Text>
+        </Box>
+        {right}
+        <GoalMenu />
+      </Flex>
+    </Paper>
   )
 
   const GoalMenu = () => (
@@ -127,50 +134,48 @@ export default function Goals() {
       <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
 
       {stars.map((star) => (
-        <Paper key="he" p="xs" withBorder>
-          <Stack pr="md">
-            <Stack pl="md">
-              <Goal
-                name={star.name}
-                type="star"
-                description={star.description}
-                left={<IconStar size={16} />}
-                right={<Badge variant="light"
-                  color={priorityColors[star.priority]}>{star.priority}</Badge>}
-              />
+        <Stack>
+          <Stack>
+            <Goal
+              name={star.name}
+              type="star"
+              description={star.description}
+              left={<IconStar size={16} />}
+              right={<Badge variant="light"
+                color={priorityColors[star.priority]}>{star.priority}</Badge>}
+            />
 
-              <Stack pl="xl">
-                {star.bearings.map((bearing) =>
-                (
-                  <>
-                    <Goal
-                      name={bearing.name}
-                      type="bearing"
-                      description={bearing.description}
-                      left={<IconCompass size={14} />}
-                    />
+            <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["star"] }}>
+              {star.bearings.map((bearing) =>
+              (
+                <Stack gap="sm">
+                  <Goal
+                    name={bearing.name}
+                    type="bearing"
+                    description={bearing.description}
+                    left={<IconCompass size={14} />}
+                  />
 
-                    <Stack pl="xl">
-                      {bearing.movements.map((movement) =>
-                      (
-                        <Goal
-                          name={movement.name}
-                          type="movement"
-                          description={movement.description}
-                          left={<IconActivity size={14} />}
-                        />
-                      ))}
+                  <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["bearing"] }}>
+                    {bearing.movements.map((movement) =>
+                    (
+                      <Goal
+                        name={movement.name}
+                        type="movement"
+                        description={movement.description}
+                        left={<IconActivity size={14} />}
+                      />
+                    ))}
 
-                      <GoalAddButton text="Add Movement" />
-                    </Stack>
-                  </>
-                ))}
+                    <GoalAddButton text="Add Movement" />
+                  </Stack>
+                </Stack>
+              ))}
 
-                <GoalAddButton text="Add Bearing" />
-              </Stack>
+              <GoalAddButton text="Add Bearing" />
             </Stack>
           </Stack>
-        </Paper>
+        </Stack>
       ))}
     </Stack>
   );
