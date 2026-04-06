@@ -10,7 +10,6 @@ export default function CreateNorthStarForm() {
     })
 
     const handleSubmit = (values: typeof form.values) => {
-        console.log("Submit");
         postApiGoalCreateNorthStar(values);
     };
 
