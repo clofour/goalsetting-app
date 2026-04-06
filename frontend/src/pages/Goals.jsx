@@ -105,8 +105,11 @@ const GoalMenu = () => (
   </Menu>
 )
 
+const onGoalAdd = () => {
+  
+}
 const GoalAddButton = ({ text }) => (
-  <UnstyledButton w="100%">
+  <UnstyledButton w="100%" onClick={onGoalAdd}>
     <Group gap="md">
       <IconPlus size={12} />
       <Text size="xs" c="dimmed">{text}</Text>
