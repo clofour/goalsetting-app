@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.Viewmodels
 {
-    public class BearingForm : GoalForm
+    public class BearingCreate : GoalCreate
     {
         public Guid ParentId { get; set; }
 

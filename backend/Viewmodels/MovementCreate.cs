@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Enums;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Movement : Goal
+    public class MovementCreate : GoalCreate
     {
-        public Goal Parent { get; set; }
+        public Guid ParentID { get; set; }
 
         public MotivationType? MotivationType { get; set; }
         public string? Motivation { get; set; }

@@ -123,7 +123,13 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.CreateMap<NorthStarForm, NorthStar>();
+    cfg.CreateMap<NorthStarCreate, NorthStar>();
+    cfg.CreateMap<BearingCreate, Bearing>();
+    cfg.CreateMap<MovementCreate, Movement>();
+
+    cfg.CreateMap<NorthStar, NorthStarGet>();
+    cfg.CreateMap<Bearing, BearingGet>();
+    cfg.CreateMap<Movement, MovementGet>();
 });
 
 var app = builder.Build();

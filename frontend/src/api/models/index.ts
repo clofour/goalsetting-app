@@ -5,9 +5,13 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './bearingGet';
 export * from './goalImportance';
 export * from './goalType';
-export * from './northStarForm';
+export * from './motivationType';
+export * from './movementGet';
+export * from './northStarCreate';
+export * from './northStarGet';
 export * from './postApiGoalDeleteParams';
 export * from './signinForm';
 export * from './signupForm';

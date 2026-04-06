@@ -8,6 +8,7 @@ using backend.Filters;
 using backend.Helpers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using System.Collections.ObjectModel;
 
 
 namespace backend.Controllers
@@ -18,24 +19,35 @@ namespace backend.Controllers
     public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(typeof(List<NorthStarGet>), StatusCodes.Status200OK)]
         public async Task<ActionResult> Get()
         {
             var user = await userManager.GetUserAsync(User);
-
             if (user == null)
             {
                 return Forbid();
             }
 
-            return Ok(user.Goals);
+            await appDbContext.Entry(user)
+                .Collection(user => user.Goals)
+                .Query()
+                .Include(northStar => northStar.Bearings)
+                    .ThenInclude(bearing => bearing.Movements)
+                .LoadAsync();
+
+            List<NorthStar> goals = user.Goals;
+
+            List<NorthStarGet> goalsDTO = mapper.Map<List<NorthStarGet>>(goals);
+
+            return Ok(goalsDTO);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarForm northStarForm)
+        public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarCreate northStarCreate)
         {
             if (!ModelState.IsValid)
             {
-                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, northStarForm);
+                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, northStarCreate);
                 return BadRequest(ModelState.Format());
             }
 
@@ -46,7 +58,7 @@ namespace backend.Controllers
             }
 
             NorthStar northStar = new NorthStar();
-            mapper.Map(northStarForm, northStar);
+            mapper.Map(northStarCreate, northStar);
 
             appDbContext.Goals.Add(northStar);
             user.Goals.Add(northStar);

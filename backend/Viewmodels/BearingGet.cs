@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Bearing : Goal
+    public class BearingGet : GoalGet
     {
-        public Goal Parent { get; set; }
+        public Guid ParentId { get; set; }
 
         public string Description { get; set; }
         public string Justification { get; set; }
@@ -12,6 +12,6 @@ namespace backend.Models
         public string? Strengths { get; set; }
         public string? Weaknesses { get; set; }
 
-        public List<Movement> Movements { get; set; }
+        public List<MovementGet> Movements { get; set; }
     }
 }

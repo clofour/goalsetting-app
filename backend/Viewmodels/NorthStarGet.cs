@@ -1,17 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Enums;
 
 namespace backend.Viewmodels
 {
-    public enum GoalImportance
-    {
-        High,
-        None
-    }
-
-    public class NorthStarForm: GoalForm
+    public class NorthStarGet : GoalGet
     {
         public string Description { get; set; }
         public GoalImportance Importance { get; set; }
         public string Justification { get; set; }
+        public List<BearingGet> Bearings { get; set; }
     }
 }

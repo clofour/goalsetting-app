@@ -1,76 +1,13 @@
-import { Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group } from '@mantine/core';
+import { Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
 import PageTitle from '@/components/PageTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GoalCard from '@/components/goals/GoalCard';
 import { theme } from '@/Theme';
 import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
-
-const stars = [
-  {
-    name: "Do things",
-    description: "yes",
-    priority: "High",
-    bearings: [
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      },
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      },
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      }
-    ]
-  }
-];
+import { useGetApiGoalGet } from '@/api/endpoints/goal/goal';
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -101,16 +38,20 @@ export default function Goals() {
     </UnstyledButton>
   )
 
+  const { data: response, error, isLoading, mutate } = useGetApiGoalGet();
 
   return (
     <Stack gap="sm">
-      <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
+      <Group justify="space-between">
+        <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
+        <Button leftSection={<IconPlus size={16} />} onClick={onGoalAdd}>New North Star</Button>
+      </Group>
 
       <Modal opened={opened} onClose={close} title="Create Goal">
         {activeForm}
       </Modal>
 
-      {stars.map((star) => (
+      {response && response.data.map((star) => (
         <Stack>
           <Stack>
             <GoalCard
@@ -119,7 +60,7 @@ export default function Goals() {
               description={star.description}
               left={<IconStar size={16} />}
               right={<Badge variant="light"
-                color={theme.colors.priority[star.priority]}>{star.priority}</Badge>}
+                color={theme.colors.priority[star.Priority]}>{star.Priority}</Badge>}
             />
 
             <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["star"] }}>

@@ -1,13 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Enums;
 
 namespace backend.Models
 {
-    public enum GoalType {
-        NorthStar,
-        Bearing,
-        Movement
-    }
-
     public abstract class Goal
     {
         public Guid Id { get; set; }

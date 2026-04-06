@@ -1,14 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Enums;
 
 namespace backend.Viewmodels
 {
-    public enum MotivationType
-    {
-        Carrot,
-        Stick
-    }
-
-    public class MovementForm : GoalForm
+    public class MovementGet : GoalGet
     {
         public Guid ParentID { get; set; }
 

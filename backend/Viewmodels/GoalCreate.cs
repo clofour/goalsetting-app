@@ -1,14 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Enums;
 
 namespace backend.Viewmodels
 {
-    public enum GoalType {
-        Superordinate,
-        Intermediate,
-        Subordinate
-    }
-
-    public abstract class GoalForm
+    public abstract class GoalCreate
     {
         public string Name { get; set; }
         public GoalType Type { get; set; }

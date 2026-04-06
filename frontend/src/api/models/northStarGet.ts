@@ -4,13 +4,13 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
+import type { BearingGet } from './bearingGet';
 import type { GoalImportance } from './goalImportance';
-import type { GoalType } from './goalType';
 
-export interface NorthStarForm {
+export interface NorthStarGet {
   description?: string;
   importance?: GoalImportance;
   justification?: string;
-  name?: string;
-  goalType?: GoalType;
+  bearings?: BearingGet[];
+  id?: string;
 }

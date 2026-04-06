@@ -1,3 +1,4 @@
+using backend.Enums;
 using backend.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

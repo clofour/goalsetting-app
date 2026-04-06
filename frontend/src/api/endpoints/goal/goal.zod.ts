@@ -7,12 +7,39 @@
 import * as zod from 'zod';
 
 
+export const GetApiGoalGetResponseItem = zod.object({
+  "description": zod.string().optional(),
+  "importance": zod.number().optional(),
+  "justification": zod.string().optional(),
+  "bearings": zod.array(zod.object({
+  "parentId": zod.string().uuid().optional(),
+  "description": zod.string().optional(),
+  "justification": zod.string().optional(),
+  "strengths": zod.string().nullish(),
+  "weaknesses": zod.string().nullish(),
+  "movements": zod.array(zod.object({
+  "parentID": zod.string().uuid().optional(),
+  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
+  "motivation": zod.string().nullish(),
+  "triggers": zod.string().nullish(),
+  "temptations": zod.string().nullish(),
+  "opts": zod.string().nullish(),
+  "obstacles": zod.string().nullish(),
+  "killConditions": zod.string().nullish(),
+  "id": zod.string().uuid().optional()
+})).optional(),
+  "id": zod.string().uuid().optional()
+})).optional(),
+  "id": zod.string().uuid().optional()
+})
+export const GetApiGoalGetResponse = zod.array(GetApiGoalGetResponseItem)
+
 export const PostApiGoalCreateNorthStarBody = zod.object({
   "description": zod.string().optional(),
   "importance": zod.number().optional(),
   "justification": zod.string().optional(),
   "name": zod.string().optional(),
-  "goalType": zod.number().optional()
+  "type": zod.number().optional()
 })
 
 export const PostApiGoalDeleteQueryParams = zod.object({
