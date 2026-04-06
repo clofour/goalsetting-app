@@ -4,13 +4,13 @@ import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import './index.css'
-import AuthRequired from './AuthRequired.jsx'
-import NotFound from './pages/NotFound.tsx'
-import Authentication from './pages/Authentication.jsx'
-import App from './App.jsx'
-import Dashboard from './pages/Dashboard.jsx'
-import Calendar from './pages/Calendar.jsx'
-import Goals from './pages/Goals.jsx'
+import AuthRequired from './AuthRequired'
+import NotFound from './pages/NotFound'
+import Authentication from './pages/Authentication'
+import App from './App'
+import Dashboard from './pages/Dashboard'
+import Calendar from './pages/Calendar'
+import Goals from './pages/Goals'
 
 const theme = createTheme({
   fontFamily: 'Inter'

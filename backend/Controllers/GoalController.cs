@@ -40,7 +40,6 @@ namespace backend.Controllers
             }
 
             var user = await userManager.GetUserAsync(User);
-
             if (user == null)
             {
                 return Forbid();
@@ -48,8 +47,6 @@ namespace backend.Controllers
 
             NorthStar northStar = new NorthStar();
             mapper.Map(northStarForm, northStar);
-
-            logger.LogError("North Star: {@NorthStar}", northStar);
 
             appDbContext.Goals.Add(northStar);
             user.Goals.Add(northStar);
@@ -70,7 +67,7 @@ namespace backend.Controllers
             }
 
             Goal? goal = await appDbContext.Goals.FindAsync(ID);
-            if (goal != null && goal.user == user)
+            if (goal != null && goal.User == user)
             {
                 return Ok();
             }

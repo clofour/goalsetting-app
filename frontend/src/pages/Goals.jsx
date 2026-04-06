@@ -4,9 +4,9 @@ import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
 import PageTitle from '@/components/PageTitle';
 import { useState } from 'react';
-import GoalCard from '@/components/goals/GoalCard.js';
-import { theme } from '@/Theme.jsx';
-import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm.js';
+import GoalCard from '@/components/goals/GoalCard';
+import { theme } from '@/Theme';
+import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
 
 const stars = [
   {

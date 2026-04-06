@@ -4,12 +4,12 @@ namespace backend.Viewmodels
 {
     public class BearingForm : GoalForm
     {
-        public string parentId { get; set; }
+        public Guid ParentId { get; set; }
 
-        public string description { get; set; }
-        public string justification { get; set; }
+        public string Description { get; set; }
+        public string Justification { get; set; }
 
-        public string? strengths { get; set; }
-        public string? weaknesses { get; set; }
+        public string? Strengths { get; set; }
+        public string? Weaknesses { get; set; }
     }
 }

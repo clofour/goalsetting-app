@@ -21,30 +21,30 @@ export default function CreateNorthStarForm() {
                     description="What is your goal?"
                     placeholder="Be healthy"
                     required
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
+                    key={form.key('Name')}
+                    {...form.getInputProps('Name')}
                 />
                 <Textarea
                     label="Description"
                     description="What does your goal consist of?"
                     placeholder="Be healthy"
                     required
-                    key={form.key('description')}
-                    {...form.getInputProps('description')}
+                    key={form.key('Description')}
+                    {...form.getInputProps('Description')}
                 />
                 <Textarea
                     label="Justification"
                     description="Why do you want to achieve this goal? How is it linked to your values and your identity?"
                     placeholder="Be healthy"
-                    key={form.key('justification')}
-                    {...form.getInputProps('justification')}
+                    key={form.key('Justification')}
+                    {...form.getInputProps('Justification')}
                 />
                 <Input.Wrapper>
                     <SegmentedControl
                         data={[{value: 0, label: "High"}, {value: 1, label: "None"}]}
                         fullWidth
-                        key={form.key('importance')}
-                        {...form.getInputProps('importance')}
+                        key={form.key('Importance')}
+                        {...form.getInputProps('Importance')}
                     />
                 </Input.Wrapper>
 

@@ -10,8 +10,8 @@ namespace backend.Models
 
     public class NorthStar : Goal
     {
-        public string description { get; set; }
-        public GoalImportance importance { get; set; }
-        public string justification { get; set; }
+        public string Description { get; set; }
+        public GoalImportance Importance { get; set; }
+        public string Justification { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace backend.Viewmodels
 
     public abstract class GoalForm
     {
-        public string name { get; set; }
-        public GoalType goalType { get; set; }
+        public string Name { get; set; }
+        public GoalType Type { get; set; }
     }
 }

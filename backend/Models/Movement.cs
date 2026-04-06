@@ -10,14 +10,14 @@ namespace backend.Models
 
     public class Movement : Goal
     {
-        public Goal parent { get; set; }
+        public Goal Parent { get; set; }
 
-        public MotivationType? motivationType { get; set; }
-        public string? motivation { get; set; }
-        public string? triggers { get; set; }
-        public string? temptations { get; set; }
-        public string? opts { get; set; }
-        public string? obstacles { get; set; }
-        public string? killConditions { get; set; }
+        public MotivationType? MotivationType { get; set; }
+        public string? Motivation { get; set; }
+        public string? Triggers { get; set; }
+        public string? Temptations { get; set; }
+        public string? Opts { get; set; }
+        public string? Obstacles { get; set; }
+        public string? KillConditions { get; set; }
     }
 }
