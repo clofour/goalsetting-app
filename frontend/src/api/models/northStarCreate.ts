@@ -8,9 +8,9 @@ import type { GoalImportance } from './goalImportance';
 import type { GoalType } from './goalType';
 
 export interface NorthStarCreate {
-  description?: string;
-  importance?: GoalImportance;
+  description: string;
+  importance: GoalImportance;
   justification?: string;
-  name?: string;
+  name: string;
   type?: GoalType;
 }

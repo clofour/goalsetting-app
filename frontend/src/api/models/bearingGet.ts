@@ -16,4 +16,5 @@ export interface BearingGet {
   weaknesses?: string | null;
   movements?: MovementGet[];
   id?: string;
+  name?: string;
 }

@@ -14,37 +14,40 @@ export default function CreateNorthStarForm() {
     };
 
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
             <Stack>
                 <TextInput
                     label="Name"
                     description="What is your goal?"
                     placeholder="Be healthy"
                     required
-                    key={form.key('Name')}
-                    {...form.getInputProps('Name')}
+                    key={form.key('name')}
+                    {...form.getInputProps('name')}
                 />
                 <Textarea
                     label="Description"
                     description="What does your goal consist of?"
                     placeholder="Be healthy"
                     required
-                    key={form.key('Description')}
-                    {...form.getInputProps('Description')}
+                    key={form.key('description')}
+                    {...form.getInputProps('description')}
                 />
                 <Textarea
                     label="Justification"
                     description="Why do you want to achieve this goal? How is it linked to your values and your identity?"
                     placeholder="Be healthy"
-                    key={form.key('Justification')}
-                    {...form.getInputProps('Justification')}
+                    key={form.key('justification')}
+                    {...form.getInputProps('justification')}
                 />
-                <Input.Wrapper>
+                <Input.Wrapper 
+                    label="Importance"
+                    description="How important is this goal to you?"
+                    >
                     <SegmentedControl
-                        data={[{value: 0, label: "High"}, {value: 1, label: "None"}]}
+                        data={[{value: 0, label: "None"}, {value: 1, label: "High"}]}
                         fullWidth
-                        key={form.key('Importance')}
-                        {...form.getInputProps('Importance')}
+                        key={form.key('importance')}
+                        {...form.getInputProps('importance')}
                     />
                 </Input.Wrapper>
 

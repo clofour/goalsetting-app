@@ -60,7 +60,7 @@ export default function Goals() {
               description={star.description}
               left={<IconStar size={16} />}
               right={<Badge variant="light"
-                color={theme.colors.priority[star.Priority]}>{star.Priority}</Badge>}
+                color={theme.colors.priority[star.importance]}>{star.importance}</Badge>}
             />
 
             <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["star"] }}>

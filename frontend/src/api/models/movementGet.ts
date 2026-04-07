@@ -7,7 +7,7 @@
 import type { MotivationType } from './motivationType';
 
 export interface MovementGet {
-  parentID?: string;
+  parentId?: string;
   motivationType?: null | MotivationType;
   /** @nullable */
   motivation?: string | null;
@@ -22,4 +22,5 @@ export interface MovementGet {
   /** @nullable */
   killConditions?: string | null;
   id?: string;
+  name?: string;
 }

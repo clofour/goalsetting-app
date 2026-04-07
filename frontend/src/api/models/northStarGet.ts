@@ -13,4 +13,5 @@ export interface NorthStarGet {
   justification?: string;
   bearings?: BearingGet[];
   id?: string;
+  name?: string;
 }
