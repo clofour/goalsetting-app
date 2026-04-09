@@ -60,8 +60,69 @@ namespace backend.Controllers
             NorthStar northStar = new NorthStar();
             mapper.Map(northStarCreate, northStar);
 
-            appDbContext.Goals.Add(northStar);
             user.Goals.Add(northStar);
+
+            await appDbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateBearing([FromBody] BearingCreate bearingCreate)
+        {
+            if (!ModelState.IsValid)
+            {
+                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, bearingCreate);
+                return BadRequest(ModelState.Format());
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            NorthStar? parent = await appDbContext.Goals.FindAsync(bearingCreate.ParentId) as NorthStar;
+            if (parent == null || parent.User != user)
+            {
+                return NotFound("The parent goal does not exist.");
+            }
+
+            Bearing bearing = new Bearing();
+            mapper.Map(bearingCreate, bearing);
+
+            parent.Bearings.Add(bearing);
+
+            await appDbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateMovement([FromBody] MovementCreate movementCreate)
+        {
+            if (!ModelState.IsValid)
+            {
+                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, movementCreate);
+                return BadRequest(ModelState.Format());
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            Bearing? parent = await appDbContext.Goals.FindAsync(movementCreate.ParentId) as Bearing;
+            if (parent == null || parent.User != user)
+            {
+                return NotFound("The parent goal does not exist.");
+            }
+
+            Movement movement = new Movement();
+            mapper.Map(movementCreate, movement);
+
+            parent.Movements.Add(movement);
 
             await appDbContext.SaveChangesAsync();
 

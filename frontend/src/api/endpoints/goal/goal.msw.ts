@@ -46,6 +46,26 @@ export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: void
   }, options)
 }
 
+export const getPostApiGoalCreateBearingMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/Goal/CreateBearing', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
+
+export const getPostApiGoalCreateMovementMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post('*/api/Goal/CreateMovement', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 200
+      })
+  }, options)
+}
+
 export const getPostApiGoalDeleteMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
   return http.post('*/api/Goal/Delete', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
   if (typeof overrideResponse === 'function') {await overrideResponse(info); }
@@ -58,5 +78,7 @@ export const getPostApiGoalDeleteMockHandler = (overrideResponse?: void | ((info
 export const getGoalMock = () => [
   getGetApiGoalGetMockHandler(),
   getPostApiGoalCreateNorthStarMockHandler(),
+  getPostApiGoalCreateBearingMockHandler(),
+  getPostApiGoalCreateMovementMockHandler(),
   getPostApiGoalDeleteMockHandler()
 ]

@@ -1,23 +1,19 @@
-import { Alert, Button, Group, Input, SegmentedControl, Stack, Textarea, TextInput } from "@mantine/core";
+import { Alert, Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
-import { postApiGoalCreateNorthStar } from "@/api/endpoints/goal/goal.js";
-import { PostApiGoalCreateNorthStarBody } from "@/api/endpoints/goal/goal.zod.js";
 import { useState } from "react";
 import { IconExclamationCircle } from "@tabler/icons-react";
+import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
+import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 
-interface CreateNorthStarFormProps {
-    close: () => void;
-}
-
-export default function CreateNorthStarForm({close}: CreateNorthStarFormProps) {
+export default function CreateBearingForm() {
     const form = useForm({
         mode: 'uncontrolled',
-        validate: schemaResolver(PostApiGoalCreateNorthStarBody, { sync: true })
+        validate: schemaResolver(PostApiGoalCreateBearingBody, { sync: true })
     })
     const [alert, setAlert] = useState("");
 
     const handleSubmit = async (values: typeof form.values) => {
-        const response = await postApiGoalCreateNorthStar(values);
+        const response = await postApiGoalCreateBearing(values);
 
         if (response.status == 200) {
             close();
@@ -49,22 +45,18 @@ export default function CreateNorthStarForm({close}: CreateNorthStarFormProps) {
                     />
                     <Textarea
                         label="Justification"
-                        description="Why do you want to achieve this goal? How is it linked to your values and your identity?"
+                        description="How does this goal help you achieve your ideal self? Use research."
                         placeholder="Be healthy"
                         key={form.key('justification')}
                         {...form.getInputProps('justification')}
                     />
-                    <Input.Wrapper
-                        label="Importance"
-                        description="How important is this goal to you?"
-                    >
-                        <SegmentedControl
-                            data={[{ value: 0, label: "None" }, { value: 1, label: "High" }]}
-                            fullWidth
-                            key={form.key('importance')}
-                            {...form.getInputProps('importance')}
-                        />
-                    </Input.Wrapper>
+                    <Textarea
+                        label="Difficulty"
+                        description="How difficult will this goal be? Are you ready to take it on?"
+                        placeholder="Be healthy"
+                        key={form.key('difficulty')}
+                        {...form.getInputProps('difficulty')}
+                    />
 
                     <Group justify="flex-end" mt="md">
                         <Button type="submit">Submit</Button>

@@ -5,10 +5,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './bearingCreate';
 export * from './bearingGet';
 export * from './goalImportance';
 export * from './goalType';
 export * from './motivationType';
+export * from './movementCreate';
 export * from './movementGet';
 export * from './northStarCreate';
 export * from './northStarGet';

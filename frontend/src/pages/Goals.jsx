@@ -7,30 +7,25 @@ import { useEffect, useState } from 'react';
 import GoalCard from '@/components/goals/GoalCard';
 import { theme } from '@/Theme';
 import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
+import CreateBearingForm from '@/components/goals/CreateBearingForm';
 import { useGetApiGoalGet } from '@/api/endpoints/goal/goal';
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [activeForm, setActiveForm] = useState();
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      email: '',
-      termsOfService: false,
-    },
+  const [activeForm, setActiveForm] = useState("star");
+  
+  const forms = {
+    "star": <CreateNorthStarForm close={close} />,
+    "bearing": <CreateBearingForm close={close} />
+  }
 
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    },
-  });
-
-  const onGoalAdd = () => {
-    setActiveForm(<CreateNorthStarForm />);
+  const onGoalAdd = (type) => {
+    setActiveForm(type);
     open();
   }
 
-  const GoalAddButton = ({ text }) => (
-    <UnstyledButton w="100%" onClick={onGoalAdd}>
+  const GoalAddButton = ({ text, type }) => (
+    <UnstyledButton w="100%" onClick={() => onGoalAdd(type)}>
       <Group gap="md">
         <IconPlus size={12} />
         <Text size="xs" c="dimmed">{text}</Text>
@@ -48,7 +43,7 @@ export default function Goals() {
       </Group>
 
       <Modal opened={opened} onClose={close} title="Create Goal">
-        {activeForm}
+        {activeForm && forms[activeForm]}
       </Modal>
 
       {response && response.data.map((star) => (
@@ -85,12 +80,12 @@ export default function Goals() {
                       />
                     ))}
 
-                    <GoalAddButton text="Add Movement" />
+                    <GoalAddButton text="Add Movement" type="movement" />
                   </Stack>
                 </Stack>
               ))}
 
-              <GoalAddButton text="Add Bearing" />
+              <GoalAddButton text="Add Bearing" type="bearing" />
             </Stack>
           </Stack>
         </Stack>

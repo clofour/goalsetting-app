@@ -45,6 +45,29 @@ export const PostApiGoalCreateNorthStarBody = zod.object({
   "type": zod.number().optional()
 })
 
+export const PostApiGoalCreateBearingBody = zod.object({
+  "parentId": zod.string().uuid(),
+  "description": zod.string().optional(),
+  "justification": zod.string().optional(),
+  "strengths": zod.string().nullish(),
+  "weaknesses": zod.string().nullish(),
+  "name": zod.string(),
+  "type": zod.number().optional()
+})
+
+export const PostApiGoalCreateMovementBody = zod.object({
+  "parentId": zod.string().uuid(),
+  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
+  "motivation": zod.string().nullish(),
+  "triggers": zod.string().nullish(),
+  "temptations": zod.string().nullish(),
+  "opts": zod.string().nullish(),
+  "obstacles": zod.string().nullish(),
+  "killConditions": zod.string().nullish(),
+  "name": zod.string(),
+  "type": zod.number().optional()
+})
+
 export const PostApiGoalDeleteQueryParams = zod.object({
   "ID": zod.string().optional()
 })

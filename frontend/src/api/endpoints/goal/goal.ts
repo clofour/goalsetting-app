@@ -17,6 +17,8 @@ import type {
 } from 'swr/mutation';
 
 import type {
+  BearingCreate,
+  MovementCreate,
   NorthStarCreate,
   NorthStarGet,
   PostApiGoalDeleteParams
@@ -155,6 +157,138 @@ export const usePostApiGoalCreateNorthStar = <TError = Promise<unknown>>(
 
   const swrKey = swrOptions?.swrKey ?? getPostApiGoalCreateNorthStarMutationKey();
   const swrFn = getPostApiGoalCreateNorthStarMutationFetcher(fetchOptions);
+
+  const query = useSWRMutation(swrKey, swrFn, swrOptions)
+
+  return {
+    swrKey,
+    ...query
+  }
+}
+export type postApiGoalCreateBearingResponse200 = {
+  data: void
+  status: 200
+}
+
+export type postApiGoalCreateBearingResponseSuccess = (postApiGoalCreateBearingResponse200) & {
+  headers: Headers;
+};
+;
+
+export type postApiGoalCreateBearingResponse = (postApiGoalCreateBearingResponseSuccess)
+
+export const getPostApiGoalCreateBearingUrl = () => {
+
+
+
+
+  return `/api/Goal/CreateBearing`
+}
+
+export const postApiGoalCreateBearing = async (bearingCreate: BearingCreate, options?: RequestInit): Promise<postApiGoalCreateBearingResponse> => {
+
+  const res = await fetch(getPostApiGoalCreateBearingUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      bearingCreate,)
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: postApiGoalCreateBearingResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as postApiGoalCreateBearingResponse
+}
+
+
+
+
+export const getPostApiGoalCreateBearingMutationFetcher = ( options?: RequestInit) => {
+  return (_: Key, { arg }: { arg: BearingCreate }) => {
+    return postApiGoalCreateBearing(arg, options);
+  }
+}
+export const getPostApiGoalCreateBearingMutationKey = () => [`/api/Goal/CreateBearing`] as const;
+
+export type PostApiGoalCreateBearingMutationResult = NonNullable<Awaited<ReturnType<typeof postApiGoalCreateBearing>>>
+
+export const usePostApiGoalCreateBearing = <TError = Promise<unknown>>(
+   options?: { swr?:SWRMutationConfiguration<Awaited<ReturnType<typeof postApiGoalCreateBearing>>, TError, Key, BearingCreate, Awaited<ReturnType<typeof postApiGoalCreateBearing>>> & { swrKey?: string }, fetch?: RequestInit}
+) => {
+
+  const {swr: swrOptions, fetch: fetchOptions} = options ?? {}
+
+  const swrKey = swrOptions?.swrKey ?? getPostApiGoalCreateBearingMutationKey();
+  const swrFn = getPostApiGoalCreateBearingMutationFetcher(fetchOptions);
+
+  const query = useSWRMutation(swrKey, swrFn, swrOptions)
+
+  return {
+    swrKey,
+    ...query
+  }
+}
+export type postApiGoalCreateMovementResponse200 = {
+  data: void
+  status: 200
+}
+
+export type postApiGoalCreateMovementResponseSuccess = (postApiGoalCreateMovementResponse200) & {
+  headers: Headers;
+};
+;
+
+export type postApiGoalCreateMovementResponse = (postApiGoalCreateMovementResponseSuccess)
+
+export const getPostApiGoalCreateMovementUrl = () => {
+
+
+
+
+  return `/api/Goal/CreateMovement`
+}
+
+export const postApiGoalCreateMovement = async (movementCreate: MovementCreate, options?: RequestInit): Promise<postApiGoalCreateMovementResponse> => {
+
+  const res = await fetch(getPostApiGoalCreateMovementUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      movementCreate,)
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: postApiGoalCreateMovementResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as postApiGoalCreateMovementResponse
+}
+
+
+
+
+export const getPostApiGoalCreateMovementMutationFetcher = ( options?: RequestInit) => {
+  return (_: Key, { arg }: { arg: MovementCreate }) => {
+    return postApiGoalCreateMovement(arg, options);
+  }
+}
+export const getPostApiGoalCreateMovementMutationKey = () => [`/api/Goal/CreateMovement`] as const;
+
+export type PostApiGoalCreateMovementMutationResult = NonNullable<Awaited<ReturnType<typeof postApiGoalCreateMovement>>>
+
+export const usePostApiGoalCreateMovement = <TError = Promise<unknown>>(
+   options?: { swr?:SWRMutationConfiguration<Awaited<ReturnType<typeof postApiGoalCreateMovement>>, TError, Key, MovementCreate, Awaited<ReturnType<typeof postApiGoalCreateMovement>>> & { swrKey?: string }, fetch?: RequestInit}
+) => {
+
+  const {swr: swrOptions, fetch: fetchOptions} = options ?? {}
+
+  const swrKey = swrOptions?.swrKey ?? getPostApiGoalCreateMovementMutationKey();
+  const swrFn = getPostApiGoalCreateMovementMutationFetcher(fetchOptions);
 
   const query = useSWRMutation(swrKey, swrFn, swrOptions)
 
