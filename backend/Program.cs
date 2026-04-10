@@ -114,7 +114,7 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: httpContext.User.Identity?.Name ?? "anonymous",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 15,
+                PermitLimit = 30,
                 Window = TimeSpan.FromMinutes(1)
             }));
 });

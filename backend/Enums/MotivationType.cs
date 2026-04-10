@@ -2,7 +2,7 @@ namespace backend.Enums
 {
     public enum MotivationType
     {
-        Carrot,
-        Stick
+        Carrot = 0,
+        Stick = 1
     }
 }

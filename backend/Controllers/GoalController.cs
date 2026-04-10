@@ -8,7 +8,6 @@ using backend.Filters;
 using backend.Helpers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using System.Collections.ObjectModel;
 
 
 namespace backend.Controllers
@@ -19,7 +18,7 @@ namespace backend.Controllers
     public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
     {
         [HttpGet]
-        [ProducesResponseType(typeof(List<NorthStarGet>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<NorthStarGet>), StatusCodes.Status200OK, "application/json")]
         public async Task<ActionResult> Get()
         {
             var user = await userManager.GetUserAsync(User);
@@ -31,8 +30,8 @@ namespace backend.Controllers
             await appDbContext.Entry(user)
                 .Collection(user => user.Goals)
                 .Query()
-                .Include(northStar => northStar.Bearings)
-                    .ThenInclude(bearing => bearing.Movements)
+                .Include(northStar => northStar.Children)
+                    .ThenInclude(bearing => bearing.Children)
                 .LoadAsync();
 
             List<NorthStar> goals = user.Goals;
@@ -88,10 +87,13 @@ namespace backend.Controllers
                 return NotFound("The parent goal does not exist.");
             }
 
+            await appDbContext.Entry(parent).Collection(northStar => northStar.Children).LoadAsync();
+
             Bearing bearing = new Bearing();
             mapper.Map(bearingCreate, bearing);
 
-            parent.Bearings.Add(bearing);
+            bearing.Parent = parent;
+            parent.Children.Add(bearing);
 
             await appDbContext.SaveChangesAsync();
 
@@ -119,10 +121,13 @@ namespace backend.Controllers
                 return NotFound("The parent goal does not exist.");
             }
 
+            await appDbContext.Entry(parent).Collection(bearing => bearing.Children).LoadAsync();
+
             Movement movement = new Movement();
             mapper.Map(movementCreate, movement);
 
-            parent.Movements.Add(movement);
+            movement.Parent = parent;
+            parent.Children.Add(movement);
 
             await appDbContext.SaveChangesAsync();
 
@@ -130,7 +135,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(string ID)
+        public async Task<ActionResult> Delete(Guid Id)
         {
             var user = await userManager.GetUserAsync(User);
 
@@ -139,11 +144,34 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            Goal? goal = await appDbContext.Goals.FindAsync(ID);
-            if (goal != null && goal.User == user)
+            Goal? goal = await appDbContext.Goals.FindAsync(Id);
+            if (goal == null || goal.User != user)
             {
-                return Ok();
+                return NotFound();
             }
+
+            if (goal is Bearing)
+            {
+                Bearing bearing = (Bearing)goal;
+
+                NorthStar parent = bearing.Parent;
+                await appDbContext.Entry(parent).Collection(northStar => northStar.Children).LoadAsync();
+
+                parent.Children.Remove(bearing);
+            }
+            else if (goal is Movement)
+            {
+                Movement movement = (Movement)goal;
+
+                Bearing parent = movement.Parent;
+                await appDbContext.Entry(parent).Collection(bearing => bearing.Children).LoadAsync();
+
+                parent.Children.Remove(movement);
+            }
+
+            appDbContext.Goals.Remove(goal);
+
+            await appDbContext.SaveChangesAsync();
 
             return Ok();
         }

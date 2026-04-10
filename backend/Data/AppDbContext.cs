@@ -22,6 +22,11 @@ namespace backend.Data
                 .HasValue<Movement>(GoalType.Movement)
                 .HasValue<Bearing>(GoalType.Bearing);
 
+            builder.Entity<Goal>()
+                .HasOne(goal => goal.Parent)
+                .WithMany(goal => goal.Children)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(builder);
         }
     }

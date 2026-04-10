@@ -29,22 +29,12 @@ import type {
 
 
 
-export type getApiGoalGetResponse200TextPlain = {
+export type getApiGoalGetResponse200 = {
   data: NorthStarGet[]
   status: 200
 }
 
-export type getApiGoalGetResponse200ApplicationJson = {
-  data: NorthStarGet[]
-  status: 200
-}
-
-export type getApiGoalGetResponse200TextJson = {
-  data: NorthStarGet[]
-  status: 200
-}
-
-export type getApiGoalGetResponseSuccess = (getApiGoalGetResponse200TextPlain | getApiGoalGetResponse200ApplicationJson | getApiGoalGetResponse200TextJson) & {
+export type getApiGoalGetResponseSuccess = (getApiGoalGetResponse200) & {
   headers: Headers;
 };
 ;

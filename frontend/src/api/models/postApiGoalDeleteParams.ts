@@ -6,5 +6,5 @@
  */
 
 export type PostApiGoalDeleteParams = {
-ID?: string;
+Id?: string;
 };

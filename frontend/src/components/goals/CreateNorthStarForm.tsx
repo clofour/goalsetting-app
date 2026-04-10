@@ -1,4 +1,4 @@
-import { Alert, Button, Group, Input, SegmentedControl, Stack, Textarea, TextInput } from "@mantine/core";
+import { Button, Group, Input, SegmentedControl, Stack, Textarea, TextInput } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { postApiGoalCreateNorthStar } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateNorthStarBody } from "@/api/endpoints/goal/goal.zod.js";
@@ -7,19 +7,19 @@ import { IconExclamationCircle } from "@tabler/icons-react";
 
 interface CreateNorthStarFormProps {
     close: () => void;
+    setAlert: (alert: string) => void;
 }
 
-export default function CreateNorthStarForm({close}: CreateNorthStarFormProps) {
+export default function CreateNorthStarForm({close, setAlert}: CreateNorthStarFormProps) {
     const form = useForm({
         mode: 'uncontrolled',
         validate: schemaResolver(PostApiGoalCreateNorthStarBody, { sync: true })
     })
-    const [alert, setAlert] = useState("");
 
     const handleSubmit = async (values: typeof form.values) => {
         const response = await postApiGoalCreateNorthStar(values);
 
-        if (response.status == 200) {
+        if (response.status === 200) {
             close();
         } else {
             setAlert(response.data);
@@ -28,7 +28,6 @@ export default function CreateNorthStarForm({close}: CreateNorthStarFormProps) {
 
     return (
         <>
-            <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert == ""}>{alert}</Alert>
             <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
                 <Stack>
                     <TextInput

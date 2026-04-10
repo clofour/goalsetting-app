@@ -11,7 +11,7 @@ namespace backend.Models
     public class Event()
     {
 
-        public string ID { get; set; }
+        public string Id { get; set; }
         public User User { get; set; }
         public Goal Goal { get; set; }
 

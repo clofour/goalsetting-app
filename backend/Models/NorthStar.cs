@@ -8,6 +8,6 @@ namespace backend.Models
         public string Description { get; set; }
         public GoalImportance Importance { get; set; }
         public string Justification { get; set; }
-        public List<Bearing> Bearings { get; set; }
+        // public List<Bearing> Children { get; set; }
     }
 }

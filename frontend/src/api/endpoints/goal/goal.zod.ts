@@ -69,6 +69,6 @@ export const PostApiGoalCreateMovementBody = zod.object({
 })
 
 export const PostApiGoalDeleteQueryParams = zod.object({
-  "ID": zod.string().optional()
+  "Id": zod.string().uuid().optional()
 })
 

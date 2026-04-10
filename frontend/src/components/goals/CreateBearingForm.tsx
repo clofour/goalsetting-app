@@ -1,21 +1,31 @@
-import { Alert, Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
+import { Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
-import { useState } from "react";
-import { IconExclamationCircle } from "@tabler/icons-react";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 
-export default function CreateBearingForm() {
+interface CreateBearingFormProps {
+    close: () => void;
+    setAlert: (alert: string) => void;
+    parentId: string;
+}
+
+export default function CreateBearingForm({close, setAlert, parentId}: CreateBearingFormProps) {
+    const formSchema = PostApiGoalCreateBearingBody.omit({
+        parentId: true
+    })
     const form = useForm({
         mode: 'uncontrolled',
-        validate: schemaResolver(PostApiGoalCreateBearingBody, { sync: true })
+        validate: schemaResolver(formSchema, { sync: true })
     })
-    const [alert, setAlert] = useState("");
 
     const handleSubmit = async (values: typeof form.values) => {
-        const response = await postApiGoalCreateBearing(values);
+        const requestData = {
+            ...values,
+            parentId: parentId
+        }
+        const response = await postApiGoalCreateBearing(requestData);
 
-        if (response.status == 200) {
+        if (response.status === 200) {
             close();
         } else {
             setAlert(response.data);
@@ -24,7 +34,6 @@ export default function CreateBearingForm() {
 
     return (
         <>
-            <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert == ""}>{alert}</Alert>
             <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
                 <Stack>
                     <TextInput

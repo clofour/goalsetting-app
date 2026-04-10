@@ -4,7 +4,7 @@ namespace backend.Models
 {
     public class Bearing : Goal
     {
-        public Goal Parent { get; set; }
+        // public NorthStar Parent { get; set; }
 
         public string Description { get; set; }
         public string Justification { get; set; }
@@ -12,6 +12,6 @@ namespace backend.Models
         public string? Strengths { get; set; }
         public string? Weaknesses { get; set; }
 
-        public List<Movement> Movements { get; set; }
+        // public List<Movement> Children { get; set; }
     }
 }

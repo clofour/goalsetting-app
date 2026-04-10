@@ -4,6 +4,7 @@ import type { ReactElement } from 'react';
 import { theme } from '@/Theme.jsx';
 
 interface GoalCardProps {
+    id: string;
     name: string;
     type: "star" | "bearing" | "movement";
     description: string;
@@ -11,7 +12,7 @@ interface GoalCardProps {
     right?: ReactElement;
 }
 
-export default function GoalCard({ name, type, description, left, right }: GoalCardProps) {
+export default function GoalCard({ id, name, type, description, left, right }: GoalCardProps) {
     return (<Paper p="sm" withBorder style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal[type] }}>
         <Flex align="center" gap="sm">
             {left}
@@ -20,7 +21,7 @@ export default function GoalCard({ name, type, description, left, right }: GoalC
                 <Text size="xs" c="dimmed">{description}</Text>
             </Box>
             {right}
-            <GoalMenu />
+            <GoalMenu id={id} />
         </Flex>
     </Paper>
     )

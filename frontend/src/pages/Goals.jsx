@@ -1,4 +1,4 @@
-import { Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group, Button } from '@mantine/core';
+import { Alert, Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
@@ -9,23 +9,22 @@ import { theme } from '@/Theme';
 import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
 import CreateBearingForm from '@/components/goals/CreateBearingForm';
 import { useGetApiGoalGet } from '@/api/endpoints/goal/goal';
+import { IconExclamationCircle } from "@tabler/icons-react";
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
   const [activeForm, setActiveForm] = useState("star");
+  const [activeParentId, setActiveParentId] = useState("");
+  const [alert, setAlert] = useState("");
   
-  const forms = {
-    "star": <CreateNorthStarForm close={close} />,
-    "bearing": <CreateBearingForm close={close} />
-  }
-
-  const onGoalAdd = (type) => {
+  const onGoalAdd = (type, parentId) => {
     setActiveForm(type);
+    setActiveParentId(parentId);
     open();
   }
 
-  const GoalAddButton = ({ text, type }) => (
-    <UnstyledButton w="100%" onClick={() => onGoalAdd(type)}>
+  const GoalAddButton = ({ text, type, parentId }) => (
+    <UnstyledButton w="100%" onClick={() => onGoalAdd(type, parentId)}>
       <Group gap="md">
         <IconPlus size={12} />
         <Text size="xs" c="dimmed">{text}</Text>
@@ -39,17 +38,21 @@ export default function Goals() {
     <Stack gap="sm">
       <Group justify="space-between">
         <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
-        <Button leftSection={<IconPlus size={16} />} onClick={onGoalAdd}>New North Star</Button>
+        <Button leftSection={<IconPlus size={16} />} onClick={() => onGoalAdd("star")}>New North Star</Button>
       </Group>
 
       <Modal opened={opened} onClose={close} title="Create Goal">
-        {activeForm && forms[activeForm]}
+        <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
+        {activeForm === "star" && <CreateNorthStarForm close={close} setAlert={setAlert} />}
+        {activeForm === "bearing" && <CreateBearingForm close={close} setAlert={setAlert} parentId={activeParentId} />}
       </Modal>
 
       {response && response.data.map((star) => (
         <Stack>
           <Stack>
             <GoalCard
+              key={star.id}
+              id={star.id}
               name={star.name}
               type="star"
               description={star.description}
@@ -59,10 +62,12 @@ export default function Goals() {
             />
 
             <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["star"] }}>
-              {star.bearings.map((bearing) =>
+              {star.bearings && star.bearings.map((bearing) =>
               (
                 <Stack gap="sm">
                   <GoalCard
+                    key={bearing.id}
+                    id={bearing.id}
                     name={bearing.name}
                     type="bearing"
                     description={bearing.description}
@@ -70,9 +75,11 @@ export default function Goals() {
                   />
 
                   <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["bearing"] }}>
-                    {bearing.movements.map((movement) =>
+                    {bearing.movements && bearing.movements.map((movement) =>
                     (
                       <GoalCard
+                        key={movement.id}
+                        id={movement.id}
                         name={movement.name}
                         type="movement"
                         description={movement.description}
@@ -80,12 +87,12 @@ export default function Goals() {
                       />
                     ))}
 
-                    <GoalAddButton text="Add Movement" type="movement" />
+                    <GoalAddButton text="Add Movement" type="movement" parentId={bearing.id} />
                   </Stack>
                 </Stack>
               ))}
 
-              <GoalAddButton text="Add Bearing" type="bearing" />
+              <GoalAddButton text="Add Bearing" type="bearing" parentId={star.id} />
             </Stack>
           </Stack>
         </Stack>
