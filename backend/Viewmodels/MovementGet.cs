@@ -5,8 +5,6 @@ namespace backend.Viewmodels
 {
     public class MovementGet : GoalGet
     {
-        public Guid ParentId { get; set; }
-
         public MotivationType? MotivationType { get; set; }
         public string? Motivation { get; set; }
         public string? Triggers { get; set; }

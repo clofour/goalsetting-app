@@ -6,7 +6,7 @@ namespace backend.Models
     public abstract class Goal
     {
         public Goal? Parent { get; set; }
-        public List<Movement> Children { get; set; }
+        public List<Goal> Children { get; set; }
 
         public Guid Id { get; set; }
         public User User { get; set; }

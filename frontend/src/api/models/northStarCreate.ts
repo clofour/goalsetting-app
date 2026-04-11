@@ -11,6 +11,7 @@ export interface NorthStarCreate {
   description: string;
   importance: GoalImportance;
   justification?: string;
+  parentId?: string;
   name: string;
   type?: GoalType;
 }

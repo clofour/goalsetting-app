@@ -22,5 +22,6 @@ export interface MovementGet {
   /** @nullable */
   killConditions?: string | null;
   id?: string;
+  children?: MovementGet[];
   name?: string;
 }

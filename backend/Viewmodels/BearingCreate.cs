@@ -4,9 +4,6 @@ namespace backend.Viewmodels
 {
     public class BearingCreate : GoalCreate
     {
-        [Required]
-        public Guid ParentId { get; set; }
-
         public string Description { get; set; }
         public string Justification { get; set; }
 

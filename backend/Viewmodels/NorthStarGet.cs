@@ -8,6 +8,5 @@ namespace backend.Viewmodels
         public string Description { get; set; }
         public GoalImportance Importance { get; set; }
         public string Justification { get; set; }
-        public List<BearingGet> Bearings { get; set; }
     }
 }

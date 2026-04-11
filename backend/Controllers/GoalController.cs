@@ -150,25 +150,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            if (goal is Bearing)
-            {
-                Bearing bearing = (Bearing)goal;
-
-                NorthStar parent = bearing.Parent;
-                await appDbContext.Entry(parent).Collection(northStar => northStar.Children).LoadAsync();
-
-                parent.Children.Remove(bearing);
-            }
-            else if (goal is Movement)
-            {
-                Movement movement = (Movement)goal;
-
-                Bearing parent = movement.Parent;
-                await appDbContext.Entry(parent).Collection(bearing => bearing.Children).LoadAsync();
-
-                parent.Children.Remove(movement);
-            }
-
             appDbContext.Goals.Remove(goal);
 
             await appDbContext.SaveChangesAsync();

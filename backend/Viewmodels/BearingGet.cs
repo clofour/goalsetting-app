@@ -11,7 +11,5 @@ namespace backend.Viewmodels
 
         public string? Strengths { get; set; }
         public string? Weaknesses { get; set; }
-
-        public List<MovementGet> Movements { get; set; }
     }
 }

@@ -11,13 +11,9 @@ export const GetApiGoalGetResponseItem = zod.object({
   "description": zod.string().optional(),
   "importance": zod.number().optional(),
   "justification": zod.string().optional(),
-  "bearings": zod.array(zod.object({
+  "id": zod.string().uuid().optional(),
   "parentId": zod.string().uuid().optional(),
-  "description": zod.string().optional(),
-  "justification": zod.string().optional(),
-  "strengths": zod.string().nullish(),
-  "weaknesses": zod.string().nullish(),
-  "movements": zod.array(zod.object({
+  "children": zod.array(zod.object({
   "parentId": zod.string().uuid().optional(),
   "motivationType": zod.union([zod.null(),zod.number()]).optional(),
   "motivation": zod.string().nullish(),
@@ -27,12 +23,9 @@ export const GetApiGoalGetResponseItem = zod.object({
   "obstacles": zod.string().nullish(),
   "killConditions": zod.string().nullish(),
   "id": zod.string().uuid().optional(),
+  "children": zod.array(zod.unknown()).optional(),
   "name": zod.string().optional()
 })).optional(),
-  "id": zod.string().uuid().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "id": zod.string().uuid().optional(),
   "name": zod.string().optional()
 })
 export const GetApiGoalGetResponse = zod.array(GetApiGoalGetResponseItem)
@@ -41,22 +34,22 @@ export const PostApiGoalCreateNorthStarBody = zod.object({
   "description": zod.string(),
   "importance": zod.number(),
   "justification": zod.string().optional(),
+  "parentId": zod.string().uuid().optional(),
   "name": zod.string(),
   "type": zod.number().optional()
 })
 
 export const PostApiGoalCreateBearingBody = zod.object({
-  "parentId": zod.string().uuid(),
   "description": zod.string().optional(),
   "justification": zod.string().optional(),
   "strengths": zod.string().nullish(),
   "weaknesses": zod.string().nullish(),
+  "parentId": zod.string().uuid().optional(),
   "name": zod.string(),
   "type": zod.number().optional()
 })
 
 export const PostApiGoalCreateMovementBody = zod.object({
-  "parentId": zod.string().uuid(),
   "motivationType": zod.union([zod.null(),zod.number()]).optional(),
   "motivation": zod.string().nullish(),
   "triggers": zod.string().nullish(),
@@ -64,6 +57,7 @@ export const PostApiGoalCreateMovementBody = zod.object({
   "opts": zod.string().nullish(),
   "obstacles": zod.string().nullish(),
   "killConditions": zod.string().nullish(),
+  "parentId": zod.string().uuid().optional(),
   "name": zod.string(),
   "type": zod.number().optional()
 })
