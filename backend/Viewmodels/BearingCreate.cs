@@ -1,17 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Bearing : Goal
+    public class BearingCreate : GoalCreate
     {
-        // public NorthStar Parent { get; set; }
-
         public string Description { get; set; }
         public string Justification { get; set; }
 
         public string? Strengths { get; set; }
         public string? Weaknesses { get; set; }
-
-        // public List<Movement> Children { get; set; }
     }
 }

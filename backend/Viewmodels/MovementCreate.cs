@@ -1,12 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Enums;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Movement : Goal
+    public class MovementCreate : GoalCreate
     {
-        // public Bearing Parent { get; set; }
-
         public MotivationType? MotivationType { get; set; }
         public string? Motivation { get; set; }
         public string? Triggers { get; set; }

@@ -1,165 +1,85 @@
-import { Box, Stack, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group } from '@mantine/core';
+import { Alert, Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, UnstyledButton, Group, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
 import PageTitle from '@/components/PageTitle';
-
-const stars = [
-  {
-    name: "Do things",
-    description: "yes",
-    priority: "High",
-    bearings: [
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      },
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      },
-      {
-        name: "Do thing A",
-        description: "DO IT",
-        movements: [
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          },
-          {
-            "name": "uhhh lemme think",
-            "description": "i forgor"
-          }
-        ]
-      }
-    ]
-  }
-];
-const priorityColors = {
-  "High": "red",
-  "None": "gray"
-}
-const goalColors = {
-  "star": "red",
-  "bearing": "green",
-  "movement": "blue"
-}
-
-const Goal = ({ name, type, description, left, right }) => (
-  <Paper p="sm" withBorder style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors[type] }}>
-    <Flex align="center" gap="sm">
-      {left}
-      <Box key="helop" flex={1}>
-        <Text>{name}</Text>
-        <Text size="xs" c="dimmed">{description}</Text>
-      </Box>
-      {right}
-      <GoalMenu />
-    </Flex>
-  </Paper>
-)
-
-const GoalMenu = () => (
-  <Menu>
-    <Menu.Target>
-      <ActionIcon variant="subtle" size="sm" aria-label="Open goal actions">
-        <IconDots size={16} />
-      </ActionIcon>
-    </Menu.Target>
-    <Menu.Dropdown>
-      <Menu.Item leftSection={<IconPencil size={14} />}>Edit</Menu.Item>
-      <Menu.Item leftSection={<IconTrash size={14} />} color="red">Delete</Menu.Item>
-    </Menu.Dropdown>
-  </Menu>
-)
-
-const GoalAddButton = ({ text }) => (
-  <UnstyledButton w="100%">
-    <Group gap="md">
-      <IconPlus size={12} />
-      <Text size="xs" c="dimmed">{text}</Text>
-    </Group>
-  </UnstyledButton>
-)
+import { useEffect, useState } from 'react';
+import GoalCard from '@/components/goals/GoalCard';
+import { theme } from '@/Theme';
+import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
+import CreateBearingForm from '@/components/goals/CreateBearingForm';
+import { useGetApiGoalGet } from '@/api/endpoints/goal/goal';
+import { IconExclamationCircle } from "@tabler/icons-react";
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      email: '',
-      termsOfService: false,
-    },
+  const [activeForm, setActiveForm] = useState("star");
+  const [activeParentId, setActiveParentId] = useState("");
+  const [alert, setAlert] = useState("");
+  
+  const onGoalAdd = (type, parentId) => {
+    setActiveForm(type);
+    setActiveParentId(parentId);
+    open();
+  }
 
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    },
-  });
+  const GoalAddButton = ({ text, type, parentId }) => (
+    <UnstyledButton w="100%" onClick={() => onGoalAdd(type, parentId)}>
+      <Group gap="md">
+        <IconPlus size={12} />
+        <Text size="xs" c="dimmed">{text}</Text>
+      </Group>
+    </UnstyledButton>
+  )
 
-  // TODO: Make tree structure more clear
+  const { data: response, error, isLoading, mutate } = useGetApiGoalGet();
+
   return (
     <Stack gap="sm">
-      <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
+      <Group justify="space-between">
+        <PageTitle name="Stars" description="Goals, represented as spots in the galaxy." />
+        <Button leftSection={<IconPlus size={16} />} onClick={() => onGoalAdd("star")}>New North Star</Button>
+      </Group>
 
-      {stars.map((star) => (
+      <Modal opened={opened} onClose={close} title="Create Goal">
+        <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
+        {activeForm === "star" && <CreateNorthStarForm close={close} setAlert={setAlert} />}
+        {activeForm === "bearing" && <CreateBearingForm close={close} setAlert={setAlert} parentId={activeParentId} />}
+      </Modal>
+
+      {response && response.data.map((star) => (
         <Stack>
           <Stack>
-            <Goal
+            <GoalCard
+              key={star.id}
+              id={star.id}
               name={star.name}
               type="star"
               description={star.description}
               left={<IconStar size={16} />}
               right={<Badge variant="light"
-                color={priorityColors[star.priority]}>{star.priority}</Badge>}
+                color={theme.colors.priority[star.importance]}>{star.importance}</Badge>}
             />
 
-            <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["star"] }}>
-              {star.bearings.map((bearing) =>
+            <Stack pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["star"] }}>
+              {star.bearings && star.bearings.map((bearing) =>
               (
                 <Stack gap="sm">
-                  <Goal
+                  <GoalCard
+                    key={bearing.id}
+                    id={bearing.id}
                     name={bearing.name}
                     type="bearing"
                     description={bearing.description}
                     left={<IconCompass size={14} />}
                   />
 
-                  <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: goalColors["bearing"] }}>
-                    {bearing.movements.map((movement) =>
+                  <Stack gap="xs" pl="lg" style={{ borderLeftWidth: "2px", borderLeftStyle: "solid", borderLeftColor: theme.colors.goal["bearing"] }}>
+                    {bearing.movements && bearing.movements.map((movement) =>
                     (
-                      <Goal
+                      <GoalCard
+                        key={movement.id}
+                        id={movement.id}
                         name={movement.name}
                         type="movement"
                         description={movement.description}
@@ -167,12 +87,12 @@ export default function Goals() {
                       />
                     ))}
 
-                    <GoalAddButton text="Add Movement" />
+                    <GoalAddButton text="Add Movement" type="movement" parentId={bearing.id} />
                   </Stack>
                 </Stack>
               ))}
 
-              <GoalAddButton text="Add Bearing" />
+              <GoalAddButton text="Add Bearing" type="bearing" parentId={star.id} />
             </Stack>
           </Stack>
         </Stack>

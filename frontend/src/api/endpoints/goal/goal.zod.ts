@@ -7,15 +7,62 @@
 import * as zod from 'zod';
 
 
-export const PostApiGoalCreateNorthStarBody = zod.object({
+export const GetApiGoalGetResponseItem = zod.object({
   "description": zod.string().optional(),
   "importance": zod.number().optional(),
   "justification": zod.string().optional(),
-  "name": zod.string().optional(),
-  "goalType": zod.number().optional()
+  "id": zod.string().uuid().optional(),
+  "parentId": zod.string().uuid().optional(),
+  "children": zod.array(zod.object({
+  "parentId": zod.string().uuid().optional(),
+  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
+  "motivation": zod.string().nullish(),
+  "triggers": zod.string().nullish(),
+  "temptations": zod.string().nullish(),
+  "opts": zod.string().nullish(),
+  "obstacles": zod.string().nullish(),
+  "killConditions": zod.string().nullish(),
+  "id": zod.string().uuid().optional(),
+  "children": zod.array(zod.unknown()).optional(),
+  "name": zod.string().optional()
+})).optional(),
+  "name": zod.string().optional()
+})
+export const GetApiGoalGetResponse = zod.array(GetApiGoalGetResponseItem)
+
+export const PostApiGoalCreateNorthStarBody = zod.object({
+  "description": zod.string(),
+  "importance": zod.number(),
+  "justification": zod.string().optional(),
+  "parentId": zod.string().uuid().optional(),
+  "name": zod.string(),
+  "type": zod.number().optional()
+})
+
+export const PostApiGoalCreateBearingBody = zod.object({
+  "description": zod.string().optional(),
+  "justification": zod.string().optional(),
+  "strengths": zod.string().nullish(),
+  "weaknesses": zod.string().nullish(),
+  "parentId": zod.string().uuid().optional(),
+  "name": zod.string(),
+  "type": zod.number().optional()
+})
+
+export const PostApiGoalCreateMovementBody = zod.object({
+  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
+  "motivation": zod.string().nullish(),
+  "triggers": zod.string().nullish(),
+  "temptations": zod.string().nullish(),
+  "opts": zod.string().nullish(),
+  "obstacles": zod.string().nullish(),
+  "killConditions": zod.string().nullish(),
+  "parentId": zod.string().uuid().optional(),
+  "name": zod.string(),
+  "type": zod.number().optional()
 })
 
 export const PostApiGoalDeleteQueryParams = zod.object({
-  "ID": zod.string().optional()
+  "Id": zod.string().uuid().optional()
 })
 

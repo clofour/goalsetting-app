@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260406133531_goalTypes")]
-    partial class goalTypes
+    [Migration("20260410222936_Testing")]
+    partial class Testing
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,58 +173,59 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Event", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("end")
+                    b.Property<DateTime>("End")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("eventState")
+                    b.Property<int>("EventState")
                         .HasColumnType("integer");
 
-                    b.Property<string>("goalID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("GoalId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("start")
+                    b.Property<DateTime>("Start")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("goalID");
+                    b.HasIndex("GoalId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Events");
                 });
 
             modelBuilder.Entity("backend.Models.Goal", b =>
                 {
-                    b.Property<string>("ID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<int>("GoalType")
                         .HasColumnType("integer");
 
-                    b.Property<int>("goalType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("userId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("ID");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("userId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Goals");
 
@@ -235,34 +236,35 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Reflection", b =>
                 {
-                    b.Property<string>("ID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("EventId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("improvement")
+                    b.Property<string>("Improvement")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("whatDidntWork")
+                    b.Property<string>("WhatDidntWork")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("whatWorked")
+                    b.Property<string>("WhatWorked")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("EventId")
                         .IsUnique();
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reflections");
                 });
@@ -339,25 +341,25 @@ namespace backend.Migrations
                 {
                     b.HasBaseType("backend.Models.Goal");
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("justification")
+                    b.Property<string>("Justification")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("parentID")
+                    b.Property<string>("Strengths")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("strengths")
+                    b.Property<string>("Weaknesses")
                         .HasColumnType("text");
 
-                    b.Property<string>("weaknesses")
-                        .HasColumnType("text");
-
-                    b.HasIndex("parentID");
+                    b.HasIndex("UserId");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -366,37 +368,37 @@ namespace backend.Migrations
                 {
                     b.HasBaseType("backend.Models.Goal");
 
-                    b.Property<string>("killConditions")
+                    b.Property<string>("KillConditions")
                         .HasColumnType("text");
 
-                    b.Property<string>("motivation")
+                    b.Property<string>("Motivation")
                         .HasColumnType("text");
 
-                    b.Property<int?>("motivationType")
+                    b.Property<int?>("MotivationType")
                         .HasColumnType("integer");
 
-                    b.Property<string>("obstacles")
+                    b.Property<string>("Obstacles")
                         .HasColumnType("text");
 
-                    b.Property<string>("opts")
+                    b.Property<string>("Opts")
                         .HasColumnType("text");
 
-                    b.Property<string>("parentID")
+                    b.Property<string>("Temptations")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Triggers")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("temptations")
-                        .HasColumnType("text");
-
-                    b.Property<string>("triggers")
-                        .HasColumnType("text");
-
-                    b.HasIndex("parentID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Goals", t =>
                         {
-                            t.Property("parentID")
-                                .HasColumnName("Movement_parentID");
+                            t.Property("UserId")
+                                .HasColumnName("Movement_UserId");
                         });
 
                     b.HasDiscriminator().HasValue(2);
@@ -406,24 +408,32 @@ namespace backend.Migrations
                 {
                     b.HasBaseType("backend.Models.Goal");
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("importance")
+                    b.Property<int>("Importance")
                         .HasColumnType("integer");
 
-                    b.Property<string>("justification")
+                    b.Property<string>("Justification")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Goals", t =>
                         {
-                            t.Property("description")
-                                .HasColumnName("NorthStar_description");
+                            t.Property("Description")
+                                .HasColumnName("NorthStar_Description");
 
-                            t.Property("justification")
-                                .HasColumnName("NorthStar_justification");
+                            t.Property("Justification")
+                                .HasColumnName("NorthStar_Justification");
+
+                            t.Property("UserId")
+                                .HasColumnName("NorthStar_UserId");
                         });
 
                     b.HasDiscriminator().HasValue(0);
@@ -482,70 +492,87 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Event", b =>
                 {
-                    b.HasOne("backend.Models.Goal", "goal")
+                    b.HasOne("backend.Models.Goal", "Goal")
                         .WithMany()
-                        .HasForeignKey("goalID");
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("backend.Models.User", "user")
+                    b.HasOne("backend.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("goal");
+                    b.Navigation("Goal");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Goal", b =>
                 {
-                    b.HasOne("backend.Models.User", "user")
-                        .WithMany("Goals")
-                        .HasForeignKey("userId");
+                    b.HasOne("backend.Models.Goal", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("user");
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("backend.Models.Reflection", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
-                        .WithOne("reflection")
+                        .WithOne("Reflection")
                         .HasForeignKey("backend.Models.Reflection", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.User", "user")
+                    b.HasOne("backend.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Event");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
                 {
-                    b.HasOne("backend.Models.Goal", "parent")
+                    b.HasOne("backend.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("parentID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("parent");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
-                    b.HasOne("backend.Models.Goal", "parent")
+                    b.HasOne("backend.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("parentID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("parent");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.NorthStar", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Goals")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Event", b =>
                 {
-                    b.Navigation("reflection");
+                    b.Navigation("Reflection");
+                });
+
+            modelBuilder.Entity("backend.Models.Goal", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>

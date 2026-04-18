@@ -11,17 +11,17 @@ namespace backend.Models
     public class Event()
     {
 
-        public string ID { get; set; }
-        public User user { get; set; }
-        public Goal goal { get; set; }
+        public string Id { get; set; }
+        public User User { get; set; }
+        public Goal Goal { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public DateTime start { get; set; }
-        public DateTime end { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         
-        public EventState eventState { get; set; }
-        public Reflection? reflection { get; set; }
+        public EventState EventState { get; set; }
+        public Reflection? Reflection { get; set; }
 
     }
 }

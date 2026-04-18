@@ -114,7 +114,7 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: httpContext.User.Identity?.Name ?? "anonymous",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 15,
+                PermitLimit = 30,
                 Window = TimeSpan.FromMinutes(1)
             }));
 });
@@ -123,7 +123,13 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.CreateMap<NorthStarForm, NorthStar>();
+    cfg.CreateMap<NorthStarCreate, NorthStar>();
+    cfg.CreateMap<BearingCreate, Bearing>();
+    cfg.CreateMap<MovementCreate, Movement>();
+
+    cfg.CreateMap<NorthStar, NorthStarGet>();
+    cfg.CreateMap<Bearing, BearingGet>();
+    cfg.CreateMap<Movement, MovementGet>();
 });
 
 var app = builder.Build();

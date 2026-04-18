@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.Data;
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260410221305_FixChildrenInconsistencies")]
+    partial class FixChildrenInconsistencies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,15 +217,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Goals");
 
@@ -346,6 +344,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Strengths")
                         .HasColumnType("text");
 
@@ -355,6 +356,8 @@ namespace backend.Migrations
 
                     b.Property<string>("Weaknesses")
                         .HasColumnType("text");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("UserId");
 
@@ -380,6 +383,9 @@ namespace backend.Migrations
                     b.Property<string>("Opts")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Temptations")
                         .HasColumnType("text");
 
@@ -390,10 +396,15 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.HasIndex("ParentId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Goals", t =>
                         {
+                            t.Property("ParentId")
+                                .HasColumnName("Movement_ParentId");
+
                             t.Property("UserId")
                                 .HasColumnName("Movement_UserId");
                         });
@@ -504,16 +515,6 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.Goal", b =>
-                {
-                    b.HasOne("backend.Models.Goal", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Parent");
-                });
-
             modelBuilder.Entity("backend.Models.Reflection", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
@@ -533,22 +534,38 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
                 {
+                    b.HasOne("backend.Models.NorthStar", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("backend.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Parent");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
+                    b.HasOne("backend.Models.Bearing", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("backend.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Parent");
 
                     b.Navigation("User");
                 });
@@ -567,14 +584,19 @@ namespace backend.Migrations
                     b.Navigation("Reflection");
                 });
 
-            modelBuilder.Entity("backend.Models.Goal", b =>
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.Navigation("Goals");
+                });
+
+            modelBuilder.Entity("backend.Models.Bearing", b =>
                 {
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("backend.Models.User", b =>
+            modelBuilder.Entity("backend.Models.NorthStar", b =>
                 {
-                    b.Navigation("Goals");
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

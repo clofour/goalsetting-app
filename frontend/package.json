@@ -10,10 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^8.3.18",
-    "@mantine/form": "^8.3.18",
-    "@mantine/hooks": "^8.3.18",
+    "@mantine/core": "^9.0.0",
+    "@mantine/form": "^9.0.0",
+    "@mantine/hooks": "^9.0.0",
     "@tabler/icons-react": "^3.41.0",
+    "@types/node": "^25.5.0",
     "axios": "^1.14.0",
     "msw": "^2.12.14",
     "react": "^19.2.4",
@@ -35,6 +36,7 @@
     "postcss": "^8.5.8",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
+    "typescript": "^5.9.3",
     "vite": "^8.0.1"
   }
 }

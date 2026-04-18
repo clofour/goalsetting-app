@@ -17,7 +17,7 @@ import { useForm, isEmail } from '@mantine/form';
 import { useInputState } from '@mantine/hooks';
 import zxcvbn from "zxcvbn";
 import { IconLogin2, IconUserPlus, IconExclamationCircle, IconInfoCircle } from '@tabler/icons-react';
-import Logo from "@/components/Logo.jsx";
+import Logo from "@/components/Logo";
 
 
 const accessCodeRegex = new RegExp("^[a-zA-Z]+$");

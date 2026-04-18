@@ -7,10 +7,11 @@
 import type { GoalImportance } from './goalImportance';
 import type { GoalType } from './goalType';
 
-export interface NorthStarForm {
-  description?: string;
-  importance?: GoalImportance;
+export interface NorthStarCreate {
+  description: string;
+  importance: GoalImportance;
   justification?: string;
-  name?: string;
-  goalType?: GoalType;
+  parentId?: string;
+  name: string;
+  type?: GoalType;
 }

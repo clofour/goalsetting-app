@@ -1,3 +1,4 @@
+using backend.Enums;
 using backend.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace backend.Data
                 .HasValue<NorthStar>(GoalType.NorthStar)
                 .HasValue<Movement>(GoalType.Movement)
                 .HasValue<Bearing>(GoalType.Bearing);
+
+            builder.Entity<Goal>()
+                .HasOne(goal => goal.Parent)
+                .WithMany(goal => goal.Children)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }
