@@ -130,7 +130,7 @@ function Authentication() {
     async function handleSigninSubmit(values) {
         const success = await post(values, "/api/auth/signin");
         if (success) {
-            window.location.href = "/services/messaging";
+            window.location.href = "/app/dashboard";
         }
     };
     async function handleSignupSubmit(values) {
