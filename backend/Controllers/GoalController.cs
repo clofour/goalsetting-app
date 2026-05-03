@@ -9,6 +9,7 @@ using backend.Helpers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using backend.Services;
+using backend.Enums;
 
 
 namespace backend.Controllers
@@ -31,8 +32,8 @@ namespace backend.Controllers
             await appDbContext.Entry(user)
                 .Collection(user => user.Goals)
                 .Query()
-                .Include(northStar => northStar.Children)
-                    .ThenInclude(bearing => bearing.Children)
+                .Include(northStar => northStar.Bearings)
+                    .ThenInclude(bearing => bearing.Movements)
                 .LoadAsync();
 
             List<NorthStar> goals = user.Goals;
@@ -53,9 +54,9 @@ namespace backend.Controllers
 
             GoalStats goalStats = new GoalStats
             {
-                NorthStarCount = await goalService.CountGoal<NorthStar>(user),
-                BearingCount = await goalService.CountGoal<Bearing>(user),
-                MovementCount = await goalService.CountGoal<Movement>(user)
+                NorthStarCount = await goalService.CountGoals<NorthStar>(user),
+                BearingCount = await goalService.CountGoals<Bearing>(user),
+                MovementCount = await goalService.CountGoals<Movement>(user)
             };
 
             return Ok(goalStats);
@@ -101,19 +102,19 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            NorthStar? parent = await appDbContext.Goals.FindAsync(bearingCreate.ParentId) as NorthStar;
+            NorthStar? parent = await appDbContext.NorthStars.FindAsync(bearingCreate.ParentId);
             if (parent == null || parent.User != user)
             {
                 return NotFound("The parent goal does not exist.");
             }
 
-            await appDbContext.Entry(parent).Collection(northStar => northStar.Children).LoadAsync();
+            await appDbContext.Entry(parent).Collection(northStar => northStar.Bearings).LoadAsync();
 
             Bearing bearing = new Bearing();
             mapper.Map(bearingCreate, bearing);
 
             bearing.Parent = parent;
-            parent.Children.Add(bearing);
+            parent.Bearings.Add(bearing);
 
             await appDbContext.SaveChangesAsync();
 
@@ -135,42 +136,54 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            Bearing? parent = await appDbContext.Goals.FindAsync(movementCreate.ParentId) as Bearing;
+            Bearing? parent = await appDbContext.Bearings.FindAsync(movementCreate.ParentId);
             if (parent == null || parent.User != user)
             {
                 return NotFound("The parent goal does not exist.");
             }
 
-            await appDbContext.Entry(parent).Collection(bearing => bearing.Children).LoadAsync();
+            await appDbContext.Entry(parent).Collection(bearing => bearing.Movements).LoadAsync();
 
             Movement movement = new Movement();
             mapper.Map(movementCreate, movement);
 
             movement.Parent = parent;
-            parent.Children.Add(movement);
+            parent.Movements.Add(movement);
 
             await appDbContext.SaveChangesAsync();
 
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Delete(Guid Id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id, GoalType type)
         {
             var user = await userManager.GetUserAsync(User);
-
             if (user == null)
             {
                 return Forbid();
             }
 
-            Goal? goal = await appDbContext.Goals.FindAsync(Id);
-            if (goal == null || goal.User != user)
+            switch (type)
             {
-                return NotFound();
-            }
+                case GoalType.NorthStar:
+                    await appDbContext.NorthStars
+                    .Where(goal => goal.Id == id && goal.User == user)
+                    .ExecuteDeleteAsync();
+                    break;
 
-            appDbContext.Goals.Remove(goal);
+                case GoalType.Bearing: 
+                    await appDbContext.Bearings
+                    .Where(goal => goal.Id == id && goal.User == user)
+                    .ExecuteDeleteAsync();
+                    break;
+
+                case GoalType.Movement:
+                    await appDbContext.Movements
+                    .Where(goal => goal.Id == id && goal.User == user)
+                    .ExecuteDeleteAsync();
+                    break;
+            }
 
             await appDbContext.SaveChangesAsync();
 
