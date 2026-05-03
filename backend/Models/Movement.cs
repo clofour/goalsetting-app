@@ -5,7 +5,7 @@ namespace backend.Models
 {
     public class Movement : Goal
     {
-        // public Bearing Parent { get; set; }
+        public Bearing Bearing { get; set; }
 
         public MotivationType? MotivationType { get; set; }
         public string? Motivation { get; set; }
