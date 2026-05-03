@@ -14,6 +14,7 @@ import { IconExclamationCircle } from "@tabler/icons-react";
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
   const [activeForm, setActiveForm] = useState("star");
+  const [activeMode, setActiveMode] = useState("create");
   const [activeParentId, setActiveParentId] = useState("");
   const [alert, setAlert] = useState("");
   
@@ -41,7 +42,7 @@ export default function Goals() {
         <Button leftSection={<IconPlus size={16} />} onClick={() => onGoalAdd("star")}>New North Star</Button>
       </Group>
 
-      <Modal opened={opened} onClose={close} title="Create Goal">
+      <Modal opened={opened} onClose={close} title={`${activeMode.upp} Goal`}>
         <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
         {activeForm === "star" && <CreateNorthStarForm close={close} setAlert={setAlert} />}
         {activeForm === "bearing" && <CreateBearingForm close={close} setAlert={setAlert} parentId={activeParentId} />}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { IconExclamationCircle } from "@tabler/icons-react";
 
 interface CreateNorthStarFormProps {
+    flow: "create" | "edit";
     close: () => void;
     setAlert: (alert: string) => void;
 }
