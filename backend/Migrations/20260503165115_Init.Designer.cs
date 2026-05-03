@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260410222936_Testing")]
-    partial class Testing
+    [Migration("20260503165115_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,8 +210,10 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("GoalType")
-                        .HasColumnType("integer");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -227,9 +229,9 @@ namespace backend.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Goals");
+                    b.ToTable("Goal");
 
-                    b.HasDiscriminator<int>("GoalType");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Goal");
 
                     b.UseTphMappingStrategy();
                 });
@@ -353,7 +355,6 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Weaknesses")
@@ -361,7 +362,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.HasDiscriminator().HasValue("Bearing");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
@@ -390,18 +391,17 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goals", t =>
+                    b.ToTable("Goal", t =>
                         {
                             t.Property("UserId")
                                 .HasColumnName("Movement_UserId");
                         });
 
-                    b.HasDiscriminator().HasValue(2);
+                    b.HasDiscriminator().HasValue("Movement");
                 });
 
             modelBuilder.Entity("backend.Models.NorthStar", b =>
@@ -424,7 +424,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goals", t =>
+                    b.ToTable("Goal", t =>
                         {
                             t.Property("Description")
                                 .HasColumnName("NorthStar_Description");
@@ -436,7 +436,7 @@ namespace backend.Migrations
                                 .HasColumnName("NorthStar_UserId");
                         });
 
-                    b.HasDiscriminator().HasValue(0);
+                    b.HasDiscriminator().HasValue("NorthStar");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -510,9 +510,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Goal", b =>
                 {
                     b.HasOne("backend.Models.Goal", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
@@ -536,22 +535,34 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("backend.Models.NorthStar", "NorthStar")
+                        .WithMany("Bearings")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("NorthStar");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("backend.Models.Bearing", "Bearing")
+                        .WithMany("Movements")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Bearing");
 
                     b.Navigation("User");
                 });
@@ -570,14 +581,19 @@ namespace backend.Migrations
                     b.Navigation("Reflection");
                 });
 
-            modelBuilder.Entity("backend.Models.Goal", b =>
-                {
-                    b.Navigation("Children");
-                });
-
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Navigation("Goals");
+                });
+
+            modelBuilder.Entity("backend.Models.Bearing", b =>
+                {
+                    b.Navigation("Movements");
+                });
+
+            modelBuilder.Entity("backend.Models.NorthStar", b =>
+                {
+                    b.Navigation("Bearings");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
-    [Index(nameof(User))]
     public abstract class Goal
     {
         public Goal? Parent { get; set; }
