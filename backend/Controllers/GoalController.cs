@@ -17,7 +17,7 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [Authorize]
-    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper, GoalService goalService) : ControllerBase
+    public class GoalController(AppDbContext appDbContext, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper, GoalService goalService) : ControllerBase
     {
         [HttpGet]
         [ProducesResponseType(typeof(List<NorthStarGet>), StatusCodes.Status200OK, "application/json")]
@@ -65,12 +65,6 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarCreate northStarCreate)
         {
-            if (!ModelState.IsValid)
-            {
-                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, northStarCreate);
-                return BadRequest(ModelState.Format());
-            }
-
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -90,12 +84,6 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateBearing([FromBody] BearingCreate bearingCreate)
         {
-            if (!ModelState.IsValid)
-            {
-                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, bearingCreate);
-                return BadRequest(ModelState.Format());
-            }
-
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -124,12 +112,6 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateMovement([FromBody] MovementCreate movementCreate)
         {
-            if (!ModelState.IsValid)
-            {
-                logger.LogWarning("Invalid Model State: {@ModelState} {@GoalForm}", ModelState.Values, movementCreate);
-                return BadRequest(ModelState.Format());
-            }
-
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
