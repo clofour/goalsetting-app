@@ -8,6 +8,7 @@ using backend.Filters;
 using backend.Helpers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using backend.Services;
 
 
 namespace backend.Controllers
@@ -15,7 +16,7 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [Authorize]
-    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper) : ControllerBase
+    public class GoalController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<GoalController> logger, IMapper mapper, GoalService goalService) : ControllerBase
     {
         [HttpGet]
         [ProducesResponseType(typeof(List<NorthStarGet>), StatusCodes.Status200OK, "application/json")]
@@ -39,6 +40,25 @@ namespace backend.Controllers
             List<NorthStarGet> goalsDTO = mapper.Map<List<NorthStarGet>>(goals);
 
             return Ok(goalsDTO);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Stats()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            GoalStats goalStats = new GoalStats
+            {
+                NorthStarCount = await goalService.CountGoal<NorthStar>(user),
+                BearingCount = await goalService.CountGoal<Bearing>(user),
+                MovementCount = await goalService.CountGoal<Movement>(user)
+            };
+
+            return Ok(goalStats);
         }
 
         [HttpPost]
