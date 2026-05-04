@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260503165115_Init")]
+    [Migration("20260504182711_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -219,15 +219,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Goal");
 
@@ -505,15 +500,6 @@ namespace backend.Migrations
                     b.Navigation("Goal");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Models.Goal", b =>
-                {
-                    b.HasOne("backend.Models.Goal", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("backend.Models.Reflection", b =>

@@ -8,6 +8,7 @@ import type { GoalType } from './goalType';
 import type { MotivationType } from './motivationType';
 
 export interface MovementCreate {
+  bearingId?: string;
   motivationType?: null | MotivationType;
   /** @nullable */
   motivation?: string | null;
@@ -21,7 +22,6 @@ export interface MovementCreate {
   obstacles?: string | null;
   /** @nullable */
   killConditions?: string | null;
-  parentId?: string;
   name: string;
   type?: GoalType;
 }

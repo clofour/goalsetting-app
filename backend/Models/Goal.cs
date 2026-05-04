@@ -6,8 +6,6 @@ namespace backend.Models
 {
     public abstract class Goal
     {
-        public Goal? Parent { get; set; }
-
         public Guid Id { get; set; }
         public User User { get; set; }
 

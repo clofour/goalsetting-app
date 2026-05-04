@@ -10,7 +10,6 @@ export * from './goalImportance';
 export * from './goalType';
 export * from './motivationType';
 export * from './movementCreate';
-export * from './movementGet';
 export * from './northStarCreate';
 export * from './northStarGet';
 export * from './postApiGoalDeleteParams';

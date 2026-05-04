@@ -1,4 +1,4 @@
-import { postApiAuthSignIn } from "@/api/endpoints/auth/auth.js";
+import { postApiAuthSignUp } from "@/api/endpoints/auth/auth.js";
 import { PostApiAuthSignUpBody } from "@/api/endpoints/auth/auth.zod.js";
 import { Button, Checkbox, Group, PasswordInput, Progress, Stack, TextInput } from "@mantine/core";
 import { schemaResolver, useForm } from "@mantine/form";
@@ -66,7 +66,7 @@ export default function SignUpForm({ setAlert, setLoading, loading }: SignUpForm
         const requestData = {
             ...values
         }
-        const response = await postApiAuthSignIn(requestData);
+        const response = await postApiAuthSignUp(requestData);
 
         if (response.status === 200) {
             form.reset();

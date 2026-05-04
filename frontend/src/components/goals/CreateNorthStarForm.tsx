@@ -23,7 +23,7 @@ export default function CreateNorthStarForm({close, setAlert}: CreateNorthStarFo
         if (response.status === 200) {
             close();
         } else {
-            setAlert(response.data);
+            setAlert(response.data ?? "An error has occured.");
         }
     };
 

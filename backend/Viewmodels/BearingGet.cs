@@ -4,7 +4,7 @@ namespace backend.Viewmodels
 {
     public class BearingGet : GoalGet
     {
-        public Guid ParentId { get; set; }
+        public Guid NorthStarId { get; set; }
 
         public string Description { get; set; }
         public string Justification { get; set; }

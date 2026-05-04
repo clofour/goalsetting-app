@@ -11,7 +11,7 @@ interface CreateBearingFormProps {
 
 export default function CreateBearingForm({close, setAlert, parentId}: CreateBearingFormProps) {
     const formSchema = PostApiGoalCreateBearingBody.omit({
-        parentId: true
+        northStarId: true
     })
     const form = useForm({
         mode: 'uncontrolled',
@@ -21,14 +21,14 @@ export default function CreateBearingForm({close, setAlert, parentId}: CreateBea
     const handleSubmit = async (values: typeof form.values) => {
         const requestData = {
             ...values,
-            parentId: parentId
+            northStarId: parentId
         }
         const response = await postApiGoalCreateBearing(requestData);
 
         if (response.status === 200) {
             close();
         } else {
-            setAlert(response.data);
+            setAlert(response.data ?? "An error has occured.");
         }
     };
 

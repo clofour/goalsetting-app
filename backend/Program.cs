@@ -12,6 +12,7 @@ using Serilog.Events;
 using Destructurama;
 using Microsoft.AspNetCore.Identity;
 using backend.Viewmodels;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,6 +132,8 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<Bearing, BearingGet>();
     cfg.CreateMap<Movement, MovementGet>();
 });
+
+builder.Services.AddScoped<GoalService>();
 
 var app = builder.Build();
 

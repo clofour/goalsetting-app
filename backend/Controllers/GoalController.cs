@@ -90,7 +90,7 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            NorthStar? parent = await appDbContext.NorthStars.FindAsync(bearingCreate.ParentId);
+            NorthStar? parent = await appDbContext.NorthStars.FindAsync(bearingCreate.NorthStarId);
             if (parent == null || parent.User != user)
             {
                 return NotFound("The parent goal does not exist.");
@@ -101,7 +101,7 @@ namespace backend.Controllers
             Bearing bearing = new Bearing();
             mapper.Map(bearingCreate, bearing);
 
-            bearing.Parent = parent;
+            bearing.NorthStar = parent;
             parent.Bearings.Add(bearing);
 
             await appDbContext.SaveChangesAsync();
@@ -118,7 +118,7 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            Bearing? parent = await appDbContext.Bearings.FindAsync(movementCreate.ParentId);
+            Bearing? parent = await appDbContext.Bearings.FindAsync(movementCreate.BearingId);
             if (parent == null || parent.User != user)
             {
                 return NotFound("The parent goal does not exist.");
@@ -129,7 +129,7 @@ namespace backend.Controllers
             Movement movement = new Movement();
             mapper.Map(movementCreate, movement);
 
-            movement.Parent = parent;
+            movement.Bearing = parent;
             parent.Movements.Add(movement);
 
             await appDbContext.SaveChangesAsync();
@@ -137,8 +137,8 @@ namespace backend.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> Delete(Guid id, GoalType type)
+        [HttpPost]
+        public async Task<ActionResult> Delete(Guid id, GoalType goalType)
         {
             var user = await userManager.GetUserAsync(User);
             if (user == null)
@@ -146,26 +146,9 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            switch (type)
-            {
-                case GoalType.NorthStar:
-                    await appDbContext.NorthStars
-                    .Where(goal => goal.Id == id && goal.User == user)
-                    .ExecuteDeleteAsync();
-                    break;
-
-                case GoalType.Bearing: 
-                    await appDbContext.Bearings
-                    .Where(goal => goal.Id == id && goal.User == user)
-                    .ExecuteDeleteAsync();
-                    break;
-
-                case GoalType.Movement:
-                    await appDbContext.Movements
-                    .Where(goal => goal.Id == id && goal.User == user)
-                    .ExecuteDeleteAsync();
-                    break;
-            }
+            await goalService.ResolveGoalDbSet(goalType)
+                .Where(goal => goal.Id == id && goal.User == user)
+                .ExecuteDeleteAsync();
 
             await appDbContext.SaveChangesAsync();
 

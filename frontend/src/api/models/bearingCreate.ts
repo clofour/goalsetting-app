@@ -7,13 +7,13 @@
 import type { GoalType } from './goalType';
 
 export interface BearingCreate {
+  northStarId?: string;
   description?: string;
   justification?: string;
   /** @nullable */
   strengths?: string | null;
   /** @nullable */
   weaknesses?: string | null;
-  parentId?: string;
   name: string;
   type?: GoalType;
 }

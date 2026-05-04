@@ -89,6 +89,66 @@ export const useGetApiGoalGet = <TError = Promise<unknown>>(
     ...query
   }
 }
+export type getApiGoalStatsResponse200 = {
+  data: void
+  status: 200
+}
+
+export type getApiGoalStatsResponseSuccess = (getApiGoalStatsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getApiGoalStatsResponse = (getApiGoalStatsResponseSuccess)
+
+export const getGetApiGoalStatsUrl = () => {
+
+
+
+
+  return `/api/Goal/Stats`
+}
+
+export const getApiGoalStats = async ( options?: RequestInit): Promise<getApiGoalStatsResponse> => {
+
+  const res = await fetch(getGetApiGoalStatsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: getApiGoalStatsResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getApiGoalStatsResponse
+}
+
+
+
+
+export const getGetApiGoalStatsKey = () => [`/api/Goal/Stats`] as const;
+
+export type GetApiGoalStatsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiGoalStats>>>
+
+export const useGetApiGoalStats = <TError = Promise<unknown>>(
+   options?: { swr?:SWRConfiguration<Awaited<ReturnType<typeof getApiGoalStats>>, TError> & { swrKey?: Key, enabled?: boolean }, fetch?: RequestInit }
+) => {
+  const {swr: swrOptions, fetch: fetchOptions} = options ?? {}
+
+  const isEnabled = swrOptions?.enabled !== false
+  const swrKey = swrOptions?.swrKey ?? (() => isEnabled ? getGetApiGoalStatsKey() : null);
+  const swrFn = () => getApiGoalStats(fetchOptions)
+
+  const query = useSwr<Awaited<ReturnType<typeof swrFn>>, TError>(swrKey, swrFn, swrOptions)
+
+  return {
+    swrKey,
+    ...query
+  }
+}
 export type postApiGoalCreateNorthStarResponse200 = {
   data: void
   status: 200

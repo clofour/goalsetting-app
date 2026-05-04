@@ -5,14 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { GoalImportance } from './goalImportance';
-import type { MovementGet } from './movementGet';
 
 export interface NorthStarGet {
   description?: string;
   importance?: GoalImportance;
   justification?: string;
   id?: string;
-  parentId?: string;
-  children?: MovementGet[];
   name?: string;
 }

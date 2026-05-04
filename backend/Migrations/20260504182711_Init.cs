@@ -175,7 +175,6 @@ namespace backend.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
@@ -214,11 +213,6 @@ namespace backend.Migrations
                         name: "FK_Goal_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Goal_Goal_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Goal",
                         principalColumn: "Id");
                 });
 
@@ -333,11 +327,6 @@ namespace backend.Migrations
                 name: "IX_Goal_NorthStar_UserId",
                 table: "Goal",
                 column: "NorthStar_UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Goal_ParentId",
-                table: "Goal",
-                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Goal_UserId",

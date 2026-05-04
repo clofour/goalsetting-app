@@ -21,7 +21,7 @@ import type {
 } from '../../models';
 
 
-export const getGetApiGoalGetResponseMock = (): NorthStarGet[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), importance: faker.helpers.arrayElement([faker.number.int(), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), parentId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), children: faker.helpers.arrayElement([Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({parentId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), motivationType: faker.helpers.arrayElement([faker.helpers.arrayElement([null,faker.number.int(),]), undefined]), motivation: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), triggers: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), temptations: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), opts: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), obstacles: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), killConditions: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), children: faker.helpers.arrayElement([[], undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})))
+export const getGetApiGoalGetResponseMock = (): NorthStarGet[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), importance: faker.helpers.arrayElement([faker.number.int(), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})))
 
 
 export const getGetApiGoalGetMockHandler = (overrideResponse?: NorthStarGet[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<NorthStarGet[]> | NorthStarGet[]), options?: RequestHandlerOptions) => {
@@ -31,6 +31,16 @@ export const getGetApiGoalGetMockHandler = (overrideResponse?: NorthStarGet[] | 
     return HttpResponse.json(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
     : getGetApiGoalGetResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getGetApiGoalStatsMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.get('*/api/Goal/Stats', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
       { status: 200
       })
   }, options)
@@ -77,6 +87,7 @@ export const getPostApiGoalDeleteMockHandler = (overrideResponse?: void | ((info
 }
 export const getGoalMock = () => [
   getGetApiGoalGetMockHandler(),
+  getGetApiGoalStatsMockHandler(),
   getPostApiGoalCreateNorthStarMockHandler(),
   getPostApiGoalCreateBearingMockHandler(),
   getPostApiGoalCreateMovementMockHandler(),
