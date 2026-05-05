@@ -16,8 +16,6 @@ export interface MovementGet {
   /** @nullable */
   temptations?: string | null;
   /** @nullable */
-  opts?: string | null;
-  /** @nullable */
   obstacles?: string | null;
   /** @nullable */
   killConditions?: string | null;

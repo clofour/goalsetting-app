@@ -8,6 +8,7 @@
 export * from './bearingCreate';
 export * from './bearingGet';
 export * from './goalImportance';
+export * from './goalStats';
 export * from './goalType';
 export * from './motivationType';
 export * from './movementCreate';

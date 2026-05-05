@@ -18,6 +18,7 @@ import type {
 
 import type {
   BearingCreate,
+  GoalStats,
   MovementCreate,
   NorthStarCreate,
   NorthStarGet,
@@ -91,7 +92,7 @@ export const useGetApiGoalGet = <TError = Promise<unknown>>(
   }
 }
 export type getApiGoalStatsResponse200 = {
-  data: void
+  data: GoalStats
   status: 200
 }
 
@@ -124,7 +125,7 @@ export const getApiGoalStats = async ( options?: RequestInit): Promise<getApiGoa
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: getApiGoalStatsResponse['data'] = body ? JSON.parse(body) : undefined
+  const data: getApiGoalStatsResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getApiGoalStatsResponse
 }
 
@@ -152,7 +153,7 @@ export const useGetApiGoalStats = <TError = Promise<unknown>>(
   }
 }
 export type postApiGoalCreateNorthStarResponse200 = {
-  data: void
+  data: GoalStats
   status: 200
 }
 
@@ -186,7 +187,7 @@ export const postApiGoalCreateNorthStar = async (northStarCreate: NorthStarCreat
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: postApiGoalCreateNorthStarResponse['data'] = body ? JSON.parse(body) : undefined
+  const data: postApiGoalCreateNorthStarResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postApiGoalCreateNorthStarResponse
 }
 

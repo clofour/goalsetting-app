@@ -17,11 +17,16 @@ import type {
 } from 'msw';
 
 import type {
+  GoalStats,
   NorthStarGet
 } from '../../models';
 
 
-export const getGetApiGoalGetResponseMock = (): NorthStarGet[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), importance: faker.helpers.arrayElement([faker.number.int(), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), bearings: faker.helpers.arrayElement([Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({northStarId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), strengths: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), weaknesses: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), movements: faker.helpers.arrayElement([Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({bearingId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), motivationType: faker.helpers.arrayElement([faker.helpers.arrayElement([null,faker.number.int(),]), undefined]), motivation: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), triggers: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), temptations: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), opts: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), obstacles: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), killConditions: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})))
+export const getGetApiGoalGetResponseMock = (): NorthStarGet[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), importance: faker.helpers.arrayElement([faker.number.int(), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), bearings: faker.helpers.arrayElement([Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({northStarId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), description: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), justification: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), strengths: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), weaknesses: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), movements: faker.helpers.arrayElement([Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({bearingId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), motivationType: faker.helpers.arrayElement([faker.helpers.arrayElement([null,faker.number.int(),]), undefined]), motivation: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), triggers: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), temptations: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), obstacles: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), killConditions: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), undefined]), id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})))
+
+export const getGetApiGoalStatsResponseMock = (overrideResponse: Partial<Extract<GoalStats, object>> = {}): GoalStats => ({northStarCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), bearingCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), movementCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), ...overrideResponse})
+
+export const getPostApiGoalCreateNorthStarResponseMock = (overrideResponse: Partial<Extract<GoalStats, object>> = {}): GoalStats => ({northStarCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), bearingCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), movementCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), ...overrideResponse})
 
 
 export const getGetApiGoalGetMockHandler = (overrideResponse?: NorthStarGet[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<NorthStarGet[]> | NorthStarGet[]), options?: RequestHandlerOptions) => {
@@ -36,21 +41,25 @@ export const getGetApiGoalGetMockHandler = (overrideResponse?: NorthStarGet[] | 
   }, options)
 }
 
-export const getGetApiGoalStatsMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+export const getGetApiGoalStatsMockHandler = (overrideResponse?: GoalStats | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GoalStats> | GoalStats), options?: RequestHandlerOptions) => {
   return http.get('*/api/Goal/Stats', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
 
-    return new HttpResponse(null,
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetApiGoalStatsResponseMock(),
       { status: 200
       })
   }, options)
 }
 
-export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: GoalStats | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<GoalStats> | GoalStats), options?: RequestHandlerOptions) => {
   return http.post('*/api/Goal/CreateNorthStar', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
 
-    return new HttpResponse(null,
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getPostApiGoalCreateNorthStarResponseMock(),
       { status: 200
       })
   }, options)
