@@ -17,6 +17,7 @@ namespace backend.Controllers
     {
 
         [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK, "text/plain")]
         public async Task<ActionResult> SignUp([FromBody] SignupForm signupForm)
         {
             if (!ModelState.IsValid)
@@ -70,10 +71,11 @@ namespace backend.Controllers
                 }
             }
 
-            return BadRequest("An error has occured. Please try again later.");
+            return BadRequest("An error has occurred. Please try again later.");
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK, "text/plain")]
         public async Task<ActionResult> SignIn([FromBody] SigninForm signinForm)
         {
             if (!ModelState.IsValid)

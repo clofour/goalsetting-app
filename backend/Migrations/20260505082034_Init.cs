@@ -171,84 +171,10 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goals",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    GoalType = table.Column<int>(type: "integer", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Justification = table.Column<string>(type: "text", nullable: true),
-                    Strengths = table.Column<string>(type: "text", nullable: true),
-                    Weaknesses = table.Column<string>(type: "text", nullable: true),
-                    NorthStarId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: true),
-                    Movement_ParentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    MotivationType = table.Column<int>(type: "integer", nullable: true),
-                    Motivation = table.Column<string>(type: "text", nullable: true),
-                    Triggers = table.Column<string>(type: "text", nullable: true),
-                    Temptations = table.Column<string>(type: "text", nullable: true),
-                    Opts = table.Column<string>(type: "text", nullable: true),
-                    Obstacles = table.Column<string>(type: "text", nullable: true),
-                    KillConditions = table.Column<string>(type: "text", nullable: true),
-                    BearingId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Movement_UserId = table.Column<string>(type: "text", nullable: true),
-                    NorthStar_Description = table.Column<string>(type: "text", nullable: true),
-                    Importance = table.Column<int>(type: "integer", nullable: true),
-                    NorthStar_Justification = table.Column<string>(type: "text", nullable: true),
-                    NorthStar_UserId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Goals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Goals_AspNetUsers_Movement_UserId",
-                        column: x => x.Movement_UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Goals_AspNetUsers_NorthStar_UserId",
-                        column: x => x.NorthStar_UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Goals_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Goals_Goals_BearingId",
-                        column: x => x.BearingId,
-                        principalTable: "Goals",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Goals_Goals_Movement_ParentId",
-                        column: x => x.Movement_ParentId,
-                        principalTable: "Goals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Goals_Goals_NorthStarId",
-                        column: x => x.NorthStarId,
-                        principalTable: "Goals",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Goals_Goals_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Goals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: true),
                     GoalId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -258,18 +184,34 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.ID);
+                    table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Events_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NorthStars",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Importance = table.Column<int>(type: "integer", nullable: false),
+                    Justification = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NorthStars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Events_Goals_GoalId",
-                        column: x => x.GoalId,
-                        principalTable: "Goals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_NorthStars_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -295,7 +237,70 @@ namespace backend.Migrations
                         name: "FK_Reflections_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bearings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    NorthStarId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Justification = table.Column<string>(type: "text", nullable: false),
+                    Strengths = table.Column<string>(type: "text", nullable: true),
+                    Weaknesses = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bearings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bearings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bearings_NorthStars_NorthStarId",
+                        column: x => x.NorthStarId,
+                        principalTable: "NorthStars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movements",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    BearingId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MotivationType = table.Column<int>(type: "integer", nullable: true),
+                    Motivation = table.Column<string>(type: "text", nullable: true),
+                    Triggers = table.Column<string>(type: "text", nullable: true),
+                    Temptations = table.Column<string>(type: "text", nullable: true),
+                    Opts = table.Column<string>(type: "text", nullable: true),
+                    Obstacles = table.Column<string>(type: "text", nullable: true),
+                    KillConditions = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movements_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Movements_Bearings_BearingId",
+                        column: x => x.BearingId,
+                        principalTable: "Bearings",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -337,6 +342,16 @@ namespace backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bearings_NorthStarId",
+                table: "Bearings",
+                column: "NorthStarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bearings_UserId",
+                table: "Bearings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Events_GoalId",
                 table: "Events",
                 column: "GoalId");
@@ -347,38 +362,18 @@ namespace backend.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_BearingId",
-                table: "Goals",
+                name: "IX_Movements_BearingId",
+                table: "Movements",
                 column: "BearingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_Movement_ParentId",
-                table: "Goals",
-                column: "Movement_ParentId");
+                name: "IX_Movements_UserId",
+                table: "Movements",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_Movement_UserId",
-                table: "Goals",
-                column: "Movement_UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Goals_NorthStar_UserId",
-                table: "Goals",
-                column: "NorthStar_UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Goals_NorthStarId",
-                table: "Goals",
-                column: "NorthStarId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Goals_ParentId",
-                table: "Goals",
-                column: "ParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Goals_UserId",
-                table: "Goals",
+                name: "IX_NorthStars_UserId",
+                table: "NorthStars",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -415,16 +410,22 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Movements");
+
+            migrationBuilder.DropTable(
                 name: "Reflections");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Bearings");
+
+            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Goals");
+                name: "NorthStars");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -13,7 +13,7 @@ namespace backend.Models
 
         public string Id { get; set; }
         public User User { get; set; }
-        public Goal Goal { get; set; }
+        public Movement Movement { get; set; }
 
         public string Name { get; set; }
 

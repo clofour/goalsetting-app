@@ -24,15 +24,18 @@ export default function Dashboard() {
     const movementsToday = [
         {
             "name": "uhhh lemme think",
-            "description": "i forgor"
+            "description": "i forgor",
+            "done": false
         },
         {
             "name": "uhhh lemme think",
-            "description": "i forgor"
+            "description": "i forgor",
+            "done": false
         },
         {
             "name": "uhhh lemme think",
-            "description": "i forgor"
+            "description": "i forgor",
+            "done": false
         }
     ]
 

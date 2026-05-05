@@ -207,28 +207,18 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("GoalType")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
+                    b.ToTable((string)null);
 
-                    b.ToTable("Goals");
-
-                    b.HasDiscriminator<int>("GoalType");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("backend.Models.Reflection", b =>
@@ -346,24 +336,31 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("NorthStarId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Strengths")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Weaknesses")
                         .HasColumnType("text");
 
+                    b.HasIndex("NorthStarId");
+
                     b.HasIndex("UserId");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.ToTable("Bearings");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
                     b.HasBaseType("backend.Models.Goal");
+
+                    b.Property<Guid>("BearingId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("KillConditions")
                         .HasColumnType("text");
@@ -387,18 +384,13 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.HasIndex("BearingId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goals", t =>
-                        {
-                            t.Property("UserId")
-                                .HasColumnName("Movement_UserId");
-                        });
-
-                    b.HasDiscriminator().HasValue(2);
+                    b.ToTable("Movements");
                 });
 
             modelBuilder.Entity("backend.Models.NorthStar", b =>
@@ -421,19 +413,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goals", t =>
-                        {
-                            t.Property("Description")
-                                .HasColumnName("NorthStar_Description");
-
-                            t.Property("Justification")
-                                .HasColumnName("NorthStar_Justification");
-
-                            t.Property("UserId")
-                                .HasColumnName("NorthStar_UserId");
-                        });
-
-                    b.HasDiscriminator().HasValue(0);
+                    b.ToTable("NorthStars");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -504,16 +484,6 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.Goal", b =>
-                {
-                    b.HasOne("backend.Models.Goal", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Parent");
-                });
-
             modelBuilder.Entity("backend.Models.Reflection", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
@@ -533,22 +503,34 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("backend.Models.NorthStar", "NorthStar")
+                        .WithMany("Bearings")
+                        .HasForeignKey("NorthStarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("NorthStar");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("backend.Models.Bearing", "Bearing")
+                        .WithMany("Movements")
+                        .HasForeignKey("BearingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Bearing");
 
                     b.Navigation("User");
                 });
@@ -567,14 +549,19 @@ namespace backend.Migrations
                     b.Navigation("Reflection");
                 });
 
-            modelBuilder.Entity("backend.Models.Goal", b =>
-                {
-                    b.Navigation("Children");
-                });
-
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Navigation("Goals");
+                });
+
+            modelBuilder.Entity("backend.Models.Bearing", b =>
+                {
+                    b.Navigation("Movements");
+                });
+
+            modelBuilder.Entity("backend.Models.NorthStar", b =>
+                {
+                    b.Navigation("Bearings");
                 });
 #pragma warning restore 612, 618
         }

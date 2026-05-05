@@ -4,9 +4,9 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
-import type { GoalType } from './goalType';
+import type { MovementGet } from './movementGet';
 
-export interface BearingCreate {
+export interface BearingGet {
   northStarId?: string;
   description?: string;
   justification?: string;
@@ -14,6 +14,7 @@ export interface BearingCreate {
   strengths?: string | null;
   /** @nullable */
   weaknesses?: string | null;
-  name: string;
-  type?: GoalType;
+  movements?: MovementGet[];
+  id?: string;
+  name?: string;
 }
