@@ -153,7 +153,7 @@ export const useGetApiGoalStats = <TError = Promise<unknown>>(
   }
 }
 export type postApiGoalCreateNorthStarResponse200 = {
-  data: GoalStats
+  data: void
   status: 200
 }
 
@@ -187,7 +187,7 @@ export const postApiGoalCreateNorthStar = async (northStarCreate: NorthStarCreat
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: postApiGoalCreateNorthStarResponse['data'] = body ? JSON.parse(body) : {}
+  const data: postApiGoalCreateNorthStarResponse['data'] = body ? JSON.parse(body) : undefined
   return { data, status: res.status, headers: res.headers } as postApiGoalCreateNorthStarResponse
 }
 

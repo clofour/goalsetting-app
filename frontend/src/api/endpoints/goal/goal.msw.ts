@@ -26,8 +26,6 @@ export const getGetApiGoalGetResponseMock = (): NorthStarGet[] => (Array.from({ 
 
 export const getGetApiGoalStatsResponseMock = (overrideResponse: Partial<Extract<GoalStats, object>> = {}): GoalStats => ({northStarCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), bearingCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), movementCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), ...overrideResponse})
 
-export const getPostApiGoalCreateNorthStarResponseMock = (overrideResponse: Partial<Extract<GoalStats, object>> = {}): GoalStats => ({northStarCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), bearingCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), movementCount: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.number.int(),faker.helpers.fromRegExp("^-?(?:0|[1-9]\\d*)$"),]), undefined]), ...overrideResponse})
-
 
 export const getGetApiGoalGetMockHandler = (overrideResponse?: NorthStarGet[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<NorthStarGet[]> | NorthStarGet[]), options?: RequestHandlerOptions) => {
   return http.get('*/api/Goal/Get', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
@@ -53,13 +51,11 @@ export const getGetApiGoalStatsMockHandler = (overrideResponse?: GoalStats | ((i
   }, options)
 }
 
-export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: GoalStats | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<GoalStats> | GoalStats), options?: RequestHandlerOptions) => {
+export const getPostApiGoalCreateNorthStarMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
   return http.post('*/api/Goal/CreateNorthStar', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
 
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getPostApiGoalCreateNorthStarResponseMock(),
+    return new HttpResponse(null,
       { status: 200
       })
   }, options)

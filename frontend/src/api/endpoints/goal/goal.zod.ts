@@ -55,17 +55,6 @@ export const PostApiGoalCreateNorthStarBody = zod.object({
   "type": zod.number().optional()
 })
 
-export const postApiGoalCreateNorthStarResponseNorthStarCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const postApiGoalCreateNorthStarResponseBearingCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const postApiGoalCreateNorthStarResponseMovementCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-
-
-export const PostApiGoalCreateNorthStarResponse = zod.object({
-  "northStarCount": zod.union([zod.number(),zod.string().regex(postApiGoalCreateNorthStarResponseNorthStarCountRegExpTwo)]).optional(),
-  "bearingCount": zod.union([zod.number(),zod.string().regex(postApiGoalCreateNorthStarResponseBearingCountRegExpTwo)]).optional(),
-  "movementCount": zod.union([zod.number(),zod.string().regex(postApiGoalCreateNorthStarResponseMovementCountRegExpTwo)]).optional()
-})
-
 export const PostApiGoalCreateBearingBody = zod.object({
   "northStarId": zod.string().uuid().optional(),
   "description": zod.string().optional(),
