@@ -2,7 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import importPlugin from 'eslint-plugin-import'
+import { importX as importPlugin } from 'eslint-plugin-import-x'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 
@@ -11,7 +11,7 @@ export default defineConfig([
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     settings: {
-      'import/resolver-next': [
+      'import-x/resolver-next': [
         createTypeScriptImportResolver({
           project: './tsconfig.json'
         })
