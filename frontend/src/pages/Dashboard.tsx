@@ -1,4 +1,4 @@
-import PageTitle from '@/components/PageTitle';
+import PageTitle from '@/components/shared/PageTitle';
 import { Stack, SimpleGrid, Paper, Group, ThemeIcon, Text, Checkbox } from '@mantine/core';
 import { IconStar, IconCompass, IconActivity } from '@tabler/icons-react';
 

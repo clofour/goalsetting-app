@@ -7,7 +7,7 @@ import {
     Container,
 } from '@mantine/core';
 import { IconLogin2, IconUserPlus, IconExclamationCircle, IconInfoCircle } from '@tabler/icons-react';
-import Logo from "@/components/Logo";
+import Logo from "@/components/shared/Logo";
 import SignInForm from '@/components/auth/SignInForm';
 import SignUpForm from '@/components/auth/SignUpForm';
 

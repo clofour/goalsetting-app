@@ -2,7 +2,7 @@ import { Alert, Box, Stack, Modal, Paper, Text, Flex, Badge, Menu, ActionIcon, U
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconActivity } from '@tabler/icons-react';
-import PageTitle from '@/components/PageTitle';
+import PageTitle from '@/components/shared/PageTitle';
 import { useEffect, useState } from 'react';
 import GoalCard from '@/components/goals/GoalCard';
 import { theme } from '@/data/theme';
