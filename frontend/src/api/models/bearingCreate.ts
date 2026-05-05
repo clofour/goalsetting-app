@@ -4,16 +4,23 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
-import type { GoalType } from './goalType';
 
 export interface BearingCreate {
   northStarId?: string;
+  /** @maxLength 5000 */
   description?: string;
+  /** @maxLength 5000 */
   justification?: string;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   strengths?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   weaknesses?: string | null;
+  /** @maxLength 200 */
   name: string;
-  type?: GoalType;
 }

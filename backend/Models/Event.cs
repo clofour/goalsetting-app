@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using backend.Config;
 
 namespace backend.Models
 {
@@ -10,11 +12,16 @@ namespace backend.Models
 
     public class Event()
     {
-
+        [Key]
         public string Id { get; set; }
+        public Guid UserId { get; set; }
+         [ForeignKey("UserId")]
         public User User { get; set; }
+        public Guid BearingId { get; set; }
+        [ForeignKey("BearingId")]
         public Movement Movement { get; set; }
 
+        [MaxLength(FieldLimits.ShortText)]
         public string Name { get; set; }
 
         public DateTime Start { get; set; }

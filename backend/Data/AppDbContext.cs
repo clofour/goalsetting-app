@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Data
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options)
-        : IdentityDbContext<User>(options)
+        : IdentityUserContext<User, Guid>(options)
     {
 
         public DbSet<AccessCode> AccessCodes { get; set; }

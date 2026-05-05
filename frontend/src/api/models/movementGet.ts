@@ -8,17 +8,38 @@ import type { MotivationType } from './motivationType';
 
 export interface MovementGet {
   bearingId?: string;
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
+  difficulty?: string | null;
   motivationType?: null | MotivationType;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   motivation?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   triggers?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   temptations?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   obstacles?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   killConditions?: string | null;
   id?: string;
-  name?: string;
+  /** @maxLength 200 */
+  name: string;
 }
