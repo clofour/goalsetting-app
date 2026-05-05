@@ -61,11 +61,20 @@ export default function CreateBearingForm({close, setAlert, parentId}: CreateBea
                         {...form.getInputProps('justification')}
                     />
                     <Textarea
-                        label="Difficulty"
-                        description="How difficult will this goal be? Are you ready to take it on?"
+                        label="Strengths"
+                        description="What are your strengths in this area?"
                         placeholder="Be healthy"
-                        key={form.key('difficulty')}
-                        {...form.getInputProps('difficulty')}
+                        required
+                        key={form.key('strengths')}
+                        {...form.getInputProps('strengths')}
+                    />
+                    <Textarea
+                        label="Weaknesses"
+                        description="What are your weaknesses in this area?"
+                        placeholder="Be healthy"
+                        required
+                        key={form.key('weaknesses')}
+                        {...form.getInputProps('weaknesses')}
                     />
 
                     <Group justify="flex-end" mt="md">

@@ -53,6 +53,13 @@ export default function CreateMovementForm({ close, setAlert, parentId }: Create
                         key={form.key('description')}
                         {...form.getInputProps('description')}
                     />
+                    <Textarea
+                        label="Difficulty"
+                        description="How difficult will this goal be? Are you ready to take it on?"
+                        placeholder="Be healthy"
+                        key={form.key('difficulty')}
+                        {...form.getInputProps('difficulty')}
+                    />
                     <Input.Wrapper
                         label="Motivation Type"
                         description="What type of motivation will you use?"
