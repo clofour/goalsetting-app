@@ -2,6 +2,7 @@ import { Button, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
+import { getErrorMessage } from "@/data/error";
 
 interface CreateBearingFormProps {
     close: () => void;
@@ -28,13 +29,13 @@ export default function CreateBearingForm({close, setAlert, parentId}: CreateBea
         if (response.status === 200) {
             close();
         } else {
-            setAlert(response.data ?? "An error has occured.");
+            setAlert(response.data ?? getErrorMessage(response.status));
         }
     };
 
     return (
         <>
-            <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Stack>
                     <TextInput
                         label="Name"

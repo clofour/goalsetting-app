@@ -71,7 +71,7 @@ namespace backend.Controllers
                 }
             }
 
-            return BadRequest("An error has occured. Please try again later.");
+            return BadRequest("An error has occurred. Please try again later.");
         }
 
         [HttpPost]

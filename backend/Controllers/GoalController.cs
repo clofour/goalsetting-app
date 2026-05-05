@@ -44,6 +44,7 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(GoalStats), StatusCodes.Status200OK, "application/json")]
         public async Task<ActionResult> Stats()
         {
             var user = await userManager.GetUserAsync(User);
@@ -63,6 +64,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(GoalStats), StatusCodes.Status200OK, "application/json")]
         public async Task<ActionResult> CreateNorthStar([FromBody] NorthStarCreate northStarCreate)
         {
             var user = await userManager.GetUserAsync(User);

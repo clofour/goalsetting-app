@@ -1,5 +1,6 @@
 import { postApiAuthSignUp } from "@/api/endpoints/auth/auth.js";
 import { PostApiAuthSignUpBody } from "@/api/endpoints/auth/auth.zod.js";
+import { getErrorMessage } from "@/data/error";
 import { Button, Checkbox, Group, PasswordInput, Progress, Stack, TextInput } from "@mantine/core";
 import { schemaResolver, useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
@@ -38,12 +39,6 @@ export default function SignUpForm({ setAlert, setLoading, loading }: SignUpForm
         setStrength(newStrength);
         setPasswordColor(getStrengthColor(newStrength));
     }
-    useEffect(() => {
-        const passwordStrengthInterval = setInterval(() => {
-            updateStrength(form.getValues().password);
-        }, 1000)
-        return () => clearInterval(passwordStrengthInterval);
-    }, []);
 
     const formSchema = PostApiAuthSignUpBody.omit({})
     const form = useForm({
@@ -72,7 +67,7 @@ export default function SignUpForm({ setAlert, setLoading, loading }: SignUpForm
             form.reset();
             navigate("/auth/signin");
         } else {
-            setAlert(response.data ?? "An error has occured. Please try again later.");
+            setAlert(response.data ?? getErrorMessage(response.status));
         }
         setLoading(false);
     };

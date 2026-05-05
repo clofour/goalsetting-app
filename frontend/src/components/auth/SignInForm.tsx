@@ -1,5 +1,6 @@
 import { postApiAuthSignIn } from "@/api/endpoints/auth/auth.js";
 import { PostApiAuthSignInBody } from "@/api/endpoints/auth/auth.zod.js";
+import { getErrorMessage } from "@/data/error";
 import { Button, Group, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { schemaResolver, useForm } from "@mantine/form";
 import { useNavigate } from "react-router";
@@ -29,7 +30,7 @@ export default function SignInForm({ setAlert, setLoading, loading }: SignInForm
         if (response.status === 200) {
             navigate("/app/dashboard");
         } else {
-            setAlert(response.data ?? "An error has occured. Please try again later.");
+            setAlert(response.data ?? getErrorMessage(response.status));
         }
         setLoading(false);
     };

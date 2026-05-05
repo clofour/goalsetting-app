@@ -5,12 +5,13 @@ import { IconStar, IconDots, IconPencil, IconTrash, IconPlus, IconCompass, IconA
 import PageTitle from '@/components/PageTitle';
 import { useEffect, useState } from 'react';
 import GoalCard from '@/components/goals/GoalCard';
-import { theme } from '@/Theme';
+import { theme } from '@/data/theme';
 import CreateNorthStarForm from '@/components/goals/CreateNorthStarForm';
 import CreateBearingForm from '@/components/goals/CreateBearingForm';
 import { useGetApiGoalGet } from '@/api/endpoints/goal/goal';
 import { IconExclamationCircle } from "@tabler/icons-react";
 import CreateMovementForm from '@/components/goals/CreateMovementForm';
+import { capitalize } from '@/helpers';
 
 export default function Goals() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -33,7 +34,7 @@ export default function Goals() {
       </Group>
     </UnstyledButton>
   )
-
+  
   const { data: response, error, isLoading, mutate } = useGetApiGoalGet();
 
   return (
@@ -43,7 +44,7 @@ export default function Goals() {
         <Button leftSection={<IconPlus size={16} />} onClick={() => onGoalAdd("star")}>New North Star</Button>
       </Group>
 
-      <Modal opened={opened} onClose={close} title={`${activeMode.upp} Goal`}>
+      <Modal opened={opened} onClose={close} title={`${capitalize(activeMode)} Goal`}>
         <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
         {activeForm === "star" && <CreateNorthStarForm close={close} setAlert={setAlert} />}
         {activeForm === "bearing" && <CreateBearingForm close={close} setAlert={setAlert} parentId={activeParentId} />}
