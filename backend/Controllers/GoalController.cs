@@ -101,6 +101,7 @@ namespace backend.Controllers
             Bearing bearing = new Bearing();
             mapper.Map(bearingCreate, bearing);
 
+            bearing.User = user;
             bearing.NorthStar = parent;
             parent.Bearings.Add(bearing);
 
@@ -129,6 +130,7 @@ namespace backend.Controllers
             Movement movement = new Movement();
             mapper.Map(movementCreate, movement);
 
+            movement.User = user;
             movement.Bearing = parent;
             parent.Movements.Add(movement);
 

@@ -7,7 +7,6 @@ namespace backend.Models
 {
     public abstract class Goal
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public User User { get; set; }
 

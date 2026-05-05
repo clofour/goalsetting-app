@@ -11,7 +11,6 @@ namespace backend.Models
         public string? Motivation { get; set; }
         public string? Triggers { get; set; }
         public string? Temptations { get; set; }
-        public string? Opts { get; set; }
         public string? Obstacles { get; set; }
         public string? KillConditions { get; set; }
     }
