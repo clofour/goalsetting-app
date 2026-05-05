@@ -4,10 +4,9 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
-import type { GoalType } from './goalType';
 import type { MotivationType } from './motivationType';
 
-export interface MovementCreate {
+export interface MovementGet {
   bearingId?: string;
   motivationType?: null | MotivationType;
   /** @nullable */
@@ -22,6 +21,6 @@ export interface MovementCreate {
   obstacles?: string | null;
   /** @nullable */
   killConditions?: string | null;
-  name: string;
-  type?: GoalType;
+  id?: string;
+  name?: string;
 }

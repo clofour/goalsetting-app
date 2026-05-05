@@ -17,6 +17,7 @@ namespace backend.Controllers
     {
 
         [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK, "text/plain")]
         public async Task<ActionResult> SignUp([FromBody] SignupForm signupForm)
         {
             if (!ModelState.IsValid)
@@ -74,6 +75,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK, "text/plain")]
         public async Task<ActionResult> SignIn([FromBody] SigninForm signinForm)
         {
             if (!ModelState.IsValid)
