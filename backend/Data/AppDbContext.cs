@@ -18,16 +18,18 @@ namespace backend.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Goal>().UseTpcMappingStrategy();
+
             builder.Entity<NorthStar>()
                 .HasMany(northStar => northStar.Bearings)
                 .WithOne(bearing => bearing.NorthStar)
-                .HasForeignKey(northStar => northStar.Id)
+                .HasForeignKey("NorthStarId")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Bearing>()
                 .HasMany(bearing => bearing.Movements)
                 .WithOne(movement => movement.Bearing)
-                .HasForeignKey(bearing => bearing.Id)
+                .HasForeignKey("BearingId")
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);

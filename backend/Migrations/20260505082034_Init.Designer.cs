@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260504182711_Init")]
+    [Migration("20260505082034_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -210,11 +210,6 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -224,11 +219,9 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Goal");
+                    b.ToTable((string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Goal");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("backend.Models.Reflection", b =>
@@ -346,6 +339,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("NorthStarId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Strengths")
                         .HasColumnType("text");
 
@@ -355,14 +351,19 @@ namespace backend.Migrations
                     b.Property<string>("Weaknesses")
                         .HasColumnType("text");
 
+                    b.HasIndex("NorthStarId");
+
                     b.HasIndex("UserId");
 
-                    b.HasDiscriminator().HasValue("Bearing");
+                    b.ToTable("Bearings");
                 });
 
             modelBuilder.Entity("backend.Models.Movement", b =>
                 {
                     b.HasBaseType("backend.Models.Goal");
+
+                    b.Property<Guid>("BearingId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("KillConditions")
                         .HasColumnType("text");
@@ -388,15 +389,11 @@ namespace backend.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
+                    b.HasIndex("BearingId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goal", t =>
-                        {
-                            t.Property("UserId")
-                                .HasColumnName("Movement_UserId");
-                        });
-
-                    b.HasDiscriminator().HasValue("Movement");
+                    b.ToTable("Movements");
                 });
 
             modelBuilder.Entity("backend.Models.NorthStar", b =>
@@ -419,19 +416,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Goal", t =>
-                        {
-                            t.Property("Description")
-                                .HasColumnName("NorthStar_Description");
-
-                            t.Property("Justification")
-                                .HasColumnName("NorthStar_Justification");
-
-                            t.Property("UserId")
-                                .HasColumnName("NorthStar_UserId");
-                        });
-
-                    b.HasDiscriminator().HasValue("NorthStar");
+                    b.ToTable("NorthStars");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -523,7 +508,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.NorthStar", "NorthStar")
                         .WithMany("Bearings")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("NorthStarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -540,7 +525,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Bearing", "Bearing")
                         .WithMany("Movements")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("BearingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
