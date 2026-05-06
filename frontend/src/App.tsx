@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router";
 import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconLayoutDashboard, IconCalendar, IconSparkles, IconStarFilled } from '@tabler/icons-react';
+import Logo, { LogoLayout } from "./components/shared/Logo";
 
 export default function App() {
     const location = useLocation();
@@ -24,8 +25,7 @@ export default function App() {
                 <Group h="100%" px="md">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
                     <Group gap="sm">
-                        <IconStarFilled size={22} fill="var(--mantine-primary-color-filled)" />
-                        <Text size="lg" fw="700">Nordar</Text>
+                        <Logo layout={LogoLayout.Horizontal} h="100%" />
                     </Group>
                 </Group>
             </AppShell.Header>

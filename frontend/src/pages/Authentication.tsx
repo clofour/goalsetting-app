@@ -5,9 +5,10 @@ import {
     Alert,
     Paper,
     Container,
+    Center,
 } from '@mantine/core';
 import { IconLogin2, IconUserPlus, IconExclamationCircle, IconInfoCircle } from '@tabler/icons-react';
-import Logo from "@/components/shared/Logo";
+import Logo, { LogoLayout } from "@/components/shared/Logo";
 import SignInForm from '@/components/auth/SignInForm';
 import SignUpForm from '@/components/auth/SignUpForm';
 
@@ -22,7 +23,9 @@ function Authentication() {
             <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
                 <>
 
-                <Logo />
+                <Center>
+                    <Logo layout={LogoLayout.Vertical} w="25%" />
+                </Center>
                 <Tabs value={tabValue ?? null} onChange={(value) => navigate(`/auth/${value}`)}>
 
                     <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
