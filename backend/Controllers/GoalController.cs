@@ -30,17 +30,16 @@ namespace backend.Controllers
             }
 
             await appDbContext.Entry(user)
-                .Collection(user => user.Goals)
+                .Collection(user => user.NorthStars)
                 .Query()
                 .Include(northStar => northStar.Bearings)
                     .ThenInclude(bearing => bearing.Movements)
                 .LoadAsync();
 
-            List<NorthStar> goals = user.Goals;
+            List<NorthStar> northStars = user.NorthStars;
+            List<NorthStarGet> northStarsDTO = mapper.Map<List<NorthStarGet>>(northStars);
 
-            List<NorthStarGet> goalsDTO = mapper.Map<List<NorthStarGet>>(goals);
-
-            return Ok(goalsDTO);
+            return Ok(northStarsDTO);
         }
 
         [HttpGet]
@@ -74,8 +73,7 @@ namespace backend.Controllers
 
             NorthStar northStar = new NorthStar();
             mapper.Map(northStarCreate, northStar);
-
-            user.Goals.Add(northStar);
+            northStar.User = user;
 
             await appDbContext.SaveChangesAsync();
 
@@ -91,8 +89,8 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            NorthStar? parent = await appDbContext.NorthStars.FindAsync(bearingCreate.NorthStarId);
-            if (parent == null || parent.User != user)
+            NorthStar? parent = await goalService.FindParent<NorthStar>(user, bearingCreate.NorthStarId);
+            if (parent == null)
             {
                 return NotFound("The parent goal does not exist.");
             }
@@ -104,7 +102,6 @@ namespace backend.Controllers
 
             bearing.User = user;
             bearing.NorthStar = parent;
-            parent.Bearings.Add(bearing);
 
             await appDbContext.SaveChangesAsync();
 
@@ -120,8 +117,8 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            Bearing? parent = await appDbContext.Bearings.FindAsync(movementCreate.BearingId);
-            if (parent == null || parent.User != user)
+            Bearing? parent = await goalService.FindParent<Bearing>(user, movementCreate.BearingId);
+            if (parent == null)
             {
                 return NotFound("The parent goal does not exist.");
             }
@@ -133,7 +130,6 @@ namespace backend.Controllers
 
             movement.User = user;
             movement.Bearing = parent;
-            parent.Movements.Add(movement);
 
             await appDbContext.SaveChangesAsync();
 
@@ -149,13 +145,18 @@ namespace backend.Controllers
                 return Forbid();
             }
 
-            await goalService.ResolveGoalDbSet(goalType)
+            int goalsDeleted = await goalService.ResolveGoalDbSet(goalType)
                 .Where(goal => goal.Id == id && goal.User == user)
                 .ExecuteDeleteAsync();
 
-            await appDbContext.SaveChangesAsync();
-
-            return Ok();
+            if (goalsDeleted == 1)
+            {
+                return Ok();
+            }
+            else {
+                return NotFound();
+            }
+            
         }
     }
 }
