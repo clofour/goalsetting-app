@@ -1,7 +1,25 @@
+import EventForm from '@/components/calendar/EventForm';
 import PageTitle from '@/components/shared/PageTitle';
+import { capitalize } from '@/helpers';
+import { Alert, Button, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconExclamationCircle, IconPlus } from '@tabler/icons-react';
+import { useState } from 'react';
 
 export default function Calendar() {
+    const [opened, { open, close }] = useDisclosure(false);
+    const [activeMode, setActiveMode] = useState("create");
+    const [alert, setAlert] = useState("");
+
     return (
-        <PageTitle name="Calendar" description="Track your movements." />
+        <>
+            <PageTitle name="Calendar" description="Track your movements." />
+            <Button leftSection={<IconPlus size={16} />} onClick={() => open()}>New Event</Button>
+
+            <Modal opened={opened} onClose={close} title={`${capitalize(activeMode)} Event`}>
+                <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
+                <EventForm close={close} setAlert={setAlert} />
+            </Modal>
+        </>
     );
 }
