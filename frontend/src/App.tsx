@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router";
-import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconLayoutDashboard, IconCalendar, IconSparkles, IconStarFilled } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconCalendar, IconSparkles, IconNotes } from '@tabler/icons-react';
 import Logo, { LogoLayout } from "./components/shared/Logo";
 
 export default function App() {
@@ -10,7 +10,8 @@ export default function App() {
     const navLinks = [
         { href: "/app/dashboard", label: "Home", icon: IconLayoutDashboard },
         { href: "/app/calendar", label: "Calendar", icon: IconCalendar },
-        { href: "/app/goals", label: "Goals", icon: IconSparkles }
+        { href: "/app/goals", label: "Goals", icon: IconSparkles },
+        { href: "/app/reflections", label: "Reflections", icon: IconNotes }
     ];
 
     const [opened, { toggle }] = useDisclosure();

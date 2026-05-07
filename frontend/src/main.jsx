@@ -11,6 +11,7 @@ import App from './App'
 import Dashboard from './pages/Dashboard'
 import Calendar from './pages/Calendar'
 import Goals from './pages/Goals'
+import Reflections from './pages/Reflections';
 
 const theme = createTheme({
   fontFamily: 'Inter'
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="goals" element={<Goals />} />
+            <Route path="reflections" element={<Reflections />} />
           </Route>
 
           <Route path="auth">
