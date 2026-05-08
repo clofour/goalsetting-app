@@ -3,7 +3,7 @@ using backend.Config;
 
 namespace backend.Viewmodels
 {
-    public class BearingGet : GoalGet
+    public class EventScheduleCreate
     {
         public Guid NorthStarId { get; set; }
 
