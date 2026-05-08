@@ -40,6 +40,30 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             {option}
         </Combobox.Option>
     ))
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    function constructRRULE(values: typeof form.values) {
+        let parts = [];
+        
+        parts.push(`FREQ=${values.unit}`);
+        parts.push(`INTERVAL=${values.amount}`);
+
+        switch(values.unit) {
+            case "week":
+                parts.push(`BYDAY=${values.weekday}`);
+            case "month":
+                parts.push(`BYMONTHDAY=${values.monthday}`);
+            case "year":
+                parts.push(`BYMONTH=${values.yearmonth}`)
+                parts.push(`BYMONTHDAY=${values.monthday}`);
+        }
+
+        if (values.unit == "week") {
+            
+        }
+
+        return parts.join(";");
+    }
 
     return (
         <>
@@ -104,7 +128,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                             {...form.getInputProps('weekday')}
                         >
                             <Group mt="xs">
-                                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((weekday) => (
+                                {weekdays.map((weekday) => (
                                     <Checkbox key={weekday} value={weekday} label={weekday} />
                                 ))}
                             </Group>
