@@ -5,6 +5,7 @@ import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 import { getErrorMessage } from "@/data/error";
 import { useState } from "react";
+import { postApiEventCreateOnetime } from "@/api/endpoints/event/event";
 
 interface EventFormProps {
     close: () => void;
@@ -44,9 +45,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         const requestData = {
             ...values
         }
-        console.log(constructRRULE(values));
-        return;
-        const response = await postApiGoalCreateBearing(requestData);
+        const response = await postApiEventCreateOnetime(requestData);
 
         if (response.status === 200) {
             close();

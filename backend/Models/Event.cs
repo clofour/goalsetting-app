@@ -7,7 +7,7 @@ namespace backend.Models
     public abstract class Event()
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }

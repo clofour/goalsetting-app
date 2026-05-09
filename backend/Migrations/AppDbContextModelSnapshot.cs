@@ -102,8 +102,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Event", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("End")
                         .HasColumnType("timestamp with time zone");
@@ -185,6 +186,9 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Improvement")
                         .IsRequired()
                         .HasColumnType("text");
@@ -197,16 +201,12 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ReflectionId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReflectionId");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("UserId");
 
@@ -463,7 +463,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Event", "Event")
                         .WithMany()
-                        .HasForeignKey("ReflectionId")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

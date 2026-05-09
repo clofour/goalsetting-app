@@ -219,7 +219,7 @@ namespace backend.Migrations
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     MovementId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
@@ -251,7 +251,7 @@ namespace backend.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ReflectionId = table.Column<string>(type: "text", nullable: false),
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     Positive = table.Column<string>(type: "text", nullable: false),
                     Negative = table.Column<string>(type: "text", nullable: false),
                     Improvement = table.Column<string>(type: "text", nullable: false)
@@ -266,8 +266,8 @@ namespace backend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reflections_Events_ReflectionId",
-                        column: x => x.ReflectionId,
+                        name: "FK_Reflections_Events_EventId",
+                        column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -335,9 +335,9 @@ namespace backend.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reflections_ReflectionId",
+                name: "IX_Reflections_EventId",
                 table: "Reflections",
-                column: "ReflectionId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reflections_UserId",

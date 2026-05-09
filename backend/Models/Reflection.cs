@@ -9,8 +9,8 @@ namespace backend.Models
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
-        public string ReflectionId { get; set; }
-        [ForeignKey("ReflectionId")]
+        public Guid EventId { get; set; }
+        [ForeignKey("EventId")]
         public Event Event { get; set; }
 
         public string Positive { get; set; }

@@ -29,7 +29,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers().WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
     .Enrich.With<RequestEnricher>()
 
-    .WriteTo.Console(outputTemplate: "{Name} {Version} ({Environment}) [{Timestamp:HH:mm:ss} {Level:u3}] {RequestData} {Message:lj}{NewLine}{Exception}")
+    .WriteTo.Console(outputTemplate: "{Name} {Version} [{Environment} {Timestamp:HH:mm:ss} {Level:u3}] {RequestData} {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
 builder.Services.AddHttpContextAccessor();
@@ -127,10 +127,12 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<NorthStarCreate, NorthStar>();
     cfg.CreateMap<BearingCreate, Bearing>();
     cfg.CreateMap<MovementCreate, Movement>();
-
     cfg.CreateMap<NorthStar, NorthStarGet>();
     cfg.CreateMap<Bearing, BearingGet>();
     cfg.CreateMap<Movement, MovementGet>();
+
+    cfg.CreateMap<OnetimeEventCreate, OnetimeEvent>();
+    cfg.CreateMap<RecurringEventCreate, RecurringEvent>();
 });
 
 builder.Services.AddScoped<GoalService>();
