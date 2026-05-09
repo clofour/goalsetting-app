@@ -82,7 +82,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                     <TextInput
                         label="Name"
                         description="What should this event be called?"
-                        placeholder="1"
+                        placeholder="Go to the gym"
                         required
                         key={form.key('name')}
                         {...form.getInputProps('name')}
@@ -90,12 +90,14 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
 
                     <DatePickerInput
                         label="Start date"
+                        description="When should this event start?"
                         key={form.key('startDate')}
                         {...form.getInputProps('startDate')}
                     />
 
                     <TimePicker
                         label="Duration"
+                        description="How long should this event last?"
                         type="duration"
                         key={form.key('duration')}
                         {...form.getInputProps('duration')}
@@ -104,7 +106,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                     <Group grow justify="flex-between">
                         <NumberInput
                             label="Amount"
-                            description="What should this event be called?"
+                            description="How many recurrence units should there be?"
                             placeholder="1"
                             required
                             key={form.key('amount')}
