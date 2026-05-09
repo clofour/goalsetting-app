@@ -1,4 +1,4 @@
-import { Button, Checkbox, Combobox, Group, Input, InputBase, NumberInput, Stack, Tabs, Textarea, TextInput, useCombobox } from "@mantine/core";
+import { Button, Checkbox, Combobox, Group, Input, InputBase, NativeSelect, NumberInput, Stack, Tabs, Textarea, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
@@ -15,23 +15,26 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         northStarId: true
     })
     const form = useForm({
-        mode: 'uncontrolled',
+        mode: 'controlled',
         validate: schemaResolver(formSchema, { sync: true })
     })
     function constructRRULE(values: typeof form.values) {
         let parts = [];
-        
+
         parts.push(`FREQ=${values.unit}`);
         parts.push(`INTERVAL=${values.amount}`);
 
-        switch(values.unit) {
-            case "week":
+        switch (values.unit) {
+            case "WEEKLY":
                 parts.push(`BYDAY=${values.weekday}`);
-            case "month":
+                break;
+            case "MONTHLY":
                 parts.push(`BYMONTHDAY=${values.monthday}`);
-            case "year":
+                break;
+            case "YEARLY":
                 parts.push(`BYMONTH=${values.yearmonth}`)
                 parts.push(`BYMONTHDAY=${values.monthday}`);
+                break;
         }
 
         return parts.join(";");
@@ -55,12 +58,21 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         onDropdownClose: () => unitCombobox.resetSelectedOption()
     })
     const [unit, setUnit] = useState<string | null>(null);
-    const unitOptions = ["day", "week", "month", "year"].map((option) => (
-        <Combobox.Option value={option} key={option}>
-            {option}
-        </Combobox.Option>
-    ))
-    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const unitOptions = [
+        {label: "day", value: "DAILY"},
+        {label: "week", value: "WEEKLY"},
+        {label: "month", value: "MONTHLY"},
+        {label: "year", value: "YEARLY"}
+    ];
+    const weekdays = [
+        {label: "Monday", value: "MO"},
+        {label: "Tuesday", value: "TU"},
+        {label: "Wednesday", value: "WE"}, 
+        {label: "Thursday", value:"TH"},
+        {label: "Friday", value: "FR"},
+        {label: "Saturday", value: "SA"},
+        {label: "Sunday", value: "SU"}
+    ];
 
     return (
         <>
@@ -85,38 +97,17 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                             key={form.key('amount')}
                             {...form.getInputProps('amount')}
                         />
-                        <Combobox
-                            store={unitCombobox}
-                            onOptionSubmit={(value) => {
-                                setUnit(value);
-                                unitCombobox.closeDropdown();
-                            }}
+                        <NativeSelect
+                            label="Unit"
+                            description="What should this event be called?"
+                            required
+                            data={unitOptions}
                             key={form.key('unit')}
                             {...form.getInputProps('unit')}
-                        >
-                            <Combobox.Target>
-                                <InputBase
-                                    label="Unit"
-                                    description="What should this event be called?"
-                                    required
-                                    component="button"
-                                    type="button"
-                                    pointer
-                                    rightSection={<Combobox.Chevron />}
-                                    rightSectionPointerEvents="none"
-                                    onClick={() => unitCombobox.toggleDropdown()}
-                                >
-                                    {unit || <Input.Placeholder>Pick unit</Input.Placeholder>}
-                                </InputBase>
-                            </Combobox.Target>
-
-                            <Combobox.Dropdown>
-                                <Combobox.Options>{unitOptions}</Combobox.Options>
-                            </Combobox.Dropdown>
-                        </Combobox>
+                        />
                     </Group>
 
-                    {unit == "week" && (
+                    {form.values.unit == "WEEKLY" && (
                         <Checkbox.Group
                             label="Day of the week"
                             description="Which day of the week should this event take place?"
@@ -126,13 +117,13 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         >
                             <Group mt="xs">
                                 {weekdays.map((weekday) => (
-                                    <Checkbox key={weekday} value={weekday} label={weekday} />
+                                    <Checkbox key={weekday.value} label={weekday.label} value={weekday.value}/>
                                 ))}
                             </Group>
                         </Checkbox.Group>
                     )}
 
-                    {unit == "month" && (
+                    {form.values.unit == "MONTHLY" && (
                         <NumberInput
                             label="Day of the month"
                             description="Which day of the month should this event take place?"
@@ -142,7 +133,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         />
                     )}
 
-                    {unit == "year" && (
+                    {form.values.unit == "YEARLY" && (
                         <Group grow justify="flex-between">
                             <NumberInput
                                 label="Day of the month"
