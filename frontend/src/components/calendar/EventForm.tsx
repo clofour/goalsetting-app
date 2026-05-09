@@ -1,4 +1,4 @@
-import { Button, Checkbox, Group, NumberInput, Select, Stack, TextInput, useCombobox } from "@mantine/core";
+import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
@@ -55,24 +55,27 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         }
     };
 
+    const eventTypes = [
+        { label: "One-time", value: "onetime" },
+        { label: "Recurring", value: "recurring" }
+    ]
     const unitCombobox = useCombobox({
         onDropdownClose: () => unitCombobox.resetSelectedOption()
     })
-    const [unit, setUnit] = useState<string | null>(null);
     const unitOptions = [
-        {label: "day", value: "DAILY"},
-        {label: "week", value: "WEEKLY"},
-        {label: "month", value: "MONTHLY"},
-        {label: "year", value: "YEARLY"}
+        { label: "day", value: "DAILY" },
+        { label: "week", value: "WEEKLY" },
+        { label: "month", value: "MONTHLY" },
+        { label: "year", value: "YEARLY" }
     ];
     const weekdays = [
-        {label: "Monday", value: "MO"},
-        {label: "Tuesday", value: "TU"},
-        {label: "Wednesday", value: "WE"}, 
-        {label: "Thursday", value:"TH"},
-        {label: "Friday", value: "FR"},
-        {label: "Saturday", value: "SA"},
-        {label: "Sunday", value: "SU"}
+        { label: "Monday", value: "MO" },
+        { label: "Tuesday", value: "TU" },
+        { label: "Wednesday", value: "WE" },
+        { label: "Thursday", value: "TH" },
+        { label: "Friday", value: "FR" },
+        { label: "Saturday", value: "SA" },
+        { label: "Sunday", value: "SU" }
     ];
 
     return (
@@ -103,70 +106,87 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         {...form.getInputProps('duration')}
                     />
 
-                    <Group grow justify="flex-between">
-                        <NumberInput
-                            label="Amount"
-                            description="How many recurrence units should there be?"
-                            placeholder="1"
-                            required
-                            key={form.key('amount')}
-                            {...form.getInputProps('amount')}
-                        />
-                        <Select
-                            label="Unit"
-                            description="What should the recurrence unit be?"
-                            required
-                            data={unitOptions}
-                            key={form.key('unit')}
-                            {...form.getInputProps('unit')}
-                        />
-                    </Group>
+                    <Input.Wrapper
+                        label="Type"
+                        description="Should this event be recurring?"
+                    >
+                        <SegmentedControl
 
-                    {form.values.unit == "WEEKLY" && (
-                        <Checkbox.Group
-                            label="Day of the week"
-                            description="Which day of the week should this event take place?"
-                            required
-                            key={form.key('weekday')}
-                            {...form.getInputProps('weekday')}
-                        >
-                            <Group mt="xs">
-                                {weekdays.map((weekday) => (
-                                    <Checkbox key={weekday.value} label={weekday.label} value={weekday.value}/>
-                                ))}
+                            data={eventTypes}
+                            fullWidth
+                            key={form.key('type')}
+                            {...form.getInputProps('type')}
+                        />
+                    </Input.Wrapper>
+
+                    {form.values.type == "recurring" && (
+                        <>
+                            <Group grow justify="flex-between">
+                                <NumberInput
+                                    label="Amount"
+                                    description="How many recurrence units should there be?"
+                                    placeholder="1"
+                                    required
+                                    key={form.key('amount')}
+                                    {...form.getInputProps('amount')}
+                                />
+                                <Select
+                                    label="Unit"
+                                    description="What should the recurrence unit be?"
+                                    required
+                                    data={unitOptions}
+                                    key={form.key('unit')}
+                                    {...form.getInputProps('unit')}
+                                />
                             </Group>
-                        </Checkbox.Group>
-                    )}
 
-                    {form.values.unit == "MONTHLY" && (
-                        <NumberInput
-                            label="Day of the month"
-                            description="Which day of the month should this event take place?"
-                            min={1}
-                            max={31}
-                            required
-                            key={form.key('monthday')}
-                            {...form.getInputProps('monthday')}
-                        />
-                    )}
+                            {form.values.unit == "WEEKLY" && (
+                                <Checkbox.Group
+                                    label="Day of the week"
+                                    description="Which day of the week should this event take place?"
+                                    required
+                                    key={form.key('weekday')}
+                                    {...form.getInputProps('weekday')}
+                                >
+                                    <Group mt="xs">
+                                        {weekdays.map((weekday) => (
+                                            <Checkbox key={weekday.value} label={weekday.label} value={weekday.value} />
+                                        ))}
+                                    </Group>
+                                </Checkbox.Group>
+                            )}
 
-                    {form.values.unit == "YEARLY" && (
-                        <Group grow justify="flex-between">
-                            <NumberInput
-                                label="Day of the month"
-                                description="Which day of the month should this event take place?"
-                                required
-                                key={form.key('monthday')}
-                                {...form.getInputProps('monthday')}
-                            />
-                            <NumberInput
-                                label="Month of the year"
-                                description="Which month of the eyar should this event take place?"
-                                required
-                                key={form.key('yearmonth')}
-                                {...form.getInputProps('yearmonth')}
-                            />
-                        </Group>
+                            {form.values.unit == "MONTHLY" && (
+                                <NumberInput
+                                    label="Day of the month"
+                                    description="Which day of the month should this event take place?"
+                                    min={1}
+                                    max={31}
+                                    required
+                                    key={form.key('monthday')}
+                                    {...form.getInputProps('monthday')}
+                                />
+                            )}
+
+                            {form.values.unit == "YEARLY" && (
+                                <Group grow justify="flex-between">
+                                    <NumberInput
+                                        label="Day of the month"
+                                        description="Which day of the month should this event take place?"
+                                        required
+                                        key={form.key('monthday')}
+                                        {...form.getInputProps('monthday')}
+                                    />
+                                    <NumberInput
+                                        label="Month of the year"
+                                        description="Which month of the eyar should this event take place?"
+                                        required
+                                        key={form.key('yearmonth')}
+                                        {...form.getInputProps('yearmonth')}
+                                    />
+                                </Group>
+                            )}
+                        </>
                     )}
 
                     <Group justify="flex-end">
