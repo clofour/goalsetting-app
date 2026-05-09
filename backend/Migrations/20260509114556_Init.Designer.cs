@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260505141730_Init")]
+    [Migration("20260509114556_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -108,14 +108,11 @@ namespace backend.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("BearingId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("End")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("EventState")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("MovementId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -125,16 +122,43 @@ namespace backend.Migrations
                     b.Property<DateTime>("Start")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BearingId");
+                    b.HasIndex("MovementId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Events");
+
+                    b.HasDiscriminator<string>("Type").HasValue("Event");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("backend.Models.EventInstanceState", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("EventState")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventInstanceStates");
                 });
 
             modelBuilder.Entity("backend.Models.Goal", b =>
@@ -164,29 +188,28 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("EventId")
+                    b.Property<string>("Improvement")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Improvement")
+                    b.Property<string>("Negative")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Positive")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReflectionId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("WhatDidntWork")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("WhatWorked")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId")
-                        .IsUnique();
+                    b.HasIndex("ReflectionId");
 
                     b.HasIndex("UserId");
 
@@ -260,6 +283,31 @@ namespace backend.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("backend.Models.OnetimeEvent", b =>
+                {
+                    b.HasBaseType("backend.Models.Event");
+
+                    b.HasDiscriminator().HasValue("Onetime");
+                });
+
+            modelBuilder.Entity("backend.Models.OverrideEvent", b =>
+                {
+                    b.HasBaseType("backend.Models.Event");
+
+                    b.HasDiscriminator().HasValue("Override");
+                });
+
+            modelBuilder.Entity("backend.Models.RecurringEvent", b =>
+                {
+                    b.HasBaseType("backend.Models.Event");
+
+                    b.Property<string>("RRULE")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("Recurring");
                 });
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
@@ -388,7 +436,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Movement", "Movement")
                         .WithMany()
-                        .HasForeignKey("BearingId")
+                        .HasForeignKey("MovementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -403,11 +451,22 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.Models.EventInstanceState", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.Models.Reflection", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
-                        .WithOne("Reflection")
-                        .HasForeignKey("backend.Models.Reflection", "EventId")
+                        .WithMany()
+                        .HasForeignKey("ReflectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -463,7 +522,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.NorthStar", b =>
                 {
                     b.HasOne("backend.Models.User", "User")
-                        .WithMany("Goals")
+                        .WithMany("NorthStars")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -471,14 +530,9 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.Event", b =>
-                {
-                    b.Navigation("Reflection");
-                });
-
             modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Navigation("Goals");
+                    b.Navigation("NorthStars");
                 });
 
             modelBuilder.Entity("backend.Models.Bearing", b =>

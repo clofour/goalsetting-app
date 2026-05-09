@@ -13,6 +13,11 @@ namespace backend.Models
 
     public class EventInstanceState()
     {
+        [Key]
+        public string Id { get; set; }
+        public Guid UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         public EventState EventState { get; set; }
         Guid ReflectionId { get; set; }
         [ForeignKey("ReflectionId")]

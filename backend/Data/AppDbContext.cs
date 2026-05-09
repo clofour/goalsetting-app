@@ -33,6 +33,12 @@ namespace backend.Data
                 .HasForeignKey("BearingId")
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Event>()
+                .HasDiscriminator<string>("Type")
+                .HasValue<OnetimeEvent>("Onetime")
+                .HasValue<RecurringEvent>("Recurring")
+                .HasValue<OverrideEvent>("Override");
+
             base.OnModelCreating(builder);
         }
     }

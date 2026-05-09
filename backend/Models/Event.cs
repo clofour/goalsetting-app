@@ -4,7 +4,7 @@ using backend.Config;
 
 namespace backend.Models
 {
-    public class Event()
+    public abstract class Event()
     {
         [Key]
         public string Id { get; set; }
