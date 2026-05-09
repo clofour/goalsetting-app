@@ -18,10 +18,30 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         mode: 'uncontrolled',
         validate: schemaResolver(formSchema, { sync: true })
     })
+    function constructRRULE(values: typeof form.values) {
+        let parts = [];
+        
+        parts.push(`FREQ=${values.unit}`);
+        parts.push(`INTERVAL=${values.amount}`);
+
+        switch(values.unit) {
+            case "week":
+                parts.push(`BYDAY=${values.weekday}`);
+            case "month":
+                parts.push(`BYMONTHDAY=${values.monthday}`);
+            case "year":
+                parts.push(`BYMONTH=${values.yearmonth}`)
+                parts.push(`BYMONTHDAY=${values.monthday}`);
+        }
+
+        return parts.join(";");
+    }
     const handleSubmit = async (values: typeof form.values) => {
         const requestData = {
             ...values
         }
+        console.log(constructRRULE(values));
+        return;
         const response = await postApiGoalCreateBearing(requestData);
 
         if (response.status === 200) {
@@ -41,29 +61,6 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         </Combobox.Option>
     ))
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-    function constructRRULE(values: typeof form.values) {
-        let parts = [];
-        
-        parts.push(`FREQ=${values.unit}`);
-        parts.push(`INTERVAL=${values.amount}`);
-
-        switch(values.unit) {
-            case "week":
-                parts.push(`BYDAY=${values.weekday}`);
-            case "month":
-                parts.push(`BYMONTHDAY=${values.monthday}`);
-            case "year":
-                parts.push(`BYMONTH=${values.yearmonth}`)
-                parts.push(`BYMONTHDAY=${values.monthday}`);
-        }
-
-        if (values.unit == "week") {
-            
-        }
-
-        return parts.join(";");
-    }
 
     return (
         <>
