@@ -1,5 +1,6 @@
 import { Button, Checkbox, Combobox, Group, Input, InputBase, NativeSelect, NumberInput, Stack, Tabs, Textarea, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
+import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 import { getErrorMessage } from "@/data/error";
@@ -87,6 +88,18 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         {...form.getInputProps('name')}
                     />
 
+                    <DatePickerInput
+                        label="Start date"
+                        key={form.key('startDate')}
+                        {...form.getInputProps('startDate')}
+                    />
+
+                    <TimePicker
+                        label="Duration"
+                        type="duration"
+                        key={form.key('duration')}
+                        {...form.getInputProps('duration')}
+                    />
 
                     <Group grow justify="flex-between">
                         <NumberInput
@@ -99,7 +112,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         />
                         <NativeSelect
                             label="Unit"
-                            description="What should this event be called?"
+                            description="What should the recurrence unit be?"
                             required
                             data={unitOptions}
                             key={form.key('unit')}
@@ -127,6 +140,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         <NumberInput
                             label="Day of the month"
                             description="Which day of the month should this event take place?"
+                            min={1}
+                            max={31}
                             required
                             key={form.key('monthday')}
                             {...form.getInputProps('monthday')}
