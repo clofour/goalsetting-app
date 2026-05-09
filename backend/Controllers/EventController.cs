@@ -17,7 +17,15 @@ namespace backend.Controllers
     public class EventController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult> Create()
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK, "application/json")]
+        public async Task<ActionResult> CreateOnetime([FromBody] OnetimeEventCreate onetimeEventCreate)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK, "application/json")]
+        public async Task<ActionResult> CreateRecurring([FromBody] RecurringEventCreate recurringEventCreate)
         {
             return Ok();
         }
