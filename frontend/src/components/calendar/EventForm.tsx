@@ -1,4 +1,4 @@
-import { Button, Checkbox, Combobox, Group, Input, InputBase, NativeSelect, NumberInput, Stack, Tabs, Textarea, TextInput, useCombobox } from "@mantine/core";
+import { Button, Checkbox, Group, NumberInput, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
@@ -112,7 +112,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                             key={form.key('amount')}
                             {...form.getInputProps('amount')}
                         />
-                        <NativeSelect
+                        <Select
                             label="Unit"
                             description="What should the recurrence unit be?"
                             required
