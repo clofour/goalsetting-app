@@ -4,21 +4,15 @@ using backend.Config;
 
 namespace backend.Models
 {
-    public enum EventState {
-        Complete,
-        Incomplete,
-        Unknown
-    }
-
     public class Event()
     {
         [Key]
         public string Id { get; set; }
         public Guid UserId { get; set; }
-         [ForeignKey("UserId")]
+        [ForeignKey("UserId")]
         public User User { get; set; }
-        public Guid BearingId { get; set; }
-        [ForeignKey("BearingId")]
+        public Guid MovementId { get; set; }
+        [ForeignKey("MovementId")]
         public Movement Movement { get; set; }
 
         [MaxLength(FieldLimits.ShortText)]
@@ -26,9 +20,6 @@ namespace backend.Models
 
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        
-        public EventState EventState { get; set; }
-        public Reflection? Reflection { get; set; }
 
     }
 }

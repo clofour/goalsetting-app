@@ -13,8 +13,8 @@ namespace backend.Data
         public DbSet<NorthStar> NorthStars { get; set; }
         public DbSet<Bearing> Bearings { get; set; }
         public DbSet<Movement> Movements { get; set; }
-        public DbSet<EventSchedule> EventSchedules { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventInstanceState> EventInstanceStates { get; set; }
         public DbSet<Reflection> Reflections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
