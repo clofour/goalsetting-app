@@ -4,9 +4,11 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
+import useSwr from 'swr';
 import type {
   Arguments,
-  Key
+  Key,
+  SWRConfiguration
 } from 'swr';
 
 import useSWRMutation from 'swr/mutation';
@@ -15,6 +17,7 @@ import type {
 } from 'swr/mutation';
 
 import type {
+  Event,
   OnetimeEventCreate,
   RecurringEventCreate
 } from '../../models';
@@ -24,6 +27,67 @@ import type {
 
 
 
+export type getApiEventGetResponse200 = {
+  data: Event[]
+  status: 200
+}
+
+export type getApiEventGetResponseSuccess = (getApiEventGetResponse200) & {
+  headers: Headers;
+};
+;
+
+export type getApiEventGetResponse = (getApiEventGetResponseSuccess)
+
+export const getGetApiEventGetUrl = () => {
+
+
+
+
+  return `/api/Event/Get`
+}
+
+export const getApiEventGet = async ( options?: RequestInit): Promise<getApiEventGetResponse> => {
+
+  const res = await fetch(getGetApiEventGetUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: getApiEventGetResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getApiEventGetResponse
+}
+
+
+
+
+export const getGetApiEventGetKey = () => [`/api/Event/Get`] as const;
+
+export type GetApiEventGetQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEventGet>>>
+
+export const useGetApiEventGet = <TError = Promise<unknown>>(
+   options?: { swr?:SWRConfiguration<Awaited<ReturnType<typeof getApiEventGet>>, TError> & { swrKey?: Key, enabled?: boolean }, fetch?: RequestInit }
+) => {
+  const {swr: swrOptions, fetch: fetchOptions} = options ?? {}
+
+  const isEnabled = swrOptions?.enabled !== false
+  const swrKey = swrOptions?.swrKey ?? (() => isEnabled ? getGetApiEventGetKey() : null);
+  const swrFn = () => getApiEventGet(fetchOptions)
+
+  const query = useSwr<Awaited<ReturnType<typeof swrFn>>, TError>(swrKey, swrFn, swrOptions)
+
+  return {
+    swrKey,
+    ...query
+  }
+}
 export type postApiEventCreateOnetimeResponse200 = {
   data: string
   status: 200

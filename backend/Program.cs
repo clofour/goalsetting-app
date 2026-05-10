@@ -139,6 +139,13 @@ builder.Services.AddAutoMapper(cfg =>
 
     cfg.CreateMap<OnetimeEventCreate, OnetimeEvent>();
     cfg.CreateMap<RecurringEventCreate, RecurringEvent>();
+    cfg.CreateMap<Event, EventGet>()
+        .Include<OnetimeEvent, OnetimeEventGet>()
+        .Include<RecurringEvent, RecurringEventGet>();
+    cfg.CreateMap<OnetimeEvent, OnetimeEventGet>()
+        .IncludeBase<Event, EventGet>();
+    cfg.CreateMap<RecurringEvent, RecurringEventGet>()
+        .IncludeBase<Event, EventGet>();
 });
 
 builder.Services.AddScoped<GoalService>();

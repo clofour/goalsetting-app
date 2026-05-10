@@ -19,11 +19,23 @@ namespace backend.Controllers
     public class EventController(AppDbContext appDbContext, SignInManager<User> signInManager, UserManager<User> userManager, ILogger<AuthController> logger, IMapper mapper, EventService eventService) : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(typeof(List<EventGet>), StatusCodes.Status200OK, "application/json")]
         public async Task<ActionResult> Get()
         {
-            List<Event> events = new List<Event>();
+            User? user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            List<Event> events = await appDbContext.Events
+                .Where(e => e.UserId == user.Id)
+                .ToListAsync();
             
-            return Ok();
+            List<EventGet> eventsGet = new List<EventGet>();
+            mapper.Map(events, eventsGet);
+
+            return Ok(eventsGet);
         }
 
         [HttpPost]
