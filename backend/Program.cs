@@ -13,6 +13,7 @@ using Destructurama;
 using Microsoft.AspNetCore.Identity;
 using backend.Viewmodels;
 using backend.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,8 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
     .Destructure.UsingAttributes()
-    .Enrich.WithProperty("Name", "Goalsetting")
-    .Enrich.WithProperty("Version", "0.1.0")
+    .Enrich.WithProperty("Name", "Nordar")
+    .Enrich.WithProperty("Version", "v0.1.0")
     .Enrich.WithProperty("Environment", environment)
     .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers().WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
     .Enrich.With<RequestEnricher>()
@@ -36,7 +37,12 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSerilog();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    }
+);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -136,6 +142,7 @@ builder.Services.AddAutoMapper(cfg =>
 });
 
 builder.Services.AddScoped<GoalService>();
+builder.Services.AddScoped<EventService>();
 
 var app = builder.Build();
 

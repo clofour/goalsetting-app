@@ -5,7 +5,7 @@ import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 import { getErrorMessage } from "@/data/error";
 import { useState } from "react";
-import { postApiEventCreateOnetime } from "@/api/endpoints/event/event";
+import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
 
 interface EventFormProps {
     close: () => void;
@@ -13,9 +13,7 @@ interface EventFormProps {
 }
 
 export default function EventForm({ close, setAlert }: EventFormProps) {
-    const formSchema = PostApiGoalCreateBearingBody.omit({
-        northStarId: true
-    })
+    const formSchema = PostApiGoalCreateBearingBody.omit({})
     const form = useForm({
         mode: 'controlled',
         validate: schemaResolver(formSchema, { sync: true })
@@ -24,7 +22,20 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         const requestData = {
             ...values
         }
-        const response = await postApiEventCreateOnetime(requestData);
+        let response;
+
+        switch (values.type) {
+            case "recurring":
+                response = await postApiEventCreateRecurring(requestData);
+                break;
+
+            case "onetime":
+                response = await postApiEventCreateOnetime(requestData);
+                break;
+
+            default:
+                throw RangeError("Event type must be either 'recurring' or 'onetime'.")
+        }
 
         if (response.status === 200) {
             close();
@@ -108,26 +119,26 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                     description="How many recurrence units should there be?"
                                     placeholder="1"
                                     required
-                                    key={form.key('amount')}
-                                    {...form.getInputProps('amount')}
+                                    key={form.key('recurrenceAmount')}
+                                    {...form.getInputProps('recurrenceAmount')}
                                 />
                                 <Select
                                     label="Unit"
                                     description="What should the recurrence unit be?"
                                     required
                                     data={unitOptions}
-                                    key={form.key('unit')}
-                                    {...form.getInputProps('unit')}
+                                    key={form.key('recurrenceUnit')}
+                                    {...form.getInputProps('recurrenceUnit')}
                                 />
                             </Group>
 
-                            {form.values.unit == "WEEKLY" && (
+                            {form.values.recurrenceUnit == "WEEKLY" && (
                                 <Checkbox.Group
                                     label="Day of the week"
                                     description="Which day of the week should this event take place?"
                                     required
-                                    key={form.key('weekday')}
-                                    {...form.getInputProps('weekday')}
+                                    key={form.key('weekDays')}
+                                    {...form.getInputProps('weekDays')}
                                 >
                                     <Group mt="xs">
                                         {weekdays.map((weekday) => (
@@ -137,33 +148,33 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 </Checkbox.Group>
                             )}
 
-                            {form.values.unit == "MONTHLY" && (
+                            {form.values.recurrenceUnit == "MONTHLY" && (
                                 <NumberInput
                                     label="Day of the month"
                                     description="Which day of the month should this event take place?"
                                     min={1}
                                     max={31}
                                     required
-                                    key={form.key('monthday')}
-                                    {...form.getInputProps('monthday')}
+                                    key={form.key('monthDay')}
+                                    {...form.getInputProps('monthDay')}
                                 />
                             )}
 
-                            {form.values.unit == "YEARLY" && (
+                            {form.values.recurrenceUnit == "YEARLY" && (
                                 <Group grow justify="flex-between">
                                     <NumberInput
                                         label="Day of the month"
                                         description="Which day of the month should this event take place?"
                                         required
-                                        key={form.key('monthday')}
-                                        {...form.getInputProps('monthday')}
+                                        key={form.key('monthDay')}
+                                        {...form.getInputProps('monthDay')}
                                     />
                                     <NumberInput
                                         label="Month of the year"
                                         description="Which month of the eyar should this event take place?"
                                         required
-                                        key={form.key('yearmonth')}
-                                        {...form.getInputProps('yearmonth')}
+                                        key={form.key('yearMonth')}
+                                        {...form.getInputProps('yearMonth')}
                                     />
                                 </Group>
                             )}

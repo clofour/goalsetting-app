@@ -3,6 +3,7 @@ import PageTitle from '@/components/shared/PageTitle';
 import { capitalize } from '@/helpers';
 import { Alert, Button, Group, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Schedule } from '@mantine/schedule';
 import { IconExclamationCircle, IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 
@@ -23,6 +24,10 @@ export default function Calendar() {
                 <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
                 <EventForm close={close} setAlert={setAlert} />
             </Modal>
+
+            <Schedule
+                layout="responsive"
+            />
         </>
     );
 }
