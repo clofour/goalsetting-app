@@ -7,293 +7,43 @@
 import * as zod from 'zod';
 
 
-export const getApiEventGetResponseUserNorthStarsItemDescriptionMax = 200;
+export const getApiEventGetResponseOneTitleMax = 200;
 
-export const getApiEventGetResponseUserNorthStarsItemJustificationMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemDescriptionMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemJustificationMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemStrengthsMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemWeaknessesMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemDifficultyMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemMotivationMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemTriggersMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemTemptationsMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemObstaclesMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemKillConditionsMax = 5000;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemNameMax = 200;
-
-export const getApiEventGetResponseUserNorthStarsItemBearingsItemNameMax = 200;
-
-export const getApiEventGetResponseUserNorthStarsItemNameMax = 200;
-
-export const getApiEventGetResponseUserAccessFailedCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const getApiEventGetResponseMovementTwoBearingNorthStarDescriptionMax = 200;
-
-export const getApiEventGetResponseMovementTwoBearingNorthStarJustificationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingNorthStarUserAccessFailedCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const getApiEventGetResponseMovementTwoBearingNorthStarNameMax = 200;
-
-export const getApiEventGetResponseMovementTwoBearingDescriptionMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingJustificationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingStrengthsMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingWeaknessesMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingUserNorthStarsItemDescriptionMax = 200;
-
-export const getApiEventGetResponseMovementTwoBearingUserNorthStarsItemJustificationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoBearingUserNorthStarsItemNameMax = 200;
-
-export const getApiEventGetResponseMovementTwoBearingUserAccessFailedCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const getApiEventGetResponseMovementTwoBearingNameMax = 200;
-
-export const getApiEventGetResponseMovementTwoDifficultyMax = 5000;
-
-export const getApiEventGetResponseMovementTwoMotivationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoTriggersMax = 5000;
-
-export const getApiEventGetResponseMovementTwoTemptationsMax = 5000;
-
-export const getApiEventGetResponseMovementTwoObstaclesMax = 5000;
-
-export const getApiEventGetResponseMovementTwoKillConditionsMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemDescriptionMax = 200;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemJustificationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemDescriptionMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemJustificationMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemStrengthsMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemWeaknessesMax = 5000;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemNameMax = 200;
-
-export const getApiEventGetResponseMovementTwoUserNorthStarsItemNameMax = 200;
-
-export const getApiEventGetResponseMovementTwoUserAccessFailedCountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
-export const getApiEventGetResponseMovementTwoNameMax = 200;
-
-export const getApiEventGetResponseNameMax = 200;
+export const getApiEventGetResponseTwoTitleMax = 200;
 
 
 
-export const GetApiEventGetResponseItem = zod.object({
+export const GetApiEventGetResponseItem = zod.union([zod.object({
+  "type": zod.enum(['onetime']),
   "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.object({
-  "accessCode": zod.string(),
-  "northStars": zod.array(zod.object({
-  "description": zod.string().max(getApiEventGetResponseUserNorthStarsItemDescriptionMax),
-  "importance": zod.number().optional(),
-  "justification": zod.string().max(getApiEventGetResponseUserNorthStarsItemJustificationMax).optional(),
-  "bearings": zod.array(zod.object({
-  "northStarId": zod.string().uuid().optional(),
-  "northStar": zod.unknown().optional(),
-  "description": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemDescriptionMax).optional(),
-  "justification": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemJustificationMax).optional(),
-  "strengths": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemStrengthsMax).nullish(),
-  "weaknesses": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemWeaknessesMax).nullish(),
-  "movements": zod.array(zod.object({
-  "bearingId": zod.string().uuid().optional(),
-  "bearing": zod.unknown().optional(),
-  "difficulty": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemDifficultyMax).nullish(),
-  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
-  "motivation": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemMotivationMax).nullish(),
-  "triggers": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemTriggersMax).nullish(),
-  "temptations": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemTemptationsMax).nullish(),
-  "obstacles": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemObstaclesMax).nullish(),
-  "killConditions": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemKillConditionsMax).nullish(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemMovementsItemNameMax)
-})).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseUserNorthStarsItemBearingsItemNameMax)
-})).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseUserNorthStarsItemNameMax)
-})).optional(),
-  "events": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userName": zod.string().nullish(),
-  "normalizedUserName": zod.string().nullish(),
-  "email": zod.string().nullish(),
-  "normalizedEmail": zod.string().nullish(),
-  "emailConfirmed": zod.boolean().optional(),
-  "passwordHash": zod.string().nullish(),
-  "securityStamp": zod.string().nullish(),
-  "concurrencyStamp": zod.string().nullish(),
-  "phoneNumber": zod.string().nullish(),
-  "phoneNumberConfirmed": zod.boolean().optional(),
-  "twoFactorEnabled": zod.boolean().optional(),
-  "lockoutEnd": zod.string().datetime({"offset":true}).nullish(),
-  "lockoutEnabled": zod.boolean().optional(),
-  "accessFailedCount": zod.union([zod.number(),zod.string().regex(getApiEventGetResponseUserAccessFailedCountRegExpTwo)]).optional()
-}).optional(),
   "movementId": zod.string().uuid().nullish(),
-  "movement": zod.union([zod.null(),zod.object({
-  "bearingId": zod.string().uuid().optional(),
-  "bearing": zod.object({
-  "northStarId": zod.string().uuid().optional(),
-  "northStar": zod.object({
-  "description": zod.string().max(getApiEventGetResponseMovementTwoBearingNorthStarDescriptionMax),
-  "importance": zod.number().optional(),
-  "justification": zod.string().max(getApiEventGetResponseMovementTwoBearingNorthStarJustificationMax).optional(),
-  "bearings": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.object({
-  "accessCode": zod.string(),
-  "northStars": zod.array(zod.unknown()).optional(),
-  "events": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userName": zod.string().nullish(),
-  "normalizedUserName": zod.string().nullish(),
-  "email": zod.string().nullish(),
-  "normalizedEmail": zod.string().nullish(),
-  "emailConfirmed": zod.boolean().optional(),
-  "passwordHash": zod.string().nullish(),
-  "securityStamp": zod.string().nullish(),
-  "concurrencyStamp": zod.string().nullish(),
-  "phoneNumber": zod.string().nullish(),
-  "phoneNumberConfirmed": zod.boolean().optional(),
-  "twoFactorEnabled": zod.boolean().optional(),
-  "lockoutEnd": zod.string().datetime({"offset":true}).nullish(),
-  "lockoutEnabled": zod.boolean().optional(),
-  "accessFailedCount": zod.union([zod.number(),zod.string().regex(getApiEventGetResponseMovementTwoBearingNorthStarUserAccessFailedCountRegExpTwo)]).optional()
-}).optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoBearingNorthStarNameMax)
-}).optional(),
-  "description": zod.string().max(getApiEventGetResponseMovementTwoBearingDescriptionMax).optional(),
-  "justification": zod.string().max(getApiEventGetResponseMovementTwoBearingJustificationMax).optional(),
-  "strengths": zod.string().max(getApiEventGetResponseMovementTwoBearingStrengthsMax).nullish(),
-  "weaknesses": zod.string().max(getApiEventGetResponseMovementTwoBearingWeaknessesMax).nullish(),
-  "movements": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.object({
-  "accessCode": zod.string(),
-  "northStars": zod.array(zod.object({
-  "description": zod.string().max(getApiEventGetResponseMovementTwoBearingUserNorthStarsItemDescriptionMax),
-  "importance": zod.number().optional(),
-  "justification": zod.string().max(getApiEventGetResponseMovementTwoBearingUserNorthStarsItemJustificationMax).optional(),
-  "bearings": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoBearingUserNorthStarsItemNameMax)
-})).optional(),
-  "events": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userName": zod.string().nullish(),
-  "normalizedUserName": zod.string().nullish(),
-  "email": zod.string().nullish(),
-  "normalizedEmail": zod.string().nullish(),
-  "emailConfirmed": zod.boolean().optional(),
-  "passwordHash": zod.string().nullish(),
-  "securityStamp": zod.string().nullish(),
-  "concurrencyStamp": zod.string().nullish(),
-  "phoneNumber": zod.string().nullish(),
-  "phoneNumberConfirmed": zod.boolean().optional(),
-  "twoFactorEnabled": zod.boolean().optional(),
-  "lockoutEnd": zod.string().datetime({"offset":true}).nullish(),
-  "lockoutEnabled": zod.boolean().optional(),
-  "accessFailedCount": zod.union([zod.number(),zod.string().regex(getApiEventGetResponseMovementTwoBearingUserAccessFailedCountRegExpTwo)]).optional()
-}).optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoBearingNameMax)
-}).optional(),
-  "difficulty": zod.string().max(getApiEventGetResponseMovementTwoDifficultyMax).nullish(),
-  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
-  "motivation": zod.string().max(getApiEventGetResponseMovementTwoMotivationMax).nullish(),
-  "triggers": zod.string().max(getApiEventGetResponseMovementTwoTriggersMax).nullish(),
-  "temptations": zod.string().max(getApiEventGetResponseMovementTwoTemptationsMax).nullish(),
-  "obstacles": zod.string().max(getApiEventGetResponseMovementTwoObstaclesMax).nullish(),
-  "killConditions": zod.string().max(getApiEventGetResponseMovementTwoKillConditionsMax).nullish(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.object({
-  "accessCode": zod.string(),
-  "northStars": zod.array(zod.object({
-  "description": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemDescriptionMax),
-  "importance": zod.number().optional(),
-  "justification": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemJustificationMax).optional(),
-  "bearings": zod.array(zod.object({
-  "northStarId": zod.string().uuid().optional(),
-  "northStar": zod.unknown().optional(),
-  "description": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemDescriptionMax).optional(),
-  "justification": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemJustificationMax).optional(),
-  "strengths": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemStrengthsMax).nullish(),
-  "weaknesses": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemWeaknessesMax).nullish(),
-  "movements": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemBearingsItemNameMax)
-})).optional(),
-  "id": zod.string().uuid().optional(),
-  "userId": zod.string().uuid().optional(),
-  "user": zod.unknown().optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoUserNorthStarsItemNameMax)
-})).optional(),
-  "events": zod.array(zod.unknown()).optional(),
-  "id": zod.string().uuid().optional(),
-  "userName": zod.string().nullish(),
-  "normalizedUserName": zod.string().nullish(),
-  "email": zod.string().nullish(),
-  "normalizedEmail": zod.string().nullish(),
-  "emailConfirmed": zod.boolean().optional(),
-  "passwordHash": zod.string().nullish(),
-  "securityStamp": zod.string().nullish(),
-  "concurrencyStamp": zod.string().nullish(),
-  "phoneNumber": zod.string().nullish(),
-  "phoneNumberConfirmed": zod.boolean().optional(),
-  "twoFactorEnabled": zod.boolean().optional(),
-  "lockoutEnd": zod.string().datetime({"offset":true}).nullish(),
-  "lockoutEnabled": zod.boolean().optional(),
-  "accessFailedCount": zod.union([zod.number(),zod.string().regex(getApiEventGetResponseMovementTwoUserAccessFailedCountRegExpTwo)]).optional()
-}).optional(),
-  "name": zod.string().max(getApiEventGetResponseMovementTwoNameMax)
-})]).optional(),
-  "name": zod.string().max(getApiEventGetResponseNameMax).optional(),
+  "title": zod.string().max(getApiEventGetResponseOneTitleMax).optional(),
   "start": zod.string().datetime({"offset":true}).optional(),
   "end": zod.string().datetime({"offset":true}).optional()
-})
+}),zod.object({
+  "type": zod.enum(['recurring']),
+  "recurrence": zod.object({
+  "rrule": zod.string().optional(),
+  "exDate": zod.array(zod.string()).optional()
+}).optional(),
+  "id": zod.string().uuid().optional(),
+  "movementId": zod.string().uuid().nullish(),
+  "title": zod.string().max(getApiEventGetResponseTwoTitleMax).optional(),
+  "start": zod.string().datetime({"offset":true}).optional(),
+  "end": zod.string().datetime({"offset":true}).optional()
+})])
 export const GetApiEventGetResponse = zod.array(GetApiEventGetResponseItem)
 
 export const postApiEventCreateOnetimeBodyNameMax = 200;
 
+export const postApiEventCreateOnetimeBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 
 
 export const PostApiEventCreateOnetimeBody = zod.object({
   "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax).optional(),
   "start": zod.string().datetime({"offset":true}).optional(),
-  "end": zod.string().datetime({"offset":true}).optional()
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)]).optional()
 })
 
 export const PostApiEventCreateOnetimeResponse = zod.string().uuid()
@@ -303,6 +53,7 @@ export const postApiEventCreateRecurringBodyMonthDayRegExpTwo = new RegExp('^-?(
 export const postApiEventCreateRecurringBodyYearMonthRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 export const postApiEventCreateRecurringBodyNameMax = 200;
 
+export const postApiEventCreateRecurringBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 
 
 export const PostApiEventCreateRecurringBody = zod.object({
@@ -314,7 +65,7 @@ export const PostApiEventCreateRecurringBody = zod.object({
   "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateRecurringBodyNameMax).optional(),
   "start": zod.string().datetime({"offset":true}).optional(),
-  "end": zod.string().datetime({"offset":true}).optional()
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)]).optional()
 })
 
 export const PostApiEventCreateRecurringResponse = zod.string().uuid()

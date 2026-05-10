@@ -1,11 +1,12 @@
 import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
-import { DatePickerInput, TimePicker } from "@mantine/dates";
+import { DatePickerInput, DateTimePicker, TimePicker } from "@mantine/dates";
 import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
 import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 import { getErrorMessage } from "@/data/error";
 import { useState } from "react";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
+import { durationToMinutes } from "@/helpers";
 
 interface EventFormProps {
     close: () => void;
@@ -16,12 +17,22 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
     const formSchema = PostApiGoalCreateBearingBody.omit({})
     const form = useForm({
         mode: 'controlled',
+        initialValues: {
+            'type': 'onetime',
+            'start': '',
+            'duration': '',
+            'recurrenceAmount': 1,
+            'recurrenceUnit': 'WEEKLY'
+        },
         validate: schemaResolver(formSchema, { sync: true })
     })
     const handleSubmit = async (values: typeof form.values) => {
         const requestData = {
-            ...values
+            ...values,
+            start: new Date(values.start).toISOString(),
+            duration: durationToMinutes(values.duration)
         }
+
         let response;
 
         switch (values.type) {
@@ -80,13 +91,13 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         {...form.getInputProps('name')}
                     />
 
-                    <DatePickerInput
+                    <DateTimePicker
                         label="Start date"
                         description="When should this event start?"
                         placeholder="Tomorrow"
                         required
-                        key={form.key('startDate')}
-                        {...form.getInputProps('startDate')}
+                        key={form.key('start')}
+                        {...form.getInputProps('start')}
                     />
 
                     <TimePicker

@@ -17,7 +17,7 @@ import type {
 } from 'swr/mutation';
 
 import type {
-  Event,
+  EventGet,
   OnetimeEventCreate,
   RecurringEventCreate
 } from '../../models';
@@ -28,7 +28,7 @@ import type {
 
 
 export type getApiEventGetResponse200 = {
-  data: Event[]
+  data: EventGet[]
   status: 200
 }
 

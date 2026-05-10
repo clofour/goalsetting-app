@@ -7,5 +7,6 @@ namespace backend.Models
     public class RecurringEvent(): Event
     {
         public string RRULE { get; set; }
+        public List<OverrideEvent> OverrideEvents { get; set; }
     }
 }

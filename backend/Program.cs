@@ -140,11 +140,22 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<OnetimeEventCreate, OnetimeEvent>();
     cfg.CreateMap<RecurringEventCreate, RecurringEvent>();
     cfg.CreateMap<Event, EventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
         .Include<OnetimeEvent, OnetimeEventGet>()
         .Include<RecurringEvent, RecurringEventGet>();
     cfg.CreateMap<OnetimeEvent, OnetimeEventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
         .IncludeBase<Event, EventGet>();
     cfg.CreateMap<RecurringEvent, RecurringEventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
+        .ForMember(destination => destination.Recurrence, options =>
+        {
+            options.MapFrom(source => new RecurrenceGet
+            {
+                RRULE = source.RRULE,
+                ExDate = source.OverrideEvents.Select(e => e.Start.ToString("yyyy-MM-ddTHH:mm:ss")).ToList()
+            });
+        })
         .IncludeBase<Event, EventGet>();
 });
 

@@ -50,6 +50,7 @@ namespace backend.Controllers
 
             OnetimeEvent onetimeEvent = new OnetimeEvent();
             mapper.Map(onetimeEventCreate, onetimeEvent);
+            onetimeEvent.End = eventService.ConstructEnd(onetimeEventCreate.Start, onetimeEventCreate.Duration);
             onetimeEvent.User = user;
 
             appDbContext.Events.Add(onetimeEvent);
@@ -71,6 +72,7 @@ namespace backend.Controllers
             RecurringEvent recurringEvent = new RecurringEvent();
             mapper.Map(recurringEventCreate, recurringEvent);
             recurringEvent.RRULE = eventService.ConstructRRULE(recurringEventCreate);
+            recurringEvent.End = eventService.ConstructEnd(recurringEventCreate.Start, recurringEventCreate.Duration);
             recurringEvent.User = user;
 
             appDbContext.Events.Add(recurringEvent);

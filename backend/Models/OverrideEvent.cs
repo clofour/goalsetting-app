@@ -9,5 +9,6 @@ namespace backend.Models
         Guid RecurringEventId { get; set; }
         [ForeignKey("RecurringEventId")]
         RecurringEvent RecurringEvent { get; set; }
+        DateTime RecurrenceId { get; set; }
     }
 }

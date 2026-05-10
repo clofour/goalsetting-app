@@ -11,5 +11,6 @@ export interface OnetimeEventCreate {
   /** @maxLength 200 */
   name?: string;
   start?: string;
-  end?: string;
+  /** @pattern ^-?(?:0|[1-9]\d*)$ */
+  duration?: number | string;
 }

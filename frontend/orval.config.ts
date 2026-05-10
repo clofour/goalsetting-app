@@ -10,7 +10,8 @@ export default defineConfig({
             client: 'swr',
             target: 'src/api/endpoints',
             schemas: 'src/api/models',
-            mock: true
+            mock: true,
+            clean: true
         }
     },
     goalappZod: {
@@ -21,7 +22,8 @@ export default defineConfig({
             mode: 'tags-split',
             client: 'zod',
             target: 'src/api/endpoints',
-            fileExtension: '.zod.ts'
+            fileExtension: '.zod.ts',
+            clean: true
         }
     },
 })

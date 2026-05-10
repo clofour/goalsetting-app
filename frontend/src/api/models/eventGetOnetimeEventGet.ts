@@ -4,18 +4,15 @@
  * backend | v1
  * OpenAPI spec version: 1.0.0
  */
-import type { Movement } from './movement';
-import type { User } from './user';
+import type { EventGetOnetimeEventGetType } from './eventGetOnetimeEventGetType';
 
-export interface Event {
+export interface EventGetOnetimeEventGet {
+  type: EventGetOnetimeEventGetType;
   id?: string;
-  userId?: string;
-  user?: User;
   /** @nullable */
   movementId?: string | null;
-  movement?: null | Movement;
   /** @maxLength 200 */
-  name?: string;
+  title?: string;
   start?: string;
   end?: string;
 }

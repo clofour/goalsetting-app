@@ -14,7 +14,7 @@ namespace backend.Viewmodels
         public Guid? MovementId { get; set; }
 
         [MaxLength(FieldLimits.ShortText)]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

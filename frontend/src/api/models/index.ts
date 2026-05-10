@@ -5,25 +5,26 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export * from './bearing';
 export * from './bearingCreate';
 export * from './bearingGet';
-export * from './event';
+export * from './eventGet';
+export * from './eventGetOnetimeEventGet';
+export * from './eventGetOnetimeEventGetType';
+export * from './eventGetRecurringEventGet';
+export * from './eventGetRecurringEventGetType';
 export * from './goalImportance';
 export * from './goalStats';
 export * from './goalType';
 export * from './motivationType';
-export * from './movement';
 export * from './movementCreate';
 export * from './movementGet';
-export * from './northStar';
 export * from './northStarCreate';
 export * from './northStarGet';
 export * from './onetimeEventCreate';
 export * from './postApiGoalDeleteParams';
+export * from './recurrenceGet';
 export * from './recurrenceTypes';
 export * from './recurringEventCreate';
 export * from './signinForm';
 export * from './signupForm';
-export * from './user';
 export * from './weekday';

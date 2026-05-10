@@ -33,5 +33,10 @@ namespace backend.Services
 
             return string.Join(";", parts);
         }
+
+        public DateTime ConstructEnd(DateTime start, int duration)
+        {
+            return start.AddMinutes(duration);
+        }
     }
 }
