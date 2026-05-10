@@ -58,7 +58,7 @@ export const postApiEventCreateRecurringBodyDurationRegExpTwo = new RegExp('^-?(
 
 export const PostApiEventCreateRecurringBody = zod.object({
   "recurrenceAmount": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyRecurrenceAmountRegExpTwo)]),
-  "recurrenceType": zod.enum(['WEEKLY', 'MONTHLY', 'YEARLY']),
+  "recurrenceType": zod.enum(['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY']),
   "weekDays": zod.array(zod.enum(['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'])),
   "monthDay": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]),
   "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]),

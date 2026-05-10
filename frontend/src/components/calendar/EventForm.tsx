@@ -1,12 +1,12 @@
 import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, DateTimePicker, TimePicker } from "@mantine/dates";
-import { postApiGoalCreateBearing } from "@/api/endpoints/goal/goal.js";
-import { PostApiGoalCreateBearingBody } from "@/api/endpoints/goal/goal.zod.js";
 import { getErrorMessage } from "@/data/error";
 import { useState } from "react";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
 import { durationToMinutes } from "@/helpers";
+import { RecurrenceTypes, Weekday } from "@/api/models";
+import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 
 interface EventFormProps {
     close: () => void;
@@ -14,7 +14,6 @@ interface EventFormProps {
 }
 
 export default function EventForm({ close, setAlert }: EventFormProps) {
-    const formSchema = PostApiGoalCreateBearingBody.omit({})
     const form = useForm({
         mode: 'controlled',
         initialValues: {
@@ -23,13 +22,13 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             'duration': '',
             'type': 'onetime',
             'recurrenceAmount': 1,
-            'recurrenceType': 'WEEKLY',
+            'recurrenceType': RecurrenceTypes.WEEKLY as RecurrenceTypes,
             'weekDays': [],
             'monthDay': '',
             'yearMonth': '',
 
         },
-        validate: schemaResolver(formSchema, { sync: true })
+        // validate: schemaResolver(formSchema, { sync: true })
     })
     const handleSubmit = async (values: typeof form.values) => {
         const requestData = {
@@ -68,24 +67,24 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         onDropdownClose: () => unitCombobox.resetSelectedOption()
     })
     const unitOptions = [
-        { label: "day", value: "DAILY" },
-        { label: "week", value: "WEEKLY" },
-        { label: "month", value: "MONTHLY" },
-        { label: "year", value: "YEARLY" }
+        { label: "day", value: RecurrenceTypes.DAILY },
+        { label: "week", value: RecurrenceTypes.WEEKLY },
+        { label: "month", value: RecurrenceTypes.MONTHLY },
+        { label: "year", value: RecurrenceTypes.YEARLY }
     ];
     const weekdays = [
-        { label: "Monday", value: "MO" },
-        { label: "Tuesday", value: "TU" },
-        { label: "Wednesday", value: "WE" },
-        { label: "Thursday", value: "TH" },
-        { label: "Friday", value: "FR" },
-        { label: "Saturday", value: "SA" },
-        { label: "Sunday", value: "SU" }
+        { label: "Monday", value: Weekday.MO },
+        { label: "Tuesday", value: Weekday.TU },
+        { label: "Wednesday", value: Weekday.WE },
+        { label: "Thursday", value: Weekday.TH },
+        { label: "Friday", value: Weekday.FR },
+        { label: "Saturday", value: Weekday.SA },
+        { label: "Sunday", value: Weekday.SU }
     ];
 
     return (
         <>
-            <form onSubmit={form.onSubmit(handleSubmit)}>
+            <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
                 <Stack>
                     <TextInput
                         label="Name"
@@ -148,7 +147,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 />
                             </Group>
 
-                            {form.values.recurrenceType == "WEEKLY" && (
+                            {form.values.recurrenceType == RecurrenceTypes.WEEKLY && (
                                 <Checkbox.Group
                                     label="Day of the week"
                                     description="Which day of the week should this event take place?"
@@ -164,7 +163,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 </Checkbox.Group>
                             )}
 
-                            {form.values.recurrenceType == "MONTHLY" && (
+                            {form.values.recurrenceType == RecurrenceTypes.MONTHLY && (
                                 <NumberInput
                                     label="Day of the month"
                                     description="Which day of the month should this event take place?"
@@ -176,7 +175,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 />
                             )}
 
-                            {form.values.recurrenceType == "YEARLY" && (
+                            {form.values.recurrenceType == RecurrenceTypes.YEARLY && (
                                 <Group grow justify="flex-between">
                                     <NumberInput
                                         label="Day of the month"

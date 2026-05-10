@@ -9,6 +9,7 @@ export type RecurrenceTypes = typeof RecurrenceTypes[keyof typeof RecurrenceType
 
 
 export const RecurrenceTypes = {
+  DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
   YEARLY: 'YEARLY',

@@ -6,6 +6,7 @@ namespace backend.Viewmodels
 {
     public enum RecurrenceTypes
     {
+        DAILY,
         WEEKLY,
         MONTHLY,
         YEARLY
