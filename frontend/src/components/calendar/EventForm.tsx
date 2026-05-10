@@ -20,27 +20,6 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         mode: 'controlled',
         validate: schemaResolver(formSchema, { sync: true })
     })
-    function constructRRULE(values: typeof form.values) {
-        let parts = [];
-
-        parts.push(`FREQ=${values.unit}`);
-        parts.push(`INTERVAL=${values.amount}`);
-
-        switch (values.unit) {
-            case "WEEKLY":
-                parts.push(`BYDAY=${values.weekday}`);
-                break;
-            case "MONTHLY":
-                parts.push(`BYMONTHDAY=${values.monthday}`);
-                break;
-            case "YEARLY":
-                parts.push(`BYMONTH=${values.yearmonth}`)
-                parts.push(`BYMONTHDAY=${values.monthday}`);
-                break;
-        }
-
-        return parts.join(";");
-    }
     const handleSubmit = async (values: typeof form.values) => {
         const requestData = {
             ...values
@@ -93,6 +72,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                     <DatePickerInput
                         label="Start date"
                         description="When should this event start?"
+                        placeholder="Tomorrow"
+                        required
                         key={form.key('startDate')}
                         {...form.getInputProps('startDate')}
                     />
@@ -101,6 +82,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         label="Duration"
                         description="How long should this event last?"
                         type="duration"
+                        required
                         key={form.key('duration')}
                         {...form.getInputProps('duration')}
                     />

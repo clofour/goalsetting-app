@@ -11,9 +11,9 @@ namespace backend.Models
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
-        public Guid MovementId { get; set; }
+        public Guid? MovementId { get; set; }
         [ForeignKey("MovementId")]
-        public Movement Movement { get; set; }
+        public Movement? Movement { get; set; }
 
         [MaxLength(FieldLimits.ShortText)]
         public string Name { get; set; }

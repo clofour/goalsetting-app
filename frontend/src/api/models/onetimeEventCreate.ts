@@ -5,4 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface OnetimeEventCreate { [key: string]: unknown }
+export interface OnetimeEventCreate {
+  /** @nullable */
+  movementId?: string | null;
+  /** @maxLength 200 */
+  name?: string;
+  start?: string;
+  end?: string;
+}

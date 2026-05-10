@@ -6,7 +6,7 @@ namespace backend.Viewmodels
 {
     public abstract class EventCreate
     {
-        public Guid MovementId { get; set; }
+        public Guid? MovementId { get; set; }
 
         [MaxLength(FieldLimits.ShortText)]
         public string Name { get; set; }
