@@ -10,7 +10,7 @@ export interface EventGetOnetimeEventGet {
   type: EventGetOnetimeEventGetType;
   id: string;
   /** @nullable */
-  movementId: string | null;
+  movementId?: string | null;
   /** @maxLength 200 */
   title: string;
   start: string;

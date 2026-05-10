@@ -16,7 +16,7 @@ export const getApiEventGetResponseTwoTitleMax = 200;
 export const GetApiEventGetResponseItem = zod.union([zod.object({
   "type": zod.enum(['onetime']),
   "id": zod.string().uuid(),
-  "movementId": zod.string().uuid().nullable(),
+  "movementId": zod.string().uuid().nullish(),
   "title": zod.string().max(getApiEventGetResponseOneTitleMax),
   "start": zod.string().datetime({"offset":true}),
   "end": zod.string().datetime({"offset":true})
@@ -27,7 +27,7 @@ export const GetApiEventGetResponseItem = zod.union([zod.object({
   "exDate": zod.array(zod.string())
 }),
   "id": zod.string().uuid(),
-  "movementId": zod.string().uuid().nullable(),
+  "movementId": zod.string().uuid().nullish(),
   "title": zod.string().max(getApiEventGetResponseTwoTitleMax),
   "start": zod.string().datetime({"offset":true}),
   "end": zod.string().datetime({"offset":true})
@@ -40,7 +40,7 @@ export const postApiEventCreateOnetimeBodyDurationRegExpTwo = new RegExp('^-?(?:
 
 
 export const PostApiEventCreateOnetimeBody = zod.object({
-  "movementId": zod.string().uuid().nullable(),
+  "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax),
   "start": zod.string().datetime({"offset":true}),
   "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)])
@@ -62,7 +62,7 @@ export const PostApiEventCreateRecurringBody = zod.object({
   "weekDays": zod.array(zod.number()),
   "monthDay": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]),
   "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]),
-  "movementId": zod.string().uuid().nullable(),
+  "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateRecurringBodyNameMax),
   "start": zod.string().datetime({"offset":true}),
   "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)])

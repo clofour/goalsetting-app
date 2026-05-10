@@ -12,7 +12,6 @@ namespace backend.Viewmodels
     {
         [Required]
         public Guid Id { get; set; }
-        [Required]
         public Guid? MovementId { get; set; }
 
         [Required]

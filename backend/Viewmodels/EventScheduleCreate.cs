@@ -15,10 +15,8 @@ namespace backend.Viewmodels
         [MaxLength(FieldLimits.LongText)]
         public string Justification { get; set; }
 
-        [Required]
         [MaxLength(FieldLimits.LongText)]
         public string? Strengths { get; set; }
-        [Required]
         [MaxLength(FieldLimits.LongText)]
         public string? Weaknesses { get; set; }
 

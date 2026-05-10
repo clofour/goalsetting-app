@@ -18,11 +18,16 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
     const form = useForm({
         mode: 'controlled',
         initialValues: {
-            'type': 'onetime',
+            'name': '',
             'start': '',
             'duration': '',
+            'type': 'onetime',
             'recurrenceAmount': 1,
-            'recurrenceUnit': 'WEEKLY'
+            'recurrenceType': 'WEEKLY',
+            'weekDays': [],
+            'monthDay': '',
+            'yearMonth': '',
+
         },
         validate: schemaResolver(formSchema, { sync: true })
     })
@@ -138,12 +143,12 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                     description="What should the recurrence unit be?"
                                     required
                                     data={unitOptions}
-                                    key={form.key('recurrenceUnit')}
-                                    {...form.getInputProps('recurrenceUnit')}
+                                    key={form.key('recurrenceType')}
+                                    {...form.getInputProps('recurrenceType')}
                                 />
                             </Group>
 
-                            {form.values.recurrenceUnit == "WEEKLY" && (
+                            {form.values.recurrenceType == "WEEKLY" && (
                                 <Checkbox.Group
                                     label="Day of the week"
                                     description="Which day of the week should this event take place?"
@@ -159,7 +164,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 </Checkbox.Group>
                             )}
 
-                            {form.values.recurrenceUnit == "MONTHLY" && (
+                            {form.values.recurrenceType == "MONTHLY" && (
                                 <NumberInput
                                     label="Day of the month"
                                     description="Which day of the month should this event take place?"
@@ -171,7 +176,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                 />
                             )}
 
-                            {form.values.recurrenceUnit == "YEARLY" && (
+                            {form.values.recurrenceType == "YEARLY" && (
                                 <Group grow justify="flex-between">
                                     <NumberInput
                                         label="Day of the month"

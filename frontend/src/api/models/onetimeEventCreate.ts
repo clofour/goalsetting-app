@@ -7,7 +7,7 @@
 
 export interface OnetimeEventCreate {
   /** @nullable */
-  movementId: string | null;
+  movementId?: string | null;
   /** @maxLength 200 */
   name: string;
   start: string;

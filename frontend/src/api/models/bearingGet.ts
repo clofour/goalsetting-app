@@ -16,12 +16,12 @@ export interface BearingGet {
      * @maxLength 5000
      * @nullable
      */
-  strengths: string | null;
+  strengths?: string | null;
   /**
      * @maxLength 5000
      * @nullable
      */
-  weaknesses: string | null;
+  weaknesses?: string | null;
   movements: MovementGet[];
   id: string;
   /** @maxLength 200 */

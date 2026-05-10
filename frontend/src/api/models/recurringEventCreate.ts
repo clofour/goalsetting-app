@@ -17,7 +17,7 @@ export interface RecurringEventCreate {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
   yearMonth: number | string;
   /** @nullable */
-  movementId: string | null;
+  movementId?: string | null;
   /** @maxLength 200 */
   name: string;
   start: string;

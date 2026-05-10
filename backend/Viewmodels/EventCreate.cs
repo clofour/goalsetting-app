@@ -6,7 +6,6 @@ namespace backend.Viewmodels
 {
     public abstract class EventCreate
     {
-        [Required]
         public Guid? MovementId { get; set; }
 
         [Required]

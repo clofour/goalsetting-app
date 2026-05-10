@@ -12,7 +12,7 @@ export interface EventGetRecurringEventGet {
   recurrence: RecurrenceGet;
   id: string;
   /** @nullable */
-  movementId: string | null;
+  movementId?: string | null;
   /** @maxLength 200 */
   title: string;
   start: string;
