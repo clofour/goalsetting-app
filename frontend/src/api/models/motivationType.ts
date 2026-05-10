@@ -5,4 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type MotivationType = number;
+export type MotivationType = typeof MotivationType[keyof typeof MotivationType];
+
+
+export const MotivationType = {
+  Carrot: 'Carrot',
+  Stick: 'Stick',
+} as const;

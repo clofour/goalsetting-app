@@ -5,4 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GoalType = number;
+export type GoalType = typeof GoalType[keyof typeof GoalType];
+
+
+export const GoalType = {
+  NorthStar: 'NorthStar',
+  Bearing: 'Bearing',
+  Movement: 'Movement',
+} as const;

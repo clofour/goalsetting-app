@@ -128,6 +128,11 @@ builder.Services.AddRateLimiter(options =>
 
 builder.Services.AddOpenApi();
 
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.CreateMap<NorthStarCreate, NorthStar>();
