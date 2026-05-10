@@ -15,22 +15,22 @@ export const getApiEventGetResponseTwoTitleMax = 200;
 
 export const GetApiEventGetResponseItem = zod.union([zod.object({
   "type": zod.enum(['onetime']),
-  "id": zod.string().uuid().optional(),
-  "movementId": zod.string().uuid().nullish(),
-  "title": zod.string().max(getApiEventGetResponseOneTitleMax).optional(),
-  "start": zod.string().datetime({"offset":true}).optional(),
-  "end": zod.string().datetime({"offset":true}).optional()
+  "id": zod.string().uuid(),
+  "movementId": zod.string().uuid().nullable(),
+  "title": zod.string().max(getApiEventGetResponseOneTitleMax),
+  "start": zod.string().datetime({"offset":true}),
+  "end": zod.string().datetime({"offset":true})
 }),zod.object({
   "type": zod.enum(['recurring']),
   "recurrence": zod.object({
-  "rrule": zod.string().optional(),
-  "exDate": zod.array(zod.string()).optional()
-}).optional(),
-  "id": zod.string().uuid().optional(),
-  "movementId": zod.string().uuid().nullish(),
-  "title": zod.string().max(getApiEventGetResponseTwoTitleMax).optional(),
-  "start": zod.string().datetime({"offset":true}).optional(),
-  "end": zod.string().datetime({"offset":true}).optional()
+  "rrule": zod.string(),
+  "exDate": zod.array(zod.string())
+}),
+  "id": zod.string().uuid(),
+  "movementId": zod.string().uuid().nullable(),
+  "title": zod.string().max(getApiEventGetResponseTwoTitleMax),
+  "start": zod.string().datetime({"offset":true}),
+  "end": zod.string().datetime({"offset":true})
 })])
 export const GetApiEventGetResponse = zod.array(GetApiEventGetResponseItem)
 
@@ -40,10 +40,10 @@ export const postApiEventCreateOnetimeBodyDurationRegExpTwo = new RegExp('^-?(?:
 
 
 export const PostApiEventCreateOnetimeBody = zod.object({
-  "movementId": zod.string().uuid().nullish(),
-  "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax).optional(),
-  "start": zod.string().datetime({"offset":true}).optional(),
-  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)]).optional()
+  "movementId": zod.string().uuid().nullable(),
+  "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax),
+  "start": zod.string().datetime({"offset":true}),
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)])
 })
 
 export const PostApiEventCreateOnetimeResponse = zod.string().uuid()
@@ -57,15 +57,15 @@ export const postApiEventCreateRecurringBodyDurationRegExpTwo = new RegExp('^-?(
 
 
 export const PostApiEventCreateRecurringBody = zod.object({
-  "recurrenceAmount": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyRecurrenceAmountRegExpTwo)]).optional(),
-  "recurrenceType": zod.number().optional(),
-  "weekDays": zod.array(zod.number()).optional(),
-  "monthDay": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]).optional(),
-  "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]).optional(),
-  "movementId": zod.string().uuid().nullish(),
-  "name": zod.string().max(postApiEventCreateRecurringBodyNameMax).optional(),
-  "start": zod.string().datetime({"offset":true}).optional(),
-  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)]).optional()
+  "recurrenceAmount": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyRecurrenceAmountRegExpTwo)]),
+  "recurrenceType": zod.number(),
+  "weekDays": zod.array(zod.number()),
+  "monthDay": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]),
+  "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]),
+  "movementId": zod.string().uuid().nullable(),
+  "name": zod.string().max(postApiEventCreateRecurringBodyNameMax),
+  "start": zod.string().datetime({"offset":true}),
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)])
 })
 
 export const PostApiEventCreateRecurringResponse = zod.string().uuid()

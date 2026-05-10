@@ -25,11 +25,16 @@ namespace backend.Viewmodels
 
     public class RecurringEventCreate: EventCreate
     {
+        [Required]
         public int RecurrenceAmount { get; set; }
+        [Required]
         public RecurrenceTypes RecurrenceType { get; set; }
 
+        [Required]
         public List<Weekday> WeekDays { get; set; }
+        [Required]
         public int MonthDay { get; set; }
+        [Required]
         public int YearMonth { get; set; }
     }
 }

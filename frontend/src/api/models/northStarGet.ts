@@ -10,11 +10,11 @@ import type { GoalImportance } from './goalImportance';
 export interface NorthStarGet {
   /** @maxLength 200 */
   description: string;
-  importance?: GoalImportance;
+  importance: GoalImportance;
   /** @maxLength 5000 */
-  justification?: string;
-  bearings?: BearingGet[];
-  id?: string;
+  justification: string;
+  bearings: BearingGet[];
+  id: string;
   /** @maxLength 200 */
   name: string;
 }

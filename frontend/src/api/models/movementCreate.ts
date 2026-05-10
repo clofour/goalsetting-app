@@ -7,38 +7,38 @@
 import type { MotivationType } from './motivationType';
 
 export interface MovementCreate {
-  bearingId?: string;
+  bearingId: string;
   /**
      * @maxLength 5000
      * @nullable
      */
-  difficulty?: string | null;
-  motivationType?: null | MotivationType;
+  difficulty: string | null;
+  motivationType: null | MotivationType;
   /**
      * @maxLength 5000
      * @nullable
      */
-  motivation?: string | null;
+  motivation: string | null;
   /**
      * @maxLength 5000
      * @nullable
      */
-  triggers?: string | null;
+  triggers: string | null;
   /**
      * @maxLength 5000
      * @nullable
      */
-  temptations?: string | null;
+  temptations: string | null;
   /**
      * @maxLength 5000
      * @nullable
      */
-  obstacles?: string | null;
+  obstacles: string | null;
   /**
      * @maxLength 5000
      * @nullable
      */
-  killConditions?: string | null;
+  killConditions: string | null;
   /** @maxLength 200 */
   name: string;
 }

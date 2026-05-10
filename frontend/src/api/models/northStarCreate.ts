@@ -9,9 +9,9 @@ import type { GoalImportance } from './goalImportance';
 export interface NorthStarCreate {
   /** @maxLength 200 */
   description: string;
-  importance?: GoalImportance;
+  importance: GoalImportance;
   /** @maxLength 5000 */
-  justification?: string;
+  justification: string;
   /** @maxLength 200 */
   name: string;
 }

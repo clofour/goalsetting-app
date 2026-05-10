@@ -10,13 +10,18 @@ namespace backend.Viewmodels
     [JsonDerivedType(typeof(RecurringEventGet), "recurring")]
     public abstract class EventGet
     {
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public Guid? MovementId { get; set; }
 
+        [Required]
         [MaxLength(FieldLimits.ShortText)]
         public string Title { get; set; }
 
+        [Required]
         public DateTime Start { get; set; }
+        [Required]
         public DateTime End { get; set; }
     }
 }

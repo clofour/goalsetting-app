@@ -7,10 +7,10 @@
 
 export interface OnetimeEventCreate {
   /** @nullable */
-  movementId?: string | null;
+  movementId: string | null;
   /** @maxLength 200 */
-  name?: string;
-  start?: string;
+  name: string;
+  start: string;
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  duration?: number | string;
+  duration: number | string;
 }

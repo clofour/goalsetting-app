@@ -9,18 +9,18 @@ import type { Weekday } from './weekday';
 
 export interface RecurringEventCreate {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  recurrenceAmount?: number | string;
-  recurrenceType?: RecurrenceTypes;
-  weekDays?: Weekday[];
+  recurrenceAmount: number | string;
+  recurrenceType: RecurrenceTypes;
+  weekDays: Weekday[];
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  monthDay?: number | string;
+  monthDay: number | string;
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  yearMonth?: number | string;
+  yearMonth: number | string;
   /** @nullable */
-  movementId?: string | null;
+  movementId: string | null;
   /** @maxLength 200 */
-  name?: string;
-  start?: string;
+  name: string;
+  start: string;
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  duration?: number | string;
+  duration: number | string;
 }

@@ -9,12 +9,12 @@ import type { RecurrenceGet } from './recurrenceGet';
 
 export interface EventGetRecurringEventGet {
   type: EventGetRecurringEventGetType;
-  recurrence?: RecurrenceGet;
-  id?: string;
+  recurrence: RecurrenceGet;
+  id: string;
   /** @nullable */
-  movementId?: string | null;
+  movementId: string | null;
   /** @maxLength 200 */
-  title?: string;
-  start?: string;
-  end?: string;
+  title: string;
+  start: string;
+  end: string;
 }

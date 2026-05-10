@@ -9,7 +9,9 @@ namespace backend.Viewmodels
         [Required(AllowEmptyStrings = false)]
         [MaxLength(FieldLimits.ShortText)]
         public string Description { get; set; }
+        [Required]
         public GoalImportance Importance { get; set; }
+        [Required]
         [MaxLength(FieldLimits.LongText)]
         public string Justification { get; set; }
     }

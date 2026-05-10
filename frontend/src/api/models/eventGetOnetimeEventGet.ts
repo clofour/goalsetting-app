@@ -8,11 +8,11 @@ import type { EventGetOnetimeEventGetType } from './eventGetOnetimeEventGetType'
 
 export interface EventGetOnetimeEventGet {
   type: EventGetOnetimeEventGetType;
-  id?: string;
+  id: string;
   /** @nullable */
-  movementId?: string | null;
+  movementId: string | null;
   /** @maxLength 200 */
-  title?: string;
-  start?: string;
-  end?: string;
+  title: string;
+  start: string;
+  end: string;
 }

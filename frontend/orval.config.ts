@@ -11,7 +11,7 @@ export default defineConfig({
             target: 'src/api/endpoints',
             schemas: 'src/api/models',
             mock: true,
-            clean: true
+            clean: true // Shared directories
         }
     },
     goalappZod: {
@@ -22,8 +22,7 @@ export default defineConfig({
             mode: 'tags-split',
             client: 'zod',
             target: 'src/api/endpoints',
-            fileExtension: '.zod.ts',
-            clean: true
+            fileExtension: '.zod.ts'
         }
     },
 })

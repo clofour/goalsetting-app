@@ -4,6 +4,7 @@ namespace backend.Viewmodels
 {
     public class GoalGet
     {
+        [Required]
         public Guid Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
