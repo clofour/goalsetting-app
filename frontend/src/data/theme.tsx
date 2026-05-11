@@ -8,6 +8,7 @@ export const theme = {
         priority: {
             "High": "red",
             "None": "gray"
-        }
+        },
+        event: "blue"
     }
 }

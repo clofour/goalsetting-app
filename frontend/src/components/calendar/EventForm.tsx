@@ -2,10 +2,9 @@ import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, 
 import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, DateTimePicker, TimePicker } from "@mantine/dates";
 import { getErrorMessage } from "@/data/error";
-import { useState } from "react";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
 import { durationToMinutes } from "@/helpers";
-import { RecurrenceTypes, Weekday, type OnetimeEventCreate, type RecurringEventCreate } from "@/api/models";
+import { RecurrenceTypes, Weekday } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 
 interface EventFormProps {
@@ -45,13 +44,15 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             yearMonth: null
         },
         validate: (values) => {
-            var formSchemaResolver;
+            let formSchemaResolver;
 
             switch(values.type) {
                 case EventTypes.onetime:
-                    formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true })
+                    formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true });
+                    break;
                 case EventTypes.recurring:
-                    formSchemaResolver = schemaResolver(PostApiEventCreateRecurringBody, { sync: true })
+                    formSchemaResolver = schemaResolver(PostApiEventCreateRecurringBody, { sync: true });
+                    break;
             }
 
             return formSchemaResolver(values);
@@ -100,20 +101,17 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         }
     };
 
-    const eventTypes = [
+    const eventTypeOptions = [
         { label: "One-time", value: EventTypes.onetime },
         { label: "Recurring", value: EventTypes.recurring }
     ]
-    const unitCombobox = useCombobox({
-        onDropdownClose: () => unitCombobox.resetSelectedOption()
-    })
     const unitOptions = [
         { label: "day", value: RecurrenceTypes.DAILY },
         { label: "week", value: RecurrenceTypes.WEEKLY },
         { label: "month", value: RecurrenceTypes.MONTHLY },
         { label: "year", value: RecurrenceTypes.YEARLY }
     ];
-    const weekdays = [
+    const weekdayOptions = [
         { label: "Monday", value: Weekday.MO },
         { label: "Tuesday", value: Weekday.TU },
         { label: "Wednesday", value: Weekday.WE },
@@ -160,7 +158,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                     >
                         <SegmentedControl
 
-                            data={eventTypes}
+                            data={eventTypeOptions}
                             fullWidth
                             key={form.key('type')}
                             {...form.getInputProps('type')}
@@ -197,7 +195,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                     {...form.getInputProps('weekDays')}
                                 >
                                     <Group mt="xs">
-                                        {weekdays.map((weekday) => (
+                                        {weekdayOptions.map((weekday) => (
                                             <Checkbox key={weekday.value} label={weekday.label} value={weekday.value} />
                                         ))}
                                     </Group>
@@ -227,7 +225,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                                     />
                                     <NumberInput
                                         label="Month of the year"
-                                        description="Which month of the eyar should this event take place?"
+                                        description="Which month of the year should this event take place?"
                                         required
                                         key={form.key('yearMonth')}
                                         {...form.getInputProps('yearMonth')}
