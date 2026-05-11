@@ -13,8 +13,8 @@ interface EventFormProps {
 }
 
 enum EventTypes {
-    onetime,
-    recurring
+    Onetime,
+    Recurring
 }
 
 interface EventValues {
@@ -36,7 +36,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             name: "",
             start: "",
             duration: "",
-            type: EventTypes.onetime,
+            type: EventTypes.Onetime,
             recurrenceAmount: 1,
             recurrenceType: RecurrenceTypes.WEEKLY,
             weekDays: [],
@@ -47,10 +47,10 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             let formSchemaResolver;
 
             switch(values.type) {
-                case EventTypes.onetime:
+                case EventTypes.Onetime:
                     formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true });
                     break;
-                case EventTypes.recurring:
+                case EventTypes.Recurring:
                     formSchemaResolver = schemaResolver(PostApiEventCreateRecurringBody, { sync: true });
                     break;
             }
@@ -68,7 +68,16 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         let response;
 
         switch (values.type) {
-            case EventTypes.recurring:
+            case EventTypes.Onetime:
+                requestData = {
+                    ...baseRequestData,
+                    start: new Date(values.start).toISOString(),
+                    duration: durationToMinutes(values.duration)
+                }
+                response = await postApiEventCreateOnetime(requestData);
+                break;
+
+            case EventTypes.Recurring:
                 requestData = {
                     ...baseRequestData,
                     recurrenceAmount: values.recurrenceAmount,
@@ -81,17 +90,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                 response = await postApiEventCreateRecurring(requestData);
                 break;
 
-            case EventTypes.onetime:
-                requestData = {
-                    ...baseRequestData,
-                    start: new Date(values.start).toISOString(),
-                    duration: durationToMinutes(values.duration)
-                }
-                response = await postApiEventCreateOnetime(requestData);
-                break;
-
             default:
-                throw RangeError("Event type must be either 'recurring' or 'onetime'.")
+                throw RangeError("Event type must be either 'EventTypes.Onetime' or 'EventTypes.Recurring'.")
         }
 
         if (response.status === 200) {
@@ -102,8 +102,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
     };
 
     const eventTypeOptions = [
-        { label: "One-time", value: EventTypes.onetime },
-        { label: "Recurring", value: EventTypes.recurring }
+        { label: "One-time", value: EventTypes.Onetime },
+        { label: "Recurring", value: EventTypes.Recurring }
     ]
     const unitOptions = [
         { label: "day", value: RecurrenceTypes.DAILY },
@@ -165,7 +165,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         />
                     </Input.Wrapper>
 
-                    {form.values.type == EventTypes.recurring && (
+                    {form.values.type == EventTypes.Recurring && (
                         <>
                             <Group grow justify="flex-between">
                                 <NumberInput
