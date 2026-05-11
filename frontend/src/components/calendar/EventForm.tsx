@@ -13,11 +13,16 @@ interface EventFormProps {
     setAlert: (alert: string) => void;
 }
 
+enum EventTypes {
+    onetime,
+    recurring
+}
+
 interface EventValues {
     name: string;
     start: string;
     duration: string;
-    type: "onetime" | "recurring";
+    type: EventTypes;
     recurrenceAmount: number;
     recurrenceType: RecurrenceTypes;
     weekDays: Weekday[];
@@ -32,14 +37,25 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
             name: "",
             start: "",
             duration: "",
-            type: "onetime",
+            type: EventTypes.onetime,
             recurrenceAmount: 1,
             recurrenceType: RecurrenceTypes.WEEKLY,
             weekDays: [],
             monthDay: null,
             yearMonth: null
         },
-        // validate: schemaResolver(formSchema, { sync: true })
+        validate: (values) => {
+            var formSchemaResolver;
+
+            switch(values.type) {
+                case EventTypes.onetime:
+                    formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true })
+                case EventTypes.recurring:
+                    formSchemaResolver = schemaResolver(PostApiEventCreateRecurringBody, { sync: true })
+            }
+
+            return formSchemaResolver(values);
+        }
     })
     const handleSubmit = async (values: typeof form.values) => {
         let baseRequestData = {
@@ -51,7 +67,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         let response;
 
         switch (values.type) {
-            case "recurring":
+            case EventTypes.recurring:
                 requestData = {
                     ...baseRequestData,
                     recurrenceAmount: values.recurrenceAmount,
@@ -64,7 +80,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                 response = await postApiEventCreateRecurring(requestData);
                 break;
 
-            case "onetime":
+            case EventTypes.onetime:
                 requestData = {
                     ...baseRequestData,
                     start: new Date(values.start).toISOString(),
@@ -85,8 +101,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
     };
 
     const eventTypes = [
-        { label: "One-time", value: "onetime" },
-        { label: "Recurring", value: "recurring" }
+        { label: "One-time", value: EventTypes.onetime },
+        { label: "Recurring", value: EventTypes.recurring }
     ]
     const unitCombobox = useCombobox({
         onDropdownClose: () => unitCombobox.resetSelectedOption()
@@ -151,7 +167,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         />
                     </Input.Wrapper>
 
-                    {form.values.type == "recurring" && (
+                    {form.values.type == EventTypes.recurring && (
                         <>
                             <Group grow justify="flex-between">
                                 <NumberInput
