@@ -5,7 +5,7 @@ import { getErrorMessage } from "@/data/error";
 import { useState } from "react";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
 import { durationToMinutes } from "@/helpers";
-import { RecurrenceTypes, Weekday } from "@/api/models";
+import { RecurrenceTypes, Weekday, type OnetimeEventCreate, type RecurringEventCreate } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 
 interface EventFormProps {
@@ -13,38 +13,63 @@ interface EventFormProps {
     setAlert: (alert: string) => void;
 }
 
+interface EventValues {
+    name: string;
+    start: string;
+    duration: string;
+    type: "onetime" | "recurring";
+    recurrenceAmount: number;
+    recurrenceType: RecurrenceTypes;
+    weekDays: Weekday[];
+    monthDay: number | null;
+    yearMonth: number | null;
+}
+
 export default function EventForm({ close, setAlert }: EventFormProps) {
-    const form = useForm({
+    const form = useForm<EventValues>({
         mode: 'controlled',
         initialValues: {
-            'name': '',
-            'start': '',
-            'duration': '',
-            'type': 'onetime',
-            'recurrenceAmount': 1,
-            'recurrenceType': RecurrenceTypes.WEEKLY as RecurrenceTypes,
-            'weekDays': [],
-            'monthDay': '',
-            'yearMonth': '',
-
+            name: "",
+            start: "",
+            duration: "",
+            type: "onetime",
+            recurrenceAmount: 1,
+            recurrenceType: RecurrenceTypes.WEEKLY,
+            weekDays: [],
+            monthDay: null,
+            yearMonth: null
         },
         // validate: schemaResolver(formSchema, { sync: true })
     })
     const handleSubmit = async (values: typeof form.values) => {
-        const requestData = {
-            ...values,
+        let baseRequestData = {
+            name: values.name,
             start: new Date(values.start).toISOString(),
-            duration: durationToMinutes(values.duration)
-        }
-
+            duration: durationToMinutes(values.duration),
+        };
+        let requestData;
         let response;
 
         switch (values.type) {
             case "recurring":
+                requestData = {
+                    ...baseRequestData,
+                    recurrenceAmount: values.recurrenceAmount,
+                    recurrenceType: values.recurrenceType,
+                    weekDays: values.weekDays,
+                    monthDay: values.monthDay,
+                    yearMonth: values.yearMonth
+                }
+
                 response = await postApiEventCreateRecurring(requestData);
                 break;
 
             case "onetime":
+                requestData = {
+                    ...baseRequestData,
+                    start: new Date(values.start).toISOString(),
+                    duration: durationToMinutes(values.duration)
+                }
                 response = await postApiEventCreateOnetime(requestData);
                 break;
 

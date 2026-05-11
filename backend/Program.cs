@@ -158,7 +158,7 @@ builder.Services.AddAutoMapper(cfg =>
             options.MapFrom(source => new RecurrenceGet
             {
                 RRULE = source.RRULE,
-                ExDate = source.OverrideEvents.Select(e => e.Start.ToString("yyyy-MM-ddTHH:mm:ss")).ToList()
+                ExDate = new List<string>()
             });
         })
         .IncludeBase<Event, EventGet>();

@@ -20,7 +20,7 @@ namespace backend.Services
             switch (recurringEventCreate.RecurrenceType)
             {
                 case RecurrenceTypes.WEEKLY:
-                    parts.Add($"BYDAY={recurringEventCreate.WeekDays}");
+                    parts.Add($"BYDAY={string.Join(",", recurringEventCreate.WeekDays)}");
                     break;
                 case RecurrenceTypes.MONTHLY:
                     parts.Add($"BYMONTHDAY={recurringEventCreate.MonthDay}");

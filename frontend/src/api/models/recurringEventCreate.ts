@@ -11,11 +11,18 @@ export interface RecurringEventCreate {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
   recurrenceAmount: number | string;
   recurrenceType: RecurrenceTypes;
-  weekDays: Weekday[];
-  /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  monthDay: number | string;
-  /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  yearMonth: number | string;
+  /** @nullable */
+  weekDays?: Weekday[] | null;
+  /**
+     * @nullable
+     * @pattern ^-?(?:0|[1-9]\d*)$
+     */
+  monthDay?: number | string | null;
+  /**
+     * @nullable
+     * @pattern ^-?(?:0|[1-9]\d*)$
+     */
+  yearMonth?: number | string | null;
   /** @nullable */
   movementId?: string | null;
   /** @maxLength 200 */

@@ -31,11 +31,8 @@ namespace backend.Viewmodels
         [Required]
         public RecurrenceTypes RecurrenceType { get; set; }
 
-        [Required]
-        public List<Weekday> WeekDays { get; set; }
-        [Required]
-        public int MonthDay { get; set; }
-        [Required]
-        public int YearMonth { get; set; }
+        public List<Weekday>? WeekDays { get; set; }
+        public int? MonthDay { get; set; }
+        public int? YearMonth { get; set; }
     }
 }
