@@ -1,0 +1,15 @@
+---
+
+accounts_system_groups:
+
+accounts_system_users:
+
+accounts_groups:
+  - name: ansible
+    gid: 1002
+    state: present
+  - name: dev
+    gid: 1003
+    state: present
+
+accounts_users:
