@@ -5,3 +5,8 @@
     update_cache: true
     upgrade: safe
     autoremove: true
+
+- name: Gather information about architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: pre_dpkg_arch
+  changed_when: false
