@@ -36,14 +36,15 @@ export const GetApiEventGetResponse = zod.array(GetApiEventGetResponseItem)
 
 export const postApiEventCreateOnetimeBodyNameMax = 200;
 
-export const postApiEventCreateOnetimeBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
+export const postApiEventCreateOnetimeBodyDurationRegExp = new RegExp('^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$');
 
 
 export const PostApiEventCreateOnetimeBody = zod.object({
   "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax),
-  "start": zod.string().datetime({"offset":true}),
-  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)])
+  "startDate": zod.string().date(),
+  "startTime": zod.string().time({}),
+  "duration": zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExp)
 })
 
 export const PostApiEventCreateOnetimeResponse = zod.string().uuid()
@@ -53,7 +54,7 @@ export const postApiEventCreateRecurringBodyMonthDayRegExpTwo = new RegExp('^-?(
 export const postApiEventCreateRecurringBodyYearMonthRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 export const postApiEventCreateRecurringBodyNameMax = 200;
 
-export const postApiEventCreateRecurringBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
+export const postApiEventCreateRecurringBodyDurationRegExp = new RegExp('^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$');
 
 
 export const PostApiEventCreateRecurringBody = zod.object({
@@ -64,8 +65,9 @@ export const PostApiEventCreateRecurringBody = zod.object({
   "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]).nullish(),
   "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateRecurringBodyNameMax),
-  "start": zod.string().datetime({"offset":true}),
-  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)])
+  "startDate": zod.string().date(),
+  "startTime": zod.string().time({}),
+  "duration": zod.string().regex(postApiEventCreateRecurringBodyDurationRegExp)
 })
 
 export const PostApiEventCreateRecurringResponse = zod.string().uuid()

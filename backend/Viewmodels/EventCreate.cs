@@ -13,8 +13,10 @@ namespace backend.Viewmodels
         public string Name { get; set; }
 
         [Required]
-        public DateTime Start { get; set; }
+        public DateOnly StartDate { get; set; }
         [Required]
-        public int Duration { get; set; }
+        public TimeOnly StartTime { get; set; }
+        [Required]
+        public TimeSpan Duration { get; set; }
     }
 }

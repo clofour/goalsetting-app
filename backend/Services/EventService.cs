@@ -34,9 +34,14 @@ namespace backend.Services
             return string.Join(";", parts);
         }
 
-        public DateTime ConstructEnd(DateTime start, int duration)
+        public DateTime ConstructStart(DateOnly startDate, TimeOnly startTime)
         {
-            return start.AddMinutes(duration);
+            return startDate.ToDateTime(startTime);
+        }
+
+        public DateTime ConstructEnd(DateTime start, TimeSpan duration)
+        {
+            return start.Add(duration);
         }
     }
 }

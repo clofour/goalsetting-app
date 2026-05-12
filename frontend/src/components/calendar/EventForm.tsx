@@ -1,9 +1,8 @@
 import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
-import { DatePickerInput, DateTimePicker, TimePicker } from "@mantine/dates";
+import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { getErrorMessage } from "@/data/error";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
-import { durationToMinutes } from "@/helpers";
 import { RecurrenceTypes, Weekday } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 
@@ -19,7 +18,8 @@ enum EventTypes {
 
 interface EventValues {
     name: string;
-    start: string;
+    startDate: string;
+    startTime: string;
     duration: string;
     type: EventTypes;
     recurrenceAmount: number;
@@ -34,7 +34,8 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         mode: 'controlled',
         initialValues: {
             name: "",
-            start: "",
+            startDate: "",
+            startTime: "",
             duration: "",
             type: EventTypes.Onetime,
             recurrenceAmount: 1,
@@ -46,7 +47,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         validate: (values) => {
             let formSchemaResolver;
 
-            switch(values.type) {
+            switch (values.type) {
                 case EventTypes.Onetime:
                     formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true });
                     break;
@@ -61,8 +62,9 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
     const handleSubmit = async (values: typeof form.values) => {
         let baseRequestData = {
             name: values.name,
-            start: new Date(values.start).toISOString(),
-            duration: durationToMinutes(values.duration),
+            startDate: values.startDate,
+            startTime: values.startTime,
+            duration: values.duration,
         };
         let requestData;
         let response;
@@ -70,9 +72,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
         switch (values.type) {
             case EventTypes.Onetime:
                 requestData = {
-                    ...baseRequestData,
-                    start: new Date(values.start).toISOString(),
-                    duration: durationToMinutes(values.duration)
+                    ...baseRequestData
                 }
                 response = await postApiEventCreateOnetime(requestData);
                 break;
@@ -134,14 +134,26 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
                         {...form.getInputProps('name')}
                     />
 
-                    <DateTimePicker
-                        label="Start date"
-                        description="When should this event start?"
-                        placeholder="Tomorrow"
-                        required
-                        key={form.key('start')}
-                        {...form.getInputProps('start')}
-                    />
+                    <Group grow justify="flex-between">
+                        <DatePickerInput
+                            label="Start date"
+                            description="What day should this event start?"
+                            placeholder="Tomorrow"
+                            required
+                            key={form.key('startDate')}
+                            {...form.getInputProps('startDate')}
+                        />
+
+                        <TimePicker
+                            label="Start time"
+                            description="What time should this event start?"
+                            format="24h"
+                            required
+                            key={form.key('startTime')}
+                            {...form.getInputProps('startTime')}
+                        />
+                    </Group>
+
 
                     <TimePicker
                         label="Duration"

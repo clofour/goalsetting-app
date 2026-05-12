@@ -10,7 +10,8 @@ export interface OnetimeEventCreate {
   movementId?: string | null;
   /** @maxLength 200 */
   name: string;
-  start: string;
-  /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  duration: number | string;
+  startDate: string;
+  startTime: string;
+  /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
+  duration: string;
 }
