@@ -49,14 +49,18 @@ namespace backend.Services
             return string.Join(";", parts);
         }
 
-        public DateTime ConstructStart(DateOnly startDate, TimeOnly startTime)
+        public DateTime ConstructStart(DateOnly startDate, TimeOnly startTime, string TimeZoneId)
         {
-            return startDate.ToDateTime(startTime);
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(TimeZoneId);
+            DateTime localDateTime = startDate.ToDateTime(startTime);
+            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(localDateTime, timeZone);
+
+            return utcDateTime;
         }
 
-        public DateTime ConstructEnd(DateTime start, TimeSpan duration)
+        public DateTime ConstructEnd(DateTime start, int duration)
         {
-            return start.Add(duration);
+            return start.AddMinutes(duration);
         }
     }
 }

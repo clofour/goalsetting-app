@@ -188,6 +188,11 @@ app.UseSerilogRequestLogging(options =>
 
 // Configure the HTTP request pipeline.
 
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler();
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -205,10 +210,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller}/{action}"
 );
-
-if (app.Environment.IsProduction())
-{
-    app.UseExceptionHandler();
-}
 
 app.Run();

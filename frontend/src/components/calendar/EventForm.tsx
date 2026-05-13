@@ -7,6 +7,7 @@ import { RecurrenceTypes, Weekday } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 import { IconExclamationCircle } from "@tabler/icons-react";
 import { useState } from "react";
+import { durationToMinutes } from "@/helpers";
 
 interface EventFormProps {
     close: () => void;
@@ -33,6 +34,12 @@ interface EventValues {
 export default function EventForm({ close }: EventFormProps) {
     const [alert, setAlert] = useState("");
 
+    const processValues = (values: EventValues) => {
+        return {
+            ...values,
+            duration: durationToMinutes(values.duration)
+        }
+    }
     const form = useForm<EventValues>({
         mode: 'controlled',
         initialValues: {
@@ -48,31 +55,42 @@ export default function EventForm({ close }: EventFormProps) {
             yearMonth: null
         },
         validate: (values) => {
+            let processedValues = processValues(values);
+            let formSchema;
             let formSchemaResolver;
 
-            switch (values.type) {
+            switch (processedValues.type) {
                 case EventTypes.Onetime:
-                    formSchemaResolver = schemaResolver(PostApiEventCreateOnetimeBody, { sync: true });
+                    formSchema = PostApiEventCreateOnetimeBody;
                     break;
                 case EventTypes.Recurring:
-                    formSchemaResolver = schemaResolver(PostApiEventCreateRecurringBody, { sync: true });
+                    formSchema = PostApiEventCreateRecurringBody;
                     break;
+                default:
+                    throw new RangeError("Type is not valid.");
             }
 
-            return formSchemaResolver(values);
+            formSchema = formSchema.omit({
+                timeZoneId: true
+            })
+
+            formSchemaResolver = schemaResolver(formSchema, { sync: true });
+            return formSchemaResolver(processedValues);
         }
     })
-    const handleSubmit = async (values: typeof form.values) => {
+    const handleSubmit = async (values: EventValues) => {
+        let processedValues = processValues(values);
         let baseRequestData = {
-            name: values.name,
-            startDate: values.startDate,
-            startTime: values.startTime,
-            duration: values.duration,
+            name: processedValues.name,
+            startDate: processedValues.startDate,
+            startTime: processedValues.startTime,
+            timeZoneId: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            duration: processedValues.duration,
         };
         let requestData;
         let response;
 
-        switch (values.type) {
+        switch (processedValues.type) {
             case EventTypes.Onetime:
                 requestData = {
                     ...baseRequestData

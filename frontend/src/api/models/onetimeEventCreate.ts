@@ -12,6 +12,7 @@ export interface OnetimeEventCreate {
   name: string;
   startDate: string;
   startTime: string;
-  /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
-  duration: string;
+  timeZoneId: string;
+  /** @pattern ^-?(?:0|[1-9]\d*)$ */
+  duration: number | string;
 }

@@ -36,7 +36,7 @@ export const GetApiEventGetResponse = zod.array(GetApiEventGetResponseItem)
 
 export const postApiEventCreateOnetimeBodyNameMax = 200;
 
-export const postApiEventCreateOnetimeBodyDurationRegExp = new RegExp('^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$');
+export const postApiEventCreateOnetimeBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 
 
 export const PostApiEventCreateOnetimeBody = zod.object({
@@ -44,7 +44,8 @@ export const PostApiEventCreateOnetimeBody = zod.object({
   "name": zod.string().max(postApiEventCreateOnetimeBodyNameMax),
   "startDate": zod.string().date(),
   "startTime": zod.string().time({}),
-  "duration": zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExp)
+  "timeZoneId": zod.string(),
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateOnetimeBodyDurationRegExpTwo)])
 })
 
 export const PostApiEventCreateOnetimeResponse = zod.string().uuid()
@@ -64,7 +65,7 @@ export const postApiEventCreateRecurringBodyYearMonthMaxTwo = 12;
 export const postApiEventCreateRecurringBodyYearMonthRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 export const postApiEventCreateRecurringBodyNameMax = 200;
 
-export const postApiEventCreateRecurringBodyDurationRegExp = new RegExp('^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$');
+export const postApiEventCreateRecurringBodyDurationRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 
 
 export const PostApiEventCreateRecurringBody = zod.object({
@@ -77,7 +78,8 @@ export const PostApiEventCreateRecurringBody = zod.object({
   "name": zod.string().max(postApiEventCreateRecurringBodyNameMax),
   "startDate": zod.string().date(),
   "startTime": zod.string().time({}),
-  "duration": zod.string().regex(postApiEventCreateRecurringBodyDurationRegExp)
+  "timeZoneId": zod.string(),
+  "duration": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyDurationRegExpTwo)])
 })
 
 export const PostApiEventCreateRecurringResponse = zod.string().uuid()
