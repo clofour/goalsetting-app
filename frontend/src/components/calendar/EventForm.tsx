@@ -40,11 +40,11 @@ export default function EventForm({ close }: EventFormProps) {
             duration: durationToMinutes(values.duration)
         }
     }
-    const form = useForm<EventValues>({
+    const form = useForm<EventValues>({ // TODO: Remove form descriptions, as they don't add anything
         mode: 'controlled',
         initialValues: {
             name: "",
-            startDate: "",
+            startDate: "", // TODO: Fix "Invalid Date" error
             startTime: "",
             duration: "",
             type: EventTypes.Onetime,
@@ -203,6 +203,7 @@ export default function EventForm({ close }: EventFormProps) {
                     <Input.Wrapper
                         label="Type"
                         description="Should this event be recurring?"
+                        required
                     >
                         <SegmentedControl
 
