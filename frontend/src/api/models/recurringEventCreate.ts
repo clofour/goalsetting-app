@@ -5,14 +5,14 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { RecurrenceTypes } from './recurrenceTypes';
-import type { Weekday } from './weekday';
+import type { WeekDay } from './weekDay';
 
 export interface RecurringEventCreate {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
   recurrenceAmount: number | string;
   recurrenceType: RecurrenceTypes;
   /** @nullable */
-  weekDays?: Weekday[] | null;
+  weekDays?: WeekDay[] | null;
   /**
      * @minimum 1
      * @maximum 31

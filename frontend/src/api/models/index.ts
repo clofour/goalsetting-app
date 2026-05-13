@@ -27,4 +27,4 @@ export * from './recurrenceTypes';
 export * from './recurringEventCreate';
 export * from './signinForm';
 export * from './signupForm';
-export * from './weekday';
+export * from './weekDay';

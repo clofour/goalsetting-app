@@ -12,7 +12,7 @@ namespace backend.Viewmodels
         YEARLY
     }
 
-    public enum Weekday
+    public enum WeekDay
     {
         MO,
         TU,
@@ -31,7 +31,7 @@ namespace backend.Viewmodels
         [Required]
         public RecurrenceTypes RecurrenceType { get; set; }
 
-        public List<Weekday>? WeekDays { get; set; }
+        public List<WeekDay>? WeekDays { get; set; }
         [Range(1, 31)]
         public int? MonthDay { get; set; }
         [Range(1, 12)]

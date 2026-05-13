@@ -3,7 +3,7 @@ import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { getErrorMessage } from "@/data/error";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
-import { RecurrenceTypes, Weekday } from "@/api/models";
+import { RecurrenceTypes, WeekDay } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
 import { IconExclamationCircle } from "@tabler/icons-react";
 import { useState } from "react";
@@ -26,7 +26,7 @@ interface EventValues {
     type: EventTypes;
     recurrenceAmount: number;
     recurrenceType: RecurrenceTypes;
-    weekDays: Weekday[];
+    weekDays: WeekDay[];
     monthDay: number | null;
     yearMonth: number | null;
 }
@@ -132,15 +132,29 @@ export default function EventForm({ close }: EventFormProps) {
         { label: "month", value: RecurrenceTypes.MONTHLY },
         { label: "year", value: RecurrenceTypes.YEARLY }
     ];
-    const weekdayOptions = [
-        { label: "Monday", value: Weekday.MO },
-        { label: "Tuesday", value: Weekday.TU },
-        { label: "Wednesday", value: Weekday.WE },
-        { label: "Thursday", value: Weekday.TH },
-        { label: "Friday", value: Weekday.FR },
-        { label: "Saturday", value: Weekday.SA },
-        { label: "Sunday", value: Weekday.SU }
+    const weekDayOptions = [
+        { label: "Monday", value: WeekDay.MO },
+        { label: "Tuesday", value: WeekDay.TU },
+        { label: "Wednesday", value: WeekDay.WE },
+        { label: "Thursday", value: WeekDay.TH },
+        { label: "Friday", value: WeekDay.FR },
+        { label: "Saturday", value: WeekDay.SA },
+        { label: "Sunday", value: WeekDay.SU }
     ];
+    const yearMonthOptions = [
+        { label: "January", value: 1 },
+        { label: "February", value: 2 },
+        { label: "March", value: 3 },
+        { label: "April", value: 4 },
+        { label: "May", value: 5 },
+        { label: "June", value: 6 },
+        { label: "July", value: 7 },
+        { label: "August", value: 8 },
+        { label: "September", value: 9 },
+        { label: "October", value: 10 },
+        { label: "November", value: 11 },
+        { label: "December", value: 12 }
+    ]
 
     return (
         <>
@@ -229,7 +243,7 @@ export default function EventForm({ close }: EventFormProps) {
                                     {...form.getInputProps('weekDays')}
                                 >
                                     <Group mt="xs">
-                                        {weekdayOptions.map((weekday) => (
+                                        {weekDayOptions.map((weekday) => (
                                             <Checkbox key={weekday.value} label={weekday.label} value={weekday.value} />
                                         ))}
                                     </Group>
@@ -257,10 +271,11 @@ export default function EventForm({ close }: EventFormProps) {
                                         key={form.key('monthDay')}
                                         {...form.getInputProps('monthDay')}
                                     />
-                                    <NumberInput
+                                    <Select
                                         label="Month of the year"
                                         description="Which month of the year should this event take place?"
                                         required
+                                        data={yearMonthOptions}
                                         key={form.key('yearMonth')}
                                         {...form.getInputProps('yearMonth')}
                                     />
