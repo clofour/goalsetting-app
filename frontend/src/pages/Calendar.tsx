@@ -2,15 +2,14 @@ import EventForm from '@/components/calendar/EventForm';
 import Schedule from '@/components/calendar/Schedule';
 import PageTitle from '@/components/shared/PageTitle';
 import { capitalize } from '@/helpers';
-import { Alert, Button, Group, Modal } from '@mantine/core';
+import { Button, Group, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconExclamationCircle, IconPlus } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 
 export default function Calendar() {
     const [opened, { open, close }] = useDisclosure(false);
     const [activeMode, setActiveMode] = useState("create");
-    const [alert, setAlert] = useState("");
 
     return (
         <>
@@ -21,8 +20,7 @@ export default function Calendar() {
 
 
             <Modal opened={opened} onClose={close} title={`${capitalize(activeMode)} Event`}>
-                <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
-                <EventForm close={close} setAlert={setAlert} />
+                <EventForm close={close} />
             </Modal>
 
             <Schedule />

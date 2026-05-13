@@ -75,6 +75,7 @@ namespace backend.Controllers
             mapper.Map(northStarCreate, northStar);
             northStar.User = user;
 
+            appDbContext.NorthStars.Add(northStar);
             await appDbContext.SaveChangesAsync();
 
             return Ok();
@@ -99,10 +100,10 @@ namespace backend.Controllers
 
             Bearing bearing = new Bearing();
             mapper.Map(bearingCreate, bearing);
-
             bearing.User = user;
             bearing.NorthStar = parent;
 
+            appDbContext.Bearings.Add(bearing);
             await appDbContext.SaveChangesAsync();
 
             return Ok();
@@ -127,10 +128,10 @@ namespace backend.Controllers
 
             Movement movement = new Movement();
             mapper.Map(movementCreate, movement);
-
             movement.User = user;
             movement.Bearing = parent;
 
+            appDbContext.Movements.Add(movement);
             await appDbContext.SaveChangesAsync();
 
             return Ok();

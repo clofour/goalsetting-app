@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
-    public class GoalService(AppDbContext appDbContext, IMapper mapper)
+    public class GoalService(AppDbContext appDbContext)
     {
         public async Task<T?> FindParent<T>(User user, Guid id) where T: Goal
         {

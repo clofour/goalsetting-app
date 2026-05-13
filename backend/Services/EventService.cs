@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
-    public class EventService(AppDbContext appDbContext, IMapper mapper)
+    public class EventService()
     {
         public string ConstructRRULE(RecurringEventCreate recurringEventCreate)
         {
@@ -20,15 +20,30 @@ namespace backend.Services
             switch (recurringEventCreate.RecurrenceType)
             {
                 case RecurrenceTypes.WEEKLY:
+                    if (recurringEventCreate.WeekDays == null)
+                        throw new ArgumentException("WeekDays is required for weekly recurrence.");
+
                     parts.Add($"BYDAY={string.Join(",", recurringEventCreate.WeekDays)}");
+                    
                     break;
                 case RecurrenceTypes.MONTHLY:
+                    if (recurringEventCreate.MonthDay == null)
+                        throw new ArgumentException("MonthDay is required for monthly recurrence.");
+
                     parts.Add($"BYMONTHDAY={recurringEventCreate.MonthDay}");
+                    
                     break;
                 case RecurrenceTypes.YEARLY:
+                    if (recurringEventCreate.MonthDay == null || recurringEventCreate.YearMonth == null)
+                        throw new ArgumentException("MonthDay and YearMonth are required for yearly recurrence.");
+
                     parts.Add($"BYMONTHDAY={recurringEventCreate.MonthDay}");
                     parts.Add($"BYMONTH={recurringEventCreate.YearMonth}");
+                    
                     break;
+
+                default:
+                    throw new InvalidEnumArgumentException(nameof(recurringEventCreate.RecurrenceType), (int) recurringEventCreate.RecurrenceType, typeof(RecurrenceTypes));
             }
 
             return string.Join(";", parts);

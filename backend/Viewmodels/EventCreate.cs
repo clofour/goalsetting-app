@@ -17,6 +17,7 @@ namespace backend.Viewmodels
         [Required]
         public TimeOnly StartTime { get; set; }
         [Required]
+        [Range(typeof(TimeSpan), "00:00:00", "23:59:59")]
         public TimeSpan Duration { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace backend.Models
 {
     public class OverrideEvent(): Event
     {
-        Guid RecurringEventId { get; set; }
+        public Guid RecurringEventId { get; set; }
         [ForeignKey("RecurringEventId")]
-        RecurringEvent RecurringEvent { get; set; }
-        DateTime RecurrenceId { get; set; }
+        public RecurringEvent RecurringEvent { get; set; }
+        public DateTime RecurrenceId { get; set; }
     }
 }

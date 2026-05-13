@@ -186,9 +186,6 @@ app.UseSerilogRequestLogging(options =>
     };
 });
 
-app.UseDefaultFiles();
-app.MapStaticAssets();
-
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
@@ -208,5 +205,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller}/{action}"
 );
+
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler();
+}
 
 app.Run();

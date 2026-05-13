@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260509124806_Init")]
+    [Migration("20260513074244_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -112,7 +112,7 @@ namespace backend.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("MovementId")
+                    b.Property<Guid?>("MovementId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -152,10 +152,15 @@ namespace backend.Migrations
                     b.Property<int>("EventState")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("ReflectionId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReflectionId");
 
                     b.HasIndex("UserId");
 
@@ -295,6 +300,14 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.OverrideEvent", b =>
                 {
                     b.HasBaseType("backend.Models.Event");
+
+                    b.Property<DateTime>("RecurrenceId")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RecurringEventId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("RecurringEventId");
 
                     b.HasDiscriminator().HasValue("Override");
                 });
@@ -436,12 +449,10 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Movement", "Movement")
                         .WithMany()
-                        .HasForeignKey("MovementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovementId");
 
                     b.HasOne("backend.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Events")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -453,11 +464,19 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.EventInstanceState", b =>
                 {
+                    b.HasOne("backend.Models.Reflection", "Reflection")
+                        .WithMany()
+                        .HasForeignKey("ReflectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("backend.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Reflection");
 
                     b.Navigation("User");
                 });
@@ -479,6 +498,17 @@ namespace backend.Migrations
                     b.Navigation("Event");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.OverrideEvent", b =>
+                {
+                    b.HasOne("backend.Models.RecurringEvent", "RecurringEvent")
+                        .WithMany("OverrideEvents")
+                        .HasForeignKey("RecurringEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RecurringEvent");
                 });
 
             modelBuilder.Entity("backend.Models.Bearing", b =>
@@ -532,7 +562,14 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
+                    b.Navigation("Events");
+
                     b.Navigation("NorthStars");
+                });
+
+            modelBuilder.Entity("backend.Models.RecurringEvent", b =>
+                {
+                    b.Navigation("OverrideEvents");
                 });
 
             modelBuilder.Entity("backend.Models.Bearing", b =>

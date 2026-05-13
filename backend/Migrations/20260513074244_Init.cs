@@ -112,25 +112,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventInstanceStates",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    EventState = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EventInstanceStates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EventInstanceStates_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "NorthStars",
                 columns: table => new
                 {
@@ -221,11 +202,13 @@ namespace backend.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MovementId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MovementId = table.Column<Guid>(type: "uuid", nullable: true),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Type = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    RecurringEventId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RecurrenceId = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     RRULE = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -238,11 +221,16 @@ namespace backend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Events_Events_RecurringEventId",
+                        column: x => x.RecurringEventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Events_Movements_MovementId",
                         column: x => x.MovementId,
                         principalTable: "Movements",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -269,6 +257,32 @@ namespace backend.Migrations
                         name: "FK_Reflections_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventInstanceStates",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EventState = table.Column<int>(type: "integer", nullable: false),
+                    ReflectionId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventInstanceStates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventInstanceStates_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventInstanceStates_Reflections_ReflectionId",
+                        column: x => x.ReflectionId,
+                        principalTable: "Reflections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,6 +319,11 @@ namespace backend.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventInstanceStates_ReflectionId",
+                table: "EventInstanceStates",
+                column: "ReflectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EventInstanceStates_UserId",
                 table: "EventInstanceStates",
                 column: "UserId");
@@ -313,6 +332,11 @@ namespace backend.Migrations
                 name: "IX_Events_MovementId",
                 table: "Events",
                 column: "MovementId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_RecurringEventId",
+                table: "Events",
+                column: "RecurringEventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_UserId",

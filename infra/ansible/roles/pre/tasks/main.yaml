@@ -3,8 +3,6 @@
 - name: Update repositories
   ansible.builtin.apt:
     update_cache: true
-    upgrade: safe
-    autoremove: true
 
 - name: Gather information about architecture
   ansible.builtin.command: dpkg --print-architecture

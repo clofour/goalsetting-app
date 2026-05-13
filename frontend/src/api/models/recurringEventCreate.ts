@@ -14,11 +14,15 @@ export interface RecurringEventCreate {
   /** @nullable */
   weekDays?: Weekday[] | null;
   /**
+     * @minimum 1
+     * @maximum 31
      * @nullable
      * @pattern ^-?(?:0|[1-9]\d*)$
      */
   monthDay?: number | string | null;
   /**
+     * @minimum 1
+     * @maximum 12
      * @nullable
      * @pattern ^-?(?:0|[1-9]\d*)$
      */

@@ -50,7 +50,17 @@ export const PostApiEventCreateOnetimeBody = zod.object({
 export const PostApiEventCreateOnetimeResponse = zod.string().uuid()
 
 export const postApiEventCreateRecurringBodyRecurrenceAmountRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
+export const postApiEventCreateRecurringBodyMonthDayMaxOne = 31;
+
+export const postApiEventCreateRecurringBodyMonthDayMaxTwo = 31;
+
+
 export const postApiEventCreateRecurringBodyMonthDayRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
+export const postApiEventCreateRecurringBodyYearMonthMaxOne = 12;
+
+export const postApiEventCreateRecurringBodyYearMonthMaxTwo = 12;
+
+
 export const postApiEventCreateRecurringBodyYearMonthRegExpTwo = new RegExp('^-?(?:0|[1-9]\\d\*)$');
 export const postApiEventCreateRecurringBodyNameMax = 200;
 
@@ -61,8 +71,8 @@ export const PostApiEventCreateRecurringBody = zod.object({
   "recurrenceAmount": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyRecurrenceAmountRegExpTwo)]),
   "recurrenceType": zod.enum(['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY']),
   "weekDays": zod.array(zod.enum(['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'])).nullish(),
-  "monthDay": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]).nullish(),
-  "yearMonth": zod.union([zod.number(),zod.string().regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]).nullish(),
+  "monthDay": zod.union([zod.number().min(1).max(postApiEventCreateRecurringBodyMonthDayMaxOne),zod.string().min(1).max(postApiEventCreateRecurringBodyMonthDayMaxTwo).regex(postApiEventCreateRecurringBodyMonthDayRegExpTwo)]).nullish(),
+  "yearMonth": zod.union([zod.number().min(1).max(postApiEventCreateRecurringBodyYearMonthMaxOne),zod.string().min(1).max(postApiEventCreateRecurringBodyYearMonthMaxTwo).regex(postApiEventCreateRecurringBodyYearMonthRegExpTwo)]).nullish(),
   "movementId": zod.string().uuid().nullish(),
   "name": zod.string().max(postApiEventCreateRecurringBodyNameMax),
   "startDate": zod.string().date(),

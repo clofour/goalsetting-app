@@ -1,14 +1,15 @@
-import { Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
+import { Alert, Button, Checkbox, Group, Input, NumberInput, SegmentedControl, Select, Stack, TextInput, useCombobox } from "@mantine/core";
 import { useForm, schemaResolver } from "@mantine/form";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { getErrorMessage } from "@/data/error";
 import { postApiEventCreateOnetime, postApiEventCreateRecurring } from "@/api/endpoints/event/event";
 import { RecurrenceTypes, Weekday } from "@/api/models";
 import { PostApiEventCreateOnetimeBody, PostApiEventCreateRecurringBody } from "@/api/endpoints/event/event.zod";
+import { IconExclamationCircle } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface EventFormProps {
     close: () => void;
-    setAlert: (alert: string) => void;
 }
 
 enum EventTypes {
@@ -29,7 +30,9 @@ interface EventValues {
     yearMonth: number | null;
 }
 
-export default function EventForm({ close, setAlert }: EventFormProps) {
+export default function EventForm({ close }: EventFormProps) {
+    const [alert, setAlert] = useState("");
+
     const form = useForm<EventValues>({
         mode: 'controlled',
         initialValues: {
@@ -123,6 +126,7 @@ export default function EventForm({ close, setAlert }: EventFormProps) {
 
     return (
         <>
+            <Alert variant="light" color="red" title="Error" icon={<IconExclamationCircle />} hidden={alert === ""}>{alert}</Alert>
             <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))}>
                 <Stack>
                     <TextInput

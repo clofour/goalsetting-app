@@ -19,8 +19,8 @@ namespace backend.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
         public EventState EventState { get; set; }
-        Guid ReflectionId { get; set; }
+        public Guid ReflectionId { get; set; }
         [ForeignKey("ReflectionId")]
-        Reflection Reflection { get; set; }
+        public Reflection Reflection { get; set; }
     }
 }

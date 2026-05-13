@@ -86,13 +86,13 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult> Update()
         {
-            return Ok();
+            throw new NotImplementedException();
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete()
         {
-            return Ok();
+            throw new NotImplementedException();
         }
     }
 }

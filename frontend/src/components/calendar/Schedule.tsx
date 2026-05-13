@@ -12,12 +12,10 @@ export default function Calendar() {
 
     return (
         <>
-            {events && (
-                <Schedule
-                    events={events}
-                    layout="responsive"
-                />
-            )}
+            <Schedule
+                events={events ?? []}
+                layout="responsive"
+            />
         </>
     );
 }

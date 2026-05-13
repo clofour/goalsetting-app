@@ -32,7 +32,9 @@ namespace backend.Viewmodels
         public RecurrenceTypes RecurrenceType { get; set; }
 
         public List<Weekday>? WeekDays { get; set; }
+        [Range(1, 31)]
         public int? MonthDay { get; set; }
+        [Range(1, 12)]
         public int? YearMonth { get; set; }
     }
 }
