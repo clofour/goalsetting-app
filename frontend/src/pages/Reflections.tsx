@@ -1,10 +1,10 @@
-import { useGetApiReflectionList } from '@/api/endpoints/reflection/reflection';
-import { getGetApiReflectionListResponseMock } from '@/api/endpoints/reflection/reflection.msw';
-import Bar from '@/components/reflections/Bar';
-import Stats from '@/components/reflections/Stats';
-import PageTitle from '@/components/shared/PageTitle';
-import { Button, Group, SimpleGrid, Stack, Text } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { useGetApiReflectionList } from "@/api/endpoints/reflection/reflection";
+import { getGetApiReflectionListResponseMock } from "@/api/endpoints/reflection/reflection.msw";
+import Bar from "@/components/reflections/Bar";
+import Stats from "@/components/reflections/Stats";
+import PageTitle from "@/components/shared/PageTitle";
+import { Button, Group, SimpleGrid, Stack, Text } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 
 export default function Reflections() {
     // const { data: response, error, isLoading, mutate } = useGetApiReflectionList();

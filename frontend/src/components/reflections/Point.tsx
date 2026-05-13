@@ -1,4 +1,4 @@
-import { Paper, Stack, Text } from '@mantine/core';
+import { Paper, Stack, Text } from "@mantine/core";
 
 interface PointProps {
     name: string;

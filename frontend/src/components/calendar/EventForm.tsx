@@ -40,8 +40,8 @@ export default function EventForm({ close }: EventFormProps) {
             duration: durationToMinutes(values.duration)
         }
     }
-    const form = useForm<EventValues>({ // TODO: Remove form descriptions, as they don't add anything
-        mode: 'controlled',
+    const form = useForm<EventValues>({ // TODO: Remove form descriptions, as they don"t add anything
+        mode: "controlled",
         initialValues: {
             name: "",
             startDate: "", // TODO: Fix "Invalid Date" error
@@ -166,8 +166,8 @@ export default function EventForm({ close }: EventFormProps) {
                         description="What should this event be called?"
                         placeholder="Go to the gym"
                         required
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        key={form.key("name")}
+                        {...form.getInputProps("name")}
                     />
 
                     <Group grow justify="flex-between">
@@ -176,8 +176,8 @@ export default function EventForm({ close }: EventFormProps) {
                             description="What day should this event start?"
                             placeholder="Tomorrow"
                             required
-                            key={form.key('startDate')}
-                            {...form.getInputProps('startDate')}
+                            key={form.key("startDate")}
+                            {...form.getInputProps("startDate")}
                         />
 
                         <TimePicker
@@ -185,8 +185,8 @@ export default function EventForm({ close }: EventFormProps) {
                             description="What time should this event start?"
                             format="24h"
                             required
-                            key={form.key('startTime')}
-                            {...form.getInputProps('startTime')}
+                            key={form.key("startTime")}
+                            {...form.getInputProps("startTime")}
                         />
                     </Group>
 
@@ -196,8 +196,8 @@ export default function EventForm({ close }: EventFormProps) {
                         description="How long should this event last?"
                         type="duration"
                         required
-                        key={form.key('duration')}
-                        {...form.getInputProps('duration')}
+                        key={form.key("duration")}
+                        {...form.getInputProps("duration")}
                     />
 
                     <Input.Wrapper
@@ -209,8 +209,8 @@ export default function EventForm({ close }: EventFormProps) {
 
                             data={eventTypeOptions}
                             fullWidth
-                            key={form.key('type')}
-                            {...form.getInputProps('type')}
+                            key={form.key("type")}
+                            {...form.getInputProps("type")}
                         />
                     </Input.Wrapper>
 
@@ -222,16 +222,16 @@ export default function EventForm({ close }: EventFormProps) {
                                     description="How many recurrence units should there be?"
                                     placeholder="1"
                                     required
-                                    key={form.key('recurrenceAmount')}
-                                    {...form.getInputProps('recurrenceAmount')}
+                                    key={form.key("recurrenceAmount")}
+                                    {...form.getInputProps("recurrenceAmount")}
                                 />
                                 <Select
                                     label="Unit"
                                     description="What should the recurrence unit be?"
                                     required
                                     data={unitOptions}
-                                    key={form.key('recurrenceType')}
-                                    {...form.getInputProps('recurrenceType')}
+                                    key={form.key("recurrenceType")}
+                                    {...form.getInputProps("recurrenceType")}
                                 />
                             </Group>
 
@@ -240,8 +240,8 @@ export default function EventForm({ close }: EventFormProps) {
                                     label="Day of the week"
                                     description="Which day of the week should this event take place?"
                                     required
-                                    key={form.key('weekDays')}
-                                    {...form.getInputProps('weekDays')}
+                                    key={form.key("weekDays")}
+                                    {...form.getInputProps("weekDays")}
                                 >
                                     <Group mt="xs">
                                         {weekDayOptions.map((weekday) => (
@@ -258,8 +258,8 @@ export default function EventForm({ close }: EventFormProps) {
                                     min={1}
                                     max={31}
                                     required
-                                    key={form.key('monthDay')}
-                                    {...form.getInputProps('monthDay')}
+                                    key={form.key("monthDay")}
+                                    {...form.getInputProps("monthDay")}
                                 />
                             )}
 
@@ -269,16 +269,16 @@ export default function EventForm({ close }: EventFormProps) {
                                         label="Day of the month"
                                         description="Which day of the month should this event take place?"
                                         required
-                                        key={form.key('monthDay')}
-                                        {...form.getInputProps('monthDay')}
+                                        key={form.key("monthDay")}
+                                        {...form.getInputProps("monthDay")}
                                     />
                                     <Select
                                         label="Month of the year"
                                         description="Which month of the year should this event take place?"
                                         required
                                         data={yearMonthOptions}
-                                        key={form.key('yearMonth')}
-                                        {...form.getInputProps('yearMonth')}
+                                        key={form.key("yearMonth")}
+                                        {...form.getInputProps("yearMonth")}
                                     />
                                 </Group>
                             )}

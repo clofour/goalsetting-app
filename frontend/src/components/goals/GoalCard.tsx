@@ -1,7 +1,7 @@
-import { Box, Paper, Text, Flex } from '@mantine/core';
-import GoalMenu from '@/components/goals/GoalMenu';
-import type { ReactElement } from 'react';
-import { theme } from '@/data/theme.js';
+import { Box, Paper, Text, Flex } from "@mantine/core";
+import GoalMenu from "@/components/goals/GoalMenu";
+import type { ReactElement } from "react";
+import { theme } from "@/data/theme.js";
 
 interface GoalCardProps {
     id: string;

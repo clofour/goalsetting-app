@@ -1,5 +1,5 @@
-import { useGetApiReflectionList } from '@/api/endpoints/reflection/reflection';
-import { Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { useGetApiReflectionList } from "@/api/endpoints/reflection/reflection";
+import { Paper, SimpleGrid, Stack, Text } from "@mantine/core";
 
 interface StatsProps {
     aspect: string;

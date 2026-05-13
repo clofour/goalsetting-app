@@ -1,5 +1,5 @@
-import { Image } from '@mantine/core';
-import type { ImageProps } from '@mantine/core';
+import { Image } from "@mantine/core";
+import type { ImageProps } from "@mantine/core";
 
 export enum LogoLayout {
     Horizontal = "horizontal.svg",
@@ -9,7 +9,7 @@ export enum LogoLayout {
 
 type LogoProps = {
     layout: LogoLayout;
-} & Omit<ImageProps, 'src'>
+} & Omit<ImageProps, "src">
 
 export default function Logo({layout, ...props}: LogoProps) {
     return <Image src={`/${layout}`} {...props} />

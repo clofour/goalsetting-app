@@ -1,7 +1,7 @@
-import type { ReflectionGet } from '@/api/models';
-import { Card, Group, Text } from '@mantine/core';
-import type { ReactNode } from 'react';
-import Point from '@/components/reflections/Point';
+import type { ReflectionGet } from "@/api/models";
+import { Card, Group, Text } from "@mantine/core";
+import type { ReactNode } from "react";
+import Point from "@/components/reflections/Point";
 
 interface BarProps {
     label: string;
