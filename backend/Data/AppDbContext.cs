@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Data
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options)
-        : IdentityDbContext<User>(options)
+        : IdentityUserContext<User, Guid>(options)
     {
 
         public DbSet<AccessCode> AccessCodes { get; set; }
@@ -14,6 +14,7 @@ namespace backend.Data
         public DbSet<Bearing> Bearings { get; set; }
         public DbSet<Movement> Movements { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventInstanceState> EventInstanceStates { get; set; }
         public DbSet<Reflection> Reflections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -31,6 +32,12 @@ namespace backend.Data
                 .WithOne(movement => movement.Bearing)
                 .HasForeignKey("BearingId")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Event>()
+                .HasDiscriminator<string>("Type")
+                .HasValue<OnetimeEvent>("Onetime")
+                .HasValue<RecurringEvent>("Recurring")
+                .HasValue<OverrideEvent>("Override");
 
             base.OnModelCreating(builder);
         }

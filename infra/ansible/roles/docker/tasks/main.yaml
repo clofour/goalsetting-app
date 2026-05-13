@@ -1,0 +1,25 @@
+---
+
+- name: Add Docker key and repository
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: https://download.docker.com/linux/debian
+    suites: "{{ ansible_distribution_release }}"
+    components: stable
+    architectures: "{{ pre_dpkg_arch }}"
+    signed_by: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Update repositories
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Docker Engine
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin

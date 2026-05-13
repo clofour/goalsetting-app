@@ -7,6 +7,11 @@
 
 export * from './bearingCreate';
 export * from './bearingGet';
+export * from './eventGet';
+export * from './eventGetOnetimeEventGet';
+export * from './eventGetOnetimeEventGetType';
+export * from './eventGetRecurringEventGet';
+export * from './eventGetRecurringEventGetType';
 export * from './goalImportance';
 export * from './goalStats';
 export * from './goalType';
@@ -15,6 +20,11 @@ export * from './movementCreate';
 export * from './movementGet';
 export * from './northStarCreate';
 export * from './northStarGet';
+export * from './onetimeEventCreate';
 export * from './postApiGoalDeleteParams';
+export * from './recurrenceGet';
+export * from './recurrenceTypes';
+export * from './recurringEventCreate';
 export * from './signinForm';
 export * from './signupForm';
+export * from './weekDay';

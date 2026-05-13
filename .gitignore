@@ -1,3 +1,6 @@
+# Ansible
+collections/*
+
 # User-specific files
 *.rsuser
 *.suo

@@ -1,0 +1,7 @@
+---
+
+- name: Deploy to backend
+  import_playbook: backend.yaml
+
+- name: Deploy to database
+  import_playbook: database.yaml

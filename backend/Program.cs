@@ -13,6 +13,7 @@ using Destructurama;
 using Microsoft.AspNetCore.Identity;
 using backend.Viewmodels;
 using backend.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,20 +24,25 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
     .Destructure.UsingAttributes()
-    .Enrich.WithProperty("Name", "Goalsetting")
-    .Enrich.WithProperty("Version", "0.1.0")
+    .Enrich.WithProperty("Name", "Nordar")
+    .Enrich.WithProperty("Version", "v0.1.0")
     .Enrich.WithProperty("Environment", environment)
     .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers().WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
     .Enrich.With<RequestEnricher>()
 
-    .WriteTo.Console(outputTemplate: "{Name} {Version} ({Environment}) [{Timestamp:HH:mm:ss} {Level:u3}] {RequestData} {Message:lj}{NewLine}{Exception}")
+    .WriteTo.Console(outputTemplate: "{Name} {Version} [{Environment} {Timestamp:HH:mm:ss} {Level:u3}] {RequestData} {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSerilog();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    }
+);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -122,18 +128,44 @@ builder.Services.AddRateLimiter(options =>
 
 builder.Services.AddOpenApi();
 
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.CreateMap<NorthStarCreate, NorthStar>();
     cfg.CreateMap<BearingCreate, Bearing>();
     cfg.CreateMap<MovementCreate, Movement>();
-
     cfg.CreateMap<NorthStar, NorthStarGet>();
     cfg.CreateMap<Bearing, BearingGet>();
     cfg.CreateMap<Movement, MovementGet>();
+
+    cfg.CreateMap<OnetimeEventCreate, OnetimeEvent>();
+    cfg.CreateMap<RecurringEventCreate, RecurringEvent>();
+    cfg.CreateMap<Event, EventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
+        .Include<OnetimeEvent, OnetimeEventGet>()
+        .Include<RecurringEvent, RecurringEventGet>();
+    cfg.CreateMap<OnetimeEvent, OnetimeEventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
+        .IncludeBase<Event, EventGet>();
+    cfg.CreateMap<RecurringEvent, RecurringEventGet>()
+        .ForMember(destination => destination.Title, options => options.MapFrom(source => source.Name))
+        .ForMember(destination => destination.Recurrence, options =>
+        {
+            options.MapFrom(source => new RecurrenceGet
+            {
+                RRULE = source.RRULE,
+                ExDate = new List<string>()
+            });
+        })
+        .IncludeBase<Event, EventGet>();
 });
 
 builder.Services.AddScoped<GoalService>();
+builder.Services.AddScoped<EventService>();
 
 var app = builder.Build();
 
@@ -154,10 +186,12 @@ app.UseSerilogRequestLogging(options =>
     };
 });
 
-app.UseDefaultFiles();
-app.MapStaticAssets();
-
 // Configure the HTTP request pipeline.
+
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler();
+}
 
 app.UseHttpsRedirection();
 

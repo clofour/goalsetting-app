@@ -7,9 +7,9 @@
 
 export interface GoalStats {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  northStarCount?: number | string;
+  northStarCount: number | string;
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  bearingCount?: number | string;
+  bearingCount: number | string;
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
-  movementCount?: number | string;
+  movementCount: number | string;
 }

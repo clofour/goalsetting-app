@@ -5,4 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type GoalImportance = number;
+export type GoalImportance = typeof GoalImportance[keyof typeof GoalImportance];
+
+
+export const GoalImportance = {
+  None: 'None',
+  High: 'High',
+} as const;

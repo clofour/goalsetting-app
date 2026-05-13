@@ -1,0 +1,33 @@
+name: ansible-lint
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./infra/ansible
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.14"
+
+      - name: Set up Ansible
+        run: pip install -r requirements-ci.txt
+
+      - name: Set up collections
+        run: ansible-galaxy install -r requirements.yaml
+
+      - name: Run Ansible Lint
+        run: ansible-lint

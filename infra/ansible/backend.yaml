@@ -1,0 +1,11 @@
+---
+
+- name: Deploy to backend
+  become: true
+  hosts: backend
+  roles:
+    - pre
+    - sshd
+    - accounts
+    - ufw
+    - fail2ban

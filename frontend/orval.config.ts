@@ -10,7 +10,8 @@ export default defineConfig({
             client: 'swr',
             target: 'src/api/endpoints',
             schemas: 'src/api/models',
-            mock: true
+            mock: true,
+            clean: true // Shared directories
         }
     },
     goalappZod: {

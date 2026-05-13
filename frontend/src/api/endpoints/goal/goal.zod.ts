@@ -7,32 +7,65 @@
 import * as zod from 'zod';
 
 
+export const getApiGoalGetResponseDescriptionMax = 200;
+
+export const getApiGoalGetResponseJustificationMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemDescriptionMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemJustificationMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemStrengthsMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemWeaknessesMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemDifficultyMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemMotivationMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemTriggersMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemTemptationsMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemObstaclesMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemKillConditionsMax = 5000;
+
+export const getApiGoalGetResponseBearingsItemMovementsItemNameMax = 200;
+
+export const getApiGoalGetResponseBearingsItemNameMax = 200;
+
+export const getApiGoalGetResponseNameMax = 200;
+
+
+
 export const GetApiGoalGetResponseItem = zod.object({
-  "description": zod.string().optional(),
-  "importance": zod.number().optional(),
-  "justification": zod.string().optional(),
+  "description": zod.string().max(getApiGoalGetResponseDescriptionMax),
+  "importance": zod.enum(['None', 'High']),
+  "justification": zod.string().max(getApiGoalGetResponseJustificationMax),
   "bearings": zod.array(zod.object({
-  "northStarId": zod.string().uuid().optional(),
-  "description": zod.string().optional(),
-  "justification": zod.string().optional(),
-  "strengths": zod.string().nullish(),
-  "weaknesses": zod.string().nullish(),
+  "northStarId": zod.string().uuid(),
+  "description": zod.string().max(getApiGoalGetResponseBearingsItemDescriptionMax),
+  "justification": zod.string().max(getApiGoalGetResponseBearingsItemJustificationMax),
+  "strengths": zod.string().max(getApiGoalGetResponseBearingsItemStrengthsMax).nullish(),
+  "weaknesses": zod.string().max(getApiGoalGetResponseBearingsItemWeaknessesMax).nullish(),
   "movements": zod.array(zod.object({
-  "bearingId": zod.string().uuid().optional(),
-  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
-  "motivation": zod.string().nullish(),
-  "triggers": zod.string().nullish(),
-  "temptations": zod.string().nullish(),
-  "obstacles": zod.string().nullish(),
-  "killConditions": zod.string().nullish(),
-  "id": zod.string().uuid().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "id": zod.string().uuid().optional(),
-  "name": zod.string().optional()
-})).optional(),
-  "id": zod.string().uuid().optional(),
-  "name": zod.string().optional()
+  "bearingId": zod.string().uuid(),
+  "difficulty": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemDifficultyMax).nullish(),
+  "motivationType": zod.union([zod.null(),zod.union([zod.literal('Carrot'),zod.literal('Stick'),zod.literal(null)])]).optional(),
+  "motivation": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemMotivationMax).nullish(),
+  "triggers": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemTriggersMax).nullish(),
+  "temptations": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemTemptationsMax).nullish(),
+  "obstacles": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemObstaclesMax).nullish(),
+  "killConditions": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemKillConditionsMax).nullish(),
+  "id": zod.string().uuid(),
+  "name": zod.string().max(getApiGoalGetResponseBearingsItemMovementsItemNameMax)
+})),
+  "id": zod.string().uuid(),
+  "name": zod.string().max(getApiGoalGetResponseBearingsItemNameMax)
+})),
+  "id": zod.string().uuid(),
+  "name": zod.string().max(getApiGoalGetResponseNameMax)
 })
 export const GetApiGoalGetResponse = zod.array(GetApiGoalGetResponseItem)
 
@@ -42,43 +75,77 @@ export const getApiGoalStatsResponseMovementCountRegExpTwo = new RegExp('^-?(?:0
 
 
 export const GetApiGoalStatsResponse = zod.object({
-  "northStarCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseNorthStarCountRegExpTwo)]).optional(),
-  "bearingCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseBearingCountRegExpTwo)]).optional(),
-  "movementCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseMovementCountRegExpTwo)]).optional()
+  "northStarCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseNorthStarCountRegExpTwo)]),
+  "bearingCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseBearingCountRegExpTwo)]),
+  "movementCount": zod.union([zod.number(),zod.string().regex(getApiGoalStatsResponseMovementCountRegExpTwo)])
 })
+
+export const postApiGoalCreateNorthStarBodyDescriptionMax = 200;
+
+export const postApiGoalCreateNorthStarBodyJustificationMax = 5000;
+
+export const postApiGoalCreateNorthStarBodyNameMax = 200;
+
+
 
 export const PostApiGoalCreateNorthStarBody = zod.object({
-  "description": zod.string(),
-  "importance": zod.number(),
-  "justification": zod.string().optional(),
-  "name": zod.string(),
-  "type": zod.number().optional()
+  "description": zod.string().max(postApiGoalCreateNorthStarBodyDescriptionMax),
+  "importance": zod.enum(['None', 'High']),
+  "justification": zod.string().max(postApiGoalCreateNorthStarBodyJustificationMax),
+  "name": zod.string().max(postApiGoalCreateNorthStarBodyNameMax)
 })
+
+export const postApiGoalCreateBearingBodyDescriptionMax = 5000;
+
+export const postApiGoalCreateBearingBodyJustificationMax = 5000;
+
+export const postApiGoalCreateBearingBodyStrengthsMax = 5000;
+
+export const postApiGoalCreateBearingBodyWeaknessesMax = 5000;
+
+export const postApiGoalCreateBearingBodyNameMax = 200;
+
+
 
 export const PostApiGoalCreateBearingBody = zod.object({
-  "northStarId": zod.string().uuid().optional(),
-  "description": zod.string().optional(),
-  "justification": zod.string().optional(),
-  "strengths": zod.string().nullish(),
-  "weaknesses": zod.string().nullish(),
-  "name": zod.string(),
-  "type": zod.number().optional()
+  "northStarId": zod.string().uuid(),
+  "description": zod.string().max(postApiGoalCreateBearingBodyDescriptionMax),
+  "justification": zod.string().max(postApiGoalCreateBearingBodyJustificationMax),
+  "strengths": zod.string().max(postApiGoalCreateBearingBodyStrengthsMax).nullish(),
+  "weaknesses": zod.string().max(postApiGoalCreateBearingBodyWeaknessesMax).nullish(),
+  "name": zod.string().max(postApiGoalCreateBearingBodyNameMax)
 })
 
+export const postApiGoalCreateMovementBodyDifficultyMax = 5000;
+
+export const postApiGoalCreateMovementBodyMotivationMax = 5000;
+
+export const postApiGoalCreateMovementBodyTriggersMax = 5000;
+
+export const postApiGoalCreateMovementBodyTemptationsMax = 5000;
+
+export const postApiGoalCreateMovementBodyObstaclesMax = 5000;
+
+export const postApiGoalCreateMovementBodyKillConditionsMax = 5000;
+
+export const postApiGoalCreateMovementBodyNameMax = 200;
+
+
+
 export const PostApiGoalCreateMovementBody = zod.object({
-  "bearingId": zod.string().uuid().optional(),
-  "motivationType": zod.union([zod.null(),zod.number()]).optional(),
-  "motivation": zod.string().nullish(),
-  "triggers": zod.string().nullish(),
-  "temptations": zod.string().nullish(),
-  "obstacles": zod.string().nullish(),
-  "killConditions": zod.string().nullish(),
-  "name": zod.string(),
-  "type": zod.number().optional()
+  "bearingId": zod.string().uuid(),
+  "difficulty": zod.string().max(postApiGoalCreateMovementBodyDifficultyMax).nullish(),
+  "motivationType": zod.union([zod.null(),zod.union([zod.literal('Carrot'),zod.literal('Stick'),zod.literal(null)])]).optional(),
+  "motivation": zod.string().max(postApiGoalCreateMovementBodyMotivationMax).nullish(),
+  "triggers": zod.string().max(postApiGoalCreateMovementBodyTriggersMax).nullish(),
+  "temptations": zod.string().max(postApiGoalCreateMovementBodyTemptationsMax).nullish(),
+  "obstacles": zod.string().max(postApiGoalCreateMovementBodyObstaclesMax).nullish(),
+  "killConditions": zod.string().max(postApiGoalCreateMovementBodyKillConditionsMax).nullish(),
+  "name": zod.string().max(postApiGoalCreateMovementBodyNameMax)
 })
 
 export const PostApiGoalDeleteQueryParams = zod.object({
   "id": zod.string().uuid().optional(),
-  "goalType": zod.number().optional()
+  "goalType": zod.enum(['NorthStar', 'Bearing', 'Movement']).optional()
 })
 

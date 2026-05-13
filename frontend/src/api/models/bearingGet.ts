@@ -7,14 +7,23 @@
 import type { MovementGet } from './movementGet';
 
 export interface BearingGet {
-  northStarId?: string;
-  description?: string;
-  justification?: string;
-  /** @nullable */
+  northStarId: string;
+  /** @maxLength 5000 */
+  description: string;
+  /** @maxLength 5000 */
+  justification: string;
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   strengths?: string | null;
-  /** @nullable */
+  /**
+     * @maxLength 5000
+     * @nullable
+     */
   weaknesses?: string | null;
-  movements?: MovementGet[];
-  id?: string;
-  name?: string;
+  movements: MovementGet[];
+  id: string;
+  /** @maxLength 200 */
+  name: string;
 }
