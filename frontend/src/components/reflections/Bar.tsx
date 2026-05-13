@@ -1,10 +1,14 @@
-import { useGetApiReflectionList } from '@/api/endpoints/reflection/reflection';
-import { Paper, SimpleGrid, Text } from '@mantine/core';
+import { Paper } from '@mantine/core';
+import type { ReactNode } from 'react';
 
-export default function Bar() {
+interface BarProps {
+    children?: ReactNode;
+}
+
+export default function Bar({children}: BarProps) {
     return (
-        <Paper>
-            
+        <Paper w="100%" h="100%" shadow="sm" withBorder p="md">
+            {children}
         </Paper>
     );
 }
