@@ -2,3 +2,29 @@ variable "do_token" {
     type = string
     sensitive = true
 }
+
+
+variable "domain" {
+    type = string
+    default = "fra1"
+}
+
+variable "region" {
+    type = string
+    default = "fra1"
+}
+
+variable "backend_count" {
+    type = number
+    default = 2
+}
+
+variable "database_count" {
+    type = number
+    default = 2
+}
+
+variable "droplet_size" {
+    type = string
+    default = "s-1vcpu-2gb"
+}
