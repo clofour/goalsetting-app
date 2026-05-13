@@ -13,26 +13,28 @@ export const GetApiReflectionGetQueryParams = zod.object({
 
 export const GetApiReflectionGetResponse = zod.object({
   "id": zod.string().uuid(),
-  "eventId": zod.string().uuid().optional(),
-  "positive": zod.string().optional(),
-  "negative": zod.string().optional(),
-  "improvement": zod.string().optional()
+  "eventId": zod.string().uuid().nullish(),
+  "date": zod.string().datetime({"offset":true}),
+  "positive": zod.array(zod.string()),
+  "negative": zod.array(zod.string()),
+  "improvement": zod.array(zod.string())
 })
 
 export const GetApiReflectionListResponseItem = zod.object({
   "id": zod.string().uuid(),
-  "eventId": zod.string().uuid().optional(),
-  "positive": zod.string().optional(),
-  "negative": zod.string().optional(),
-  "improvement": zod.string().optional()
+  "eventId": zod.string().uuid().nullish(),
+  "date": zod.string().datetime({"offset":true}),
+  "positive": zod.array(zod.string()),
+  "negative": zod.array(zod.string()),
+  "improvement": zod.array(zod.string())
 })
 export const GetApiReflectionListResponse = zod.array(GetApiReflectionListResponseItem)
 
 export const PostApiReflectionCreateBody = zod.object({
-  "eventId": zod.string().uuid().optional(),
-  "positive": zod.string().optional(),
-  "negative": zod.string().optional(),
-  "improvement": zod.string().optional()
+  "eventId": zod.string().uuid().nullish(),
+  "positive": zod.array(zod.string()),
+  "negative": zod.array(zod.string()),
+  "improvement": zod.array(zod.string())
 })
 
 export const PostApiReflectionCreateResponse = zod.string().uuid()

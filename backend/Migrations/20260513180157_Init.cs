@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -239,10 +240,11 @@ namespace backend.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Positive = table.Column<string>(type: "text", nullable: false),
-                    Negative = table.Column<string>(type: "text", nullable: false),
-                    Improvement = table.Column<string>(type: "text", nullable: false)
+                    EventId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Positive = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Negative = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Improvement = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,8 +259,7 @@ namespace backend.Migrations
                         name: "FK_Reflections_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

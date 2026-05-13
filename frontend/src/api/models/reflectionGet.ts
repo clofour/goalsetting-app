@@ -7,8 +7,10 @@
 
 export interface ReflectionGet {
   id: string;
-  eventId?: string;
-  positive?: string;
-  negative?: string;
-  improvement?: string;
+  /** @nullable */
+  eventId?: string | null;
+  date: string;
+  positive: string[];
+  negative: string[];
+  improvement: string[];
 }

@@ -6,8 +6,9 @@
  */
 
 export interface ReflectionCreate {
-  eventId?: string;
-  positive?: string;
-  negative?: string;
-  improvement?: string;
+  /** @nullable */
+  eventId?: string | null;
+  positive: string[];
+  negative: string[];
+  improvement: string[];
 }

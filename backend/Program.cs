@@ -162,6 +162,9 @@ builder.Services.AddAutoMapper(cfg =>
             });
         })
         .IncludeBase<Event, EventGet>();
+
+    cfg.CreateMap<ReflectionCreate, Reflection>();
+    cfg.CreateMap<Reflection, ReflectionGet>();
 });
 
 builder.Services.AddScoped<GoalService>();

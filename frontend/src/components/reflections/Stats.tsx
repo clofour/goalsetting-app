@@ -7,7 +7,7 @@ interface StatsProps {
     goal: string;
 }
 
-export default function Card() {
+export default function Stats() {
     return (
         <Paper shadow="sm" withBorder p="md">
            Hi!
