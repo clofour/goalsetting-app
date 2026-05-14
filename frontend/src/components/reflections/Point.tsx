@@ -6,13 +6,11 @@ interface PointProps {
     date: string;
 }
 
-export default function Point({name, eventId, date}: PointProps) {
+export default function Point({ name, eventId, date }: PointProps) {
     return (
         <Paper>
-           <Stack>
-                <Text>{name}</Text>
-                <Text>{eventId} x {date}</Text>
-            </Stack> 
+            <Text>{name}</Text>
+            <Text>{eventId} x {date}</Text>
         </Paper>
     );
 }

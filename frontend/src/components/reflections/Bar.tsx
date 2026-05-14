@@ -1,5 +1,5 @@
 import type { ReflectionGet } from "@/api/models";
-import { Card, Group, Text } from "@mantine/core";
+import { Card, Group, Paper, ScrollArea, Stack, Text } from "@mantine/core";
 import type { ReactNode } from "react";
 import Point from "@/components/reflections/Point";
 
@@ -24,14 +24,16 @@ export default function Bar({ label, value, reflections }: BarProps) {
     ));
 
     return (
-        <Card w="100%" h="100%" shadow="sm" withBorder p="md">
+        <Card w="100%" h="100%" shadow="sm" withBorder>
             <Card.Section withBorder inheritPadding>
                 <Group justify="space-between">
                     <Text>{label}</Text>
-                    <Text>{items.length}</Text>
+                    <Text>{itemData.length}</Text>
                 </Group>
             </Card.Section>
-            {items}
+            <ScrollArea>
+                {items}
+            </ScrollArea>
         </Card>
     );
 }
