@@ -7,7 +7,7 @@ source "digitalocean" "backend" {
 }
 
 build {
-    sources = ["source.digitalocean.base"]
+    sources = ["source.digitalocean.backend"]
 
     provisioner "ansible" {
         playbook_file = "../ansible/backend.yaml"
