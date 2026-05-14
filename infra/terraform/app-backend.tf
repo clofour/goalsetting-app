@@ -22,6 +22,8 @@ resource "digitalocean_droplet" "backend" {
     name = "backend-${count.index}"
     size = var.droplet_size
 
+    vpc_uuid = digitalocean_vpc.main.id
+
     tags = [
         "backend"
     ]

@@ -6,6 +6,8 @@ resource "digitalocean_droplet" "database" {
     name = "database-${count.index}"
     size = var.droplet_size
 
+    vpc_uuid = digitalocean_vpc.main.id
+
     tags = [
         "database"
     ]
