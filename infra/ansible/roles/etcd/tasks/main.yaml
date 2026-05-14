@@ -1,0 +1,32 @@
+---
+
+- name: Download etcd
+  ansible.builtin.get_url:
+    url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+    dest: /tmp/etcd.tar.gz
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Extract etcd
+    - Install etcd
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Add etcd service
+  ansible.builtin.copy:
+    src: files/etcd.service
+    dest: /etc/systemd/system/etcd.service
+    owner: root
+    group: root
+    mode: "0755"
+  notify: Reload systemd
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Start etcd service
+  ansible.builtin.service:
+    name: etcd
+    enabled: true

@@ -1,0 +1,26 @@
+---
+
+- name: Extract etcd
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: /tmp/etcd.tar.gz
+    dest: /tmp/etcd
+    owner: root
+    group: root
+    extra_opts:
+      - --strip-components=1
+      - --show-stored-names
+
+- name: Install etcd
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/etcd/{{ item }}
+    dest: "{{ etcd_dir }}/{{ item }}"
+  loop:
+    - etcd
+    - etcdctl
+    - etcdutl
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
