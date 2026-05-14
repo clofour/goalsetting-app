@@ -1,6 +1,6 @@
-import { Menu, ActionIcon } from '@mantine/core';
-import { IconDots, IconPencil, IconTrash } from '@tabler/icons-react';
-import { postApiGoalDelete } from '../../api/endpoints/goal/goal.js';
+import { Menu, ActionIcon } from "@mantine/core";
+import { IconDots, IconPencil, IconTrash } from "@tabler/icons-react";
+import { postApiGoalDelete } from "../../api/endpoints/goal/goal.js";
 
 interface GoalMenuProps {
     id: string

@@ -147,7 +147,7 @@ namespace backend.Controllers
             }
 
             int goalsDeleted = await goalService.ResolveGoalDbSet(goalType)
-                .Where(goal => goal.Id == id && goal.User == user)
+                .Where(goal => goal.UserId == user.Id && goal.Id == id)
                 .ExecuteDeleteAsync();
 
             if (goalsDeleted == 1)
@@ -157,7 +157,6 @@ namespace backend.Controllers
             else {
                 return NotFound();
             }
-            
         }
     }
 }

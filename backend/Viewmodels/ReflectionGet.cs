@@ -1,18 +1,15 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace backend.Models
+namespace backend.Viewmodels
 {
-    public class Reflection
+    public class ReflectionGet
     {
+        [Required]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-        public Guid? EventId { get; set; }
-        [ForeignKey("EventId")]
-        public Event? Event { get; set; }
 
+        public Guid? EventId { get; set; }
+
+        [Required]
         public DateTime Date { get; set; }
 
         [Required]

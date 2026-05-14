@@ -15,7 +15,7 @@ export default function CreateBearingForm({close, setAlert, parentId}: CreateBea
         northStarId: true
     })
     const form = useForm({
-        mode: 'uncontrolled',
+        mode: "uncontrolled",
         validate: schemaResolver(formSchema, { sync: true })
     })
 
@@ -42,39 +42,39 @@ export default function CreateBearingForm({close, setAlert, parentId}: CreateBea
                         description="What is your goal?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        key={form.key("name")}
+                        {...form.getInputProps("name")}
                     />
                     <Textarea
                         label="Description"
                         description="What does your goal consist of?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('description')}
-                        {...form.getInputProps('description')}
+                        key={form.key("description")}
+                        {...form.getInputProps("description")}
                     />
                     <Textarea
                         label="Justification"
                         description="How does this goal help you achieve your ideal self? Use research."
                         placeholder="Be healthy"
-                        key={form.key('justification')}
-                        {...form.getInputProps('justification')}
+                        key={form.key("justification")}
+                        {...form.getInputProps("justification")}
                     />
                     <Textarea
                         label="Strengths"
                         description="What are your strengths in this area?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('strengths')}
-                        {...form.getInputProps('strengths')}
+                        key={form.key("strengths")}
+                        {...form.getInputProps("strengths")}
                     />
                     <Textarea
                         label="Weaknesses"
                         description="What are your weaknesses in this area?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('weaknesses')}
-                        {...form.getInputProps('weaknesses')}
+                        key={form.key("weaknesses")}
+                        {...form.getInputProps("weaknesses")}
                     />
 
                     <Group justify="flex-end" mt="md">

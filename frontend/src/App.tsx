@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router";
-import { AppShell, Burger, Group, NavLink } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconLayoutDashboard, IconCalendar, IconSparkles, IconNotes } from '@tabler/icons-react';
+import { AppShell, Burger, Group, NavLink } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconLayoutDashboard, IconCalendar, IconSparkles, IconNotes } from "@tabler/icons-react";
 import Logo, { LogoLayout } from "./components/shared/Logo";
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
     return (
         <AppShell
             header={{ height: 60 }}
-            navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+            navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
             padding="md"
         >
             <AppShell.Header>

@@ -12,7 +12,7 @@ interface CreateNorthStarFormProps {
 
 export default function CreateNorthStarForm({close, setAlert}: CreateNorthStarFormProps) {
     const form = useForm({
-        mode: 'uncontrolled',
+        mode: "uncontrolled",
         validate: schemaResolver(PostApiGoalCreateNorthStarBody, { sync: true })
     })
 
@@ -35,23 +35,23 @@ export default function CreateNorthStarForm({close, setAlert}: CreateNorthStarFo
                         description="What is your goal?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
+                        key={form.key("name")}
+                        {...form.getInputProps("name")}
                     />
                     <Textarea
                         label="Description"
                         description="What does your goal consist of?"
                         placeholder="Be healthy"
                         required
-                        key={form.key('description')}
-                        {...form.getInputProps('description')}
+                        key={form.key("description")}
+                        {...form.getInputProps("description")}
                     />
                     <Textarea
                         label="Justification"
                         description="Why do you want to achieve this goal? How is it linked to your values and your identity?"
                         placeholder="Be healthy"
-                        key={form.key('justification')}
-                        {...form.getInputProps('justification')}
+                        key={form.key("justification")}
+                        {...form.getInputProps("justification")}
                     />
                     <Input.Wrapper
                         label="Importance"
@@ -60,8 +60,8 @@ export default function CreateNorthStarForm({close, setAlert}: CreateNorthStarFo
                         <SegmentedControl
                             data={[{ value: 0, label: "None" }, { value: 1, label: "High" }]}
                             fullWidth
-                            key={form.key('importance')}
-                            {...form.getInputProps('importance')}
+                            key={form.key("importance")}
+                            {...form.getInputProps("importance")}
                         />
                     </Input.Wrapper>
 

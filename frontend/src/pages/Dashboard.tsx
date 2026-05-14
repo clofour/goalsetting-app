@@ -1,8 +1,8 @@
-import { getApiGoalStats, useGetApiGoalStats } from '@/api/endpoints/goal/goal';
-import PageTitle from '@/components/shared/PageTitle';
-import { Stack, SimpleGrid, Paper, Group, ThemeIcon, Text, Checkbox, Title } from '@mantine/core';
-import { IconStar, IconCompass, IconActivity } from '@tabler/icons-react';
-import { useEffect } from 'react';
+import { getApiGoalStats, useGetApiGoalStats } from "@/api/endpoints/goal/goal";
+import PageTitle from "@/components/shared/PageTitle";
+import { Stack, SimpleGrid, Paper, Group, ThemeIcon, Text, Checkbox, Title } from "@mantine/core";
+import { IconStar, IconCompass, IconActivity } from "@tabler/icons-react";
+import { useEffect } from "react";
 
 export default function Dashboard() {
     const { data: response, error, isLoading, mutate } = useGetApiGoalStats();
