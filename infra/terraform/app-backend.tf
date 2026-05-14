@@ -14,11 +14,15 @@ resource "digitalocean_loadbalancer" "backend" {
     }
 }
 
+data "digitalocean_image" "backend" {
+    name = "backend"
+}
+
 resource "digitalocean_droplet" "backend" {
     count = var.backend_count
 
     region = var.region
-    image = "debian-13-x64"
+    image = digitalocean_image.backend.id
     name = "backend-${count.index}"
     size = var.droplet_size
 
