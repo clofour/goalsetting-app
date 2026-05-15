@@ -22,7 +22,7 @@ resource "digitalocean_droplet" "backend" {
     count = var.backend_count
 
     region = var.region
-    image = digitalocean_image.backend.id
+    image = data.digitalocean_image.backend.id
     name = "backend-${count.index}"
     size = var.droplet_size
 

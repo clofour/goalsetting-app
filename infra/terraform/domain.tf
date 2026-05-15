@@ -1,6 +1,6 @@
 locals {
     records = [
-        {name = var.frontend_subdomain, value = digitalocean_cdn.ip},
+        {name = var.frontend_subdomain, value = digitalocean_cdn.cdn.ip},
         {name = var.backend_subdomain, value = digitalocean_loadbalancer.backend.ip}
     ]
 }
