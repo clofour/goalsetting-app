@@ -11,7 +11,8 @@
     signed_by: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
 
-- name: Install PostgreSQL
+- name: Install Patroni and dependencies
   ansible.builtin.apt:
-    name: postgresql-18
+    name: patroni
     state: present
+
