@@ -1,5 +1,34 @@
 ---
 
+- name: Create etcd group
+  ansible.builtin.group:
+    name: etcd
+    system: true
+    state: present
+
+- name: Create etcd user
+  ansible.builtin.user:
+    name: etcd
+    group: etcd
+    shell: /usr/sbin/nologin
+    create_home: false
+    system: true
+    state: present
+
+- name: Create etcd directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('etcd') }}"
+    group: "{{ item.group | default('etcd') }}"
+    mode: "{{ item.mode }}"
+  list:
+    - path: /etc/etcd
+      owner: root
+      mode: "0750"
+    - path: /var/lib/etcd
+      mode: "0700"
+
 - name: Download etcd
   ansible.builtin.get_url:
     url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
@@ -8,6 +37,7 @@
     group: root
     mode: "0644"
   notify:
+    - Create etcd extraction directory
     - Extract etcd
     - Install etcd
 
@@ -26,7 +56,6 @@
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
-- name: Start etcd service
+- name: Enable etcd service
   ansible.builtin.service:
-    name: etcd
     enabled: true

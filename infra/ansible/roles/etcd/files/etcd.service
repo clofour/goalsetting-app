@@ -1,0 +1,12 @@
+[Unit]
+Description=etcd
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=etcd
+Group=etcd
+ExecStart=/usr/local/bin/etcd
+
+[Install]
+WantedBy=multi-user.target

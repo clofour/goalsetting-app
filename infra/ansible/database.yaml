@@ -10,3 +10,5 @@
     - ufw
     - fail2ban
     - postgresql
+    - etcd
+    - patroni

@@ -5,26 +5,6 @@
     name: python-debian
     state: present
 
-- name: Create system groups
-  ansible.builtin.group:
-    name: "{{ item.name }}"
-    system: true
-    state: "{{ item.state }}"
-  loop: "{{ accounts_system_groups }}"
-
-- name: Create system users
-  ansible.builtin.user:
-    name: "{{ item.name }}"
-    group: "{{ item.group }}"
-    groups: "{{ item.groups }}"
-    append: true
-    home: "{{ item.home }}"
-    create_home: false
-    system: true
-    comment: "{{ item.comment }}"
-    state: "{{ item.state }}"
-  loop: "{{ accounts_system_users }}"
-
 - name: Create groups
   ansible.builtin.group:
     name: "{{ item.name }}"
