@@ -1,0 +1,4 @@
+---
+
+etcd_version: v3.6.11
+etcd_dir: /usr/local/bin/

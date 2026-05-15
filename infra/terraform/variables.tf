@@ -6,7 +6,16 @@ variable "do_token" {
 
 variable "domain" {
     type = string
-    default = "fra1"
+}
+
+variable "frontend_subdomain" {
+    type = string
+    default = "frontend"
+}
+
+variable "backend_subdomain" {
+    type = string
+    default = "backend"
 }
 
 variable "region" {

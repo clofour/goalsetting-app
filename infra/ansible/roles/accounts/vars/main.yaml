@@ -1,9 +1,5 @@
 ---
 
-accounts_system_groups:
-
-accounts_system_users:
-
 accounts_groups:
   - name: ansible
     gid: 1002

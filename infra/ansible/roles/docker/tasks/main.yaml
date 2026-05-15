@@ -7,7 +7,7 @@
     uris: https://download.docker.com/linux/debian
     suites: "{{ ansible_distribution_release }}"
     components: stable
-    architectures: "{{ pre_dpkg_arch }}"
+    architectures: "{{ pre_dpkg_arch.stdout }}"
     signed_by: https://download.docker.com/linux/debian/gpg
     state: present
 
