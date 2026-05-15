@@ -16,6 +16,9 @@
     remote_src: true
     src: /tmp/etcd/{{ item }}
     dest: "{{ etcd_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: "0755"
   loop:
     - etcd
     - etcdctl
