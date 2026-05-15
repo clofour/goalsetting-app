@@ -1,7 +1,7 @@
 locals {
     records = [
-        {name = var.frontend_subdomain, value = digitalocean_cdn.cdn.ip},
-        {name = var.backend_subdomain, value = digitalocean_loadbalancer.backend.ip}
+        {type = "CNAME", name = var.frontend_subdomain, value = digitalocean_cdn.cdn.endpoint},
+        {type = "A", name = var.backend_subdomain, value = digitalocean_loadbalancer.backend.ip}
     ]
 }
 
@@ -12,9 +12,9 @@ data "digitalocean_domain" "domain" {
 resource "digitalocean_record" "main" {
     for_each = local.records
 
-    type = "A"
+    type = each.value.type
     domain = var.domain
-    name = each.value.type
+    name = each.value.name
     value = each.value.value
 }
 
