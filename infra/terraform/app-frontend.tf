@@ -7,5 +7,5 @@ resource "digitalocean_spaces_bucket" "frontend" {
 resource "digitalocean_cdn" "cdn" {
     origin = digitalocean_spaces_bucket.frontend.bucket_domain_name
     custom_domain = var.domain
-    certificate_name = digitalocean_certificate.certificate
+    certificate_name = digitalocean_certificate.certificate.name
 }

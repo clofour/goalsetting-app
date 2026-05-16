@@ -10,19 +10,28 @@ resource "digitalocean_loadbalancer" "backend" {
         target_port = 80
         target_protocol = "http"
 
-        certificate_name = digitalocean_certificate.certificate
+        certificate_name = digitalocean_certificate.certificate.name
     }
 }
 
-data "digitalocean_image" "backend" {
-    name = "backend"
+data "digitalocean_images" "backend" {
+    filter {
+        key = "name"
+        match_by = "substring"
+        values = ["backend"]
+    }
+    sort {
+        key = "name"
+        direction = "desc"
+    }
+
 }
 
 resource "digitalocean_droplet" "backend" {
     count = var.backend_count
 
     region = var.region
-    image = data.digitalocean_image.backend.id
+    image = data.digitalocean_images.backend.images[0].id
     name = "backend-${count.index}"
     size = var.droplet_size
 
