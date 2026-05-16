@@ -1,0 +1,7 @@
+---
+
+- name: Deploy to backend at runtime
+  become: true
+  hosts: backend
+  roles:
+    - backend_runtime

@@ -1,0 +1,23 @@
+name: ansible-deploy
+on:
+  workflow_dispatch:
+jobs:
+  validate:
+    name: Ansible Deploy
+    runs-on: ubuntu-24.04
+    environment: production
+    defaults:
+      run:
+        working-directory: ./infra/ansible
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Ansible
+        run: pip install -r requirements-ci.txt
+
+      - name: Set up collections
+        run: ansible-galaxy install -r requirements.yaml
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook runtime-site.yaml
