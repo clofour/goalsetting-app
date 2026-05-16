@@ -1,9 +1,0 @@
----
-
-- name: Run backend container
-  community.docker.docker_container:
-    name: backend
-    image: "{{ backend_runtime_image }}"
-    published_ports:
-      - 8080:80
-    state: started
