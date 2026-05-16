@@ -1,4 +1,4 @@
-name: build-docker
+name: docker-deploy
 
 on:
   push:
@@ -12,7 +12,7 @@ env:
   USERNAME: ${{ github.repository_owner }}
 
 jobs:
-  build-and-push-image:
+  docker-deploy:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
