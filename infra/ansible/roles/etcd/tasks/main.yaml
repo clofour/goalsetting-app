@@ -22,7 +22,7 @@
     owner: "{{ item.owner | default('etcd') }}"
     group: "{{ item.group | default('etcd') }}"
     mode: "{{ item.mode }}"
-  list:
+  loop:
     - path: /etc/etcd
       owner: root
       mode: "0750"
