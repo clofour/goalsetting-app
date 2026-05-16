@@ -5,7 +5,7 @@ source "digitalocean" "backend" {
     size = "s-1vcpu-512mb-10gb"
     ssh_username = "root"
 
-    snapshot_name = "backend-${formatdate('YYYYMMDDhhmmss', timestamp())}"
+    snapshot_name = "backend-${formatdate("YYYYMMDDhhmmss", timestamp())}"
 }
 
 build {

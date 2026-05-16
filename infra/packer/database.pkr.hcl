@@ -5,7 +5,7 @@ source "digitalocean" "database" {
     size = "s-1vcpu-512mb-10gb"
     ssh_username = "root"
 
-    snapshot_name = "database-${formatdate('YYYYMMDDhhmmss', timestamp())}"
+    snapshot_name = "database-${formatdate("YYYYMMDDhhmmss", timestamp())}"
 }
 
 build {
