@@ -1,8 +1,16 @@
 locals {
-    records = [
-        {type = "CNAME", name = var.frontend_subdomain, value = digitalocean_cdn.cdn.endpoint},
-        {type = "A", name = var.backend_subdomain, value = digitalocean_loadbalancer.backend.ip}
-    ]
+    records = {
+        frontend = {
+            type = "CNAME",
+            name = var.frontend_subdomain,
+            value = digitalocean_cdn.cdn.endpoint
+        },
+        backend = {
+            type = "A",
+            name = var.backend_subdomain,
+            value = digitalocean_loadbalancer.backend.ip
+        }
+    }
 }
 
 data "digitalocean_domain" "domain" {
