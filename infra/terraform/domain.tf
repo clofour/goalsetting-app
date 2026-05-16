@@ -30,6 +30,8 @@ resource "digitalocean_certificate" "certificate" {
     name = "certificate"
     type = "lets_encrypt"
     domains = [
-        var.domain
+        var.domain,
+        "${var.frontend_subdomain}.${var.domain}",
+        "${var.backend_subdomain}.${var.domain}"
     ]
 }
