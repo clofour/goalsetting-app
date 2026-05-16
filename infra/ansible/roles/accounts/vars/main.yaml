@@ -8,4 +8,4 @@ accounts_groups:
     gid: 1003
     state: present
 
-accounts_users:
+accounts_users: []
