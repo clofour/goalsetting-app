@@ -4,6 +4,11 @@
   ansible.builtin.apt:
     update_cache: true
 
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: python3-packaging
+    state: present
+
 - name: Gather information about architecture
   ansible.builtin.command: dpkg --print-architecture
   register: pre_dpkg_arch
