@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string environment = "Testing";
+string environment = builder.Environment.EnvironmentName;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
@@ -46,7 +46,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql($"Host=localhost:5432;Username={environment.ToLower()};Password={(environment == "Production" ? File.ReadAllText("/run/secrets/p_db_user_password") : "testing")};Database={environment.ToLower()}")
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
     .UseSeeding((context, _) =>
     {
         AppDbContext appDbContext = (AppDbContext)context;

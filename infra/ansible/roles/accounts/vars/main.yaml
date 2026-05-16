@@ -8,4 +8,16 @@ accounts_groups:
     gid: 1003
     state: present
 
-accounts_users: []
+accounts_users:
+  - name: ansible
+    uid: 1002
+    group: ansible
+    sudo: "ALL=(ALL:ALL) NOPASSWD:ALL"
+    ssh_key: "TBA"
+    state: present
+  - name: dev
+    uid: 1003
+    group: dev
+    sudo: "ALL=(ALL:ALL) NOPASSWD:ALL"
+    ssh_key: "TBA"
+    state: present
