@@ -24,4 +24,4 @@ jobs:
       - name: Run Packer Build
         run: packer build .
         env:
-          DIGITALOCEAN_API_TOKEN: ${{ secrets.DO_API_TOKEN }}
+          DIGITALOCEAN_TOKEN: ${{ secrets.DO_API_TOKEN }}

@@ -23,10 +23,10 @@
     group: "{{ item.group | default('etcd') }}"
     mode: "{{ item.mode }}"
   loop:
-    - path: /etc/etcd
+    - path: "{{ etcd_config_dir }}"
       owner: root
       mode: "0750"
-    - path: /var/lib/etcd
+    - path: "{{ etcd_data_dir }}"
       mode: "0700"
 
 - name: Download etcd

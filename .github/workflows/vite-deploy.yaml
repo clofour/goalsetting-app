@@ -1,0 +1,25 @@
+name: vite-deploy
+on:
+  workflow_dispatch:
+jobs:
+  validate:
+    name: Vite Deploy
+    runs-on: ubuntu-24.04 # AWS CLI preinstalled (see https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md)
+    environment: production
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run dev
+
+      - name: Upload assets
+        run: aws s3 sync dist s3://$DO_SPACES_BUCKET --delete
+        env:
+          DO_SPACES_BUCKET: hi

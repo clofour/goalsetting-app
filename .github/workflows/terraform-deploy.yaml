@@ -26,3 +26,5 @@ jobs:
 
       - name: Run Terraform Apply
         run: terraform apply tfplan
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DO_API_TOKEN }}

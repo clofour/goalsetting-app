@@ -28,9 +28,14 @@ variable "backend_count" {
     default = 2
 }
 
-variable "database_count" {
+variable "database_proxy_count" {
     type = number
     default = 2
+}
+
+variable "database_count" {
+    type = number
+    default = 3
 }
 
 variable "droplet_size" {

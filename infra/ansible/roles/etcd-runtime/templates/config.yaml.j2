@@ -1,0 +1,13 @@
+name: {{ inventory_hostname }}
+
+data-dir: {{ etcd_data_dir }}
+
+initial-advertise-peer-urls: http://{{ private_ip }}:2380
+listen-peer-urls: http://{{ private_ip }}:2380
+listen-client-urls: http://{{ private_ip }}:2379
+advertise-client-urls: http://{{ private_ip }}:2379
+
+
+initial-cluster-state: "new"
+initial-cluster-token: "nordar-etcd-cluster-0"
+initial-cluster: "{% for host in groups["database"] | sort %}{{host}}=http://{{ hostvars[host].private_ip }}:2380{% if not loop.last%},{% endif %}{% endfor %}"

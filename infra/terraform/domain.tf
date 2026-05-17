@@ -1,5 +1,5 @@
 locals {
-    records = {
+    public_records = {
         frontend = {
             type = "CNAME",
             name = var.frontend_subdomain,
@@ -11,14 +11,31 @@ locals {
             value = digitalocean_loadbalancer.backend.ip
         }
     }
+
+    private_records = {
+        for name, instance in digitalocean_droplet.database_proxy : name => {
+            type = "A",
+            name = "database",
+            value = data.ipv4_address_private
+        }
+    }
 }
 
 data "digitalocean_domain" "domain" {
     name = var.domain
 }
 
-resource "digitalocean_record" "main" {
-    for_each = local.records
+resource "digitalocean_record" "public" {
+    for_each = local.public_records
+
+    type = each.value.type
+    domain = var.domain
+    name = each.value.name
+    value = each.value.value
+}
+
+resource "digitalocean_record" "private" {
+    for_each = local.private_records
 
     type = each.value.type
     domain = var.domain

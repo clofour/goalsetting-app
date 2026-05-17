@@ -1,5 +1,5 @@
 resource "digitalocean_spaces_bucket" "frontend" {
-    name = "frontend"
+    name = "nordar-frontend-${random_id.suffix.hex}"
     region = var.region
     acl = "public-read"
 }

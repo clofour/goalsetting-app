@@ -1,0 +1,9 @@
+---
+
+- name: Configure Patroni
+  ansible.builtin.template:
+    src: files/patroni.yml.j2
+    dest: /etc/etcd/config.yaml
+    owner: root
+    group: etcd
+    mode: "0640"
