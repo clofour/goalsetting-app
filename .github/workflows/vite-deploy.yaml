@@ -17,9 +17,11 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run dev
+        run: npm run build
 
       - name: Upload assets
-        run: aws s3 sync dist s3://$DO_SPACES_BUCKET --delete
+        run: aws s3 sync dist s3://$DO_SPACES_BUCKET --acl public-read --delete
         env:
-          DO_SPACES_BUCKET: hi
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_ENDPOINT_URL: https://fra1.digitaloceanspaces.com

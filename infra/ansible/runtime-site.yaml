@@ -2,3 +2,6 @@
 
 - name: Deploy to backend at runtime
   import_playbook: runtime-backend.yaml
+
+- name: Deploy to database at runtime
+  import_playbook: runtime-database.yaml

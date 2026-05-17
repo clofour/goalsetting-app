@@ -1,0 +1,44 @@
+global
+    maxconn 100
+
+listen database
+    bind {{ private_ip }}:5432
+    mode tcp
+
+    option httpchk GET /primary
+    http-check expect status 200
+
+{% for host in groups["database"] | sort %}
+    server {{ host }} {{ hostvars[host].private_ip }}:5432 check port 8008
+{% endfor %}
+
+listen database-write
+    bind {{ private_ip }}:5433
+    mode tcp
+
+    option httpchk GET /primary
+    http-check expect status 200
+
+{% for host in groups["database"] | sort %}
+    server {{ host }} {{ hostvars[host].private_ip }}:5432 check port 8008
+{% endfor %}
+
+listen database-read
+    bind {{ private_ip }}:5434
+    mode tcp
+
+    option httpchk GET /replica
+    http-check expect status 200
+
+    balance roundrobin
+
+{% for host in groups["database"] | sort %}
+    server {{ host }} {{ hostvars[host].private_ip }}:5432 check port 8008
+{% endfor %}
+
+listen status
+    bind {{ private_ip }}:7000
+    mode http
+
+    stats enable
+    stats uri /

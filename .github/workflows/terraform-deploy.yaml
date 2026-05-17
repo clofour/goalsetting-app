@@ -6,6 +6,10 @@ jobs:
     name: Terraform Deploy
     runs-on: ubuntu-24.04
     environment: production
+    env:
+      DIGITALOCEAN_TOKEN: ${{ secrets.DO_API_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
     defaults:
       run:
         working-directory: ./infra/terraform
@@ -26,5 +30,3 @@ jobs:
 
       - name: Run Terraform Apply
         run: terraform apply tfplan
-        env:
-          DIGITALOCEAN_TOKEN: ${{ secrets.DO_API_TOKEN }}

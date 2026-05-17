@@ -1,0 +1,8 @@
+---
+
+- name: Deploy to database at runtime
+  become: true
+  hosts: database
+  roles:
+    - etcd_runtime
+    - patroni_runtime

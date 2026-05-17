@@ -1,7 +1,12 @@
 resource "digitalocean_loadbalancer" "backend" {
     name = "backend-lb"
     region = var.region
-    droplet_tag = "backend"
+
+    healthcheck {
+        protocol = "http"
+        port = 80
+        path = "/healthz"
+    }
 
     forwarding_rule {
         entry_port = 443
@@ -12,6 +17,8 @@ resource "digitalocean_loadbalancer" "backend" {
 
         certificate_name = digitalocean_certificate.certificate.name
     }
+
+    droplet_tag = "backend"
 }
 
 data "digitalocean_images" "backend" {

@@ -19,6 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 string environment = builder.Environment.EnvironmentName;
 
+builder.Services.AddHealthChecks();
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
@@ -208,6 +210,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.MapHealthChecks("/healthz");
 
 app.MapControllerRoute(
     name: "default",
