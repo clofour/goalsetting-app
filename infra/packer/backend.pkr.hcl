@@ -6,6 +6,9 @@ source "digitalocean" "backend" {
     ssh_username = "root"
 
     snapshot_name = "backend-${formatdate("YYYYMMDDhhmmss", timestamp())}"
+    snapshot_tags = [
+        "backend"
+    ]
 }
 
 build {

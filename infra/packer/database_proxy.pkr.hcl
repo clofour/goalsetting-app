@@ -6,6 +6,9 @@ source "digitalocean" "database_proxy" {
     ssh_username = "root"
 
     snapshot_name = "database_proxy-${formatdate("YYYYMMDDhhmmss", timestamp())}"
+    snapshot_tags = [
+        "database_proxy"
+    ]
 }
 
 build {

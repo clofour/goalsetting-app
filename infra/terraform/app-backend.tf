@@ -23,8 +23,7 @@ resource "digitalocean_loadbalancer" "backend" {
 
 data "digitalocean_images" "backend" {
     filter {
-        key = "name"
-        match_by = "substring"
+        key = "tags"
         values = ["backend"]
     }
     sort {

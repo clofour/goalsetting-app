@@ -5,3 +5,6 @@
 
 - name: Deploy to database at runtime
   import_playbook: runtime-database.yaml
+
+- name: Deploy to database proxy at runtime
+  import_playbook: runtime-database_proxy.yaml

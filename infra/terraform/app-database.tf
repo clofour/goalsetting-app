@@ -1,7 +1,6 @@
 data "digitalocean_images" "database" {
     filter {
-        key = "name"
-        match_by = "substring"
+        key = "tags"
         values = ["database"]
     }
     sort {

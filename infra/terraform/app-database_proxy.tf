@@ -1,7 +1,6 @@
 data "digitalocean_images" "database_proxy" {
     filter {
-        key = "name"
-        match_by = "substring"
+        key = "tags"
         values = ["database_proxy"]
     }
     sort {
