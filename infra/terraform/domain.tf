@@ -16,7 +16,7 @@ locals {
         for name, instance in digitalocean_droplet.database_proxy : name => {
             type = "A",
             name = "database",
-            value = data.ipv4_address_private
+            value = instance.ipv4_address_private
         }
     }
 }
