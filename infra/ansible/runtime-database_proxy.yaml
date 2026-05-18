@@ -3,5 +3,7 @@
 - name: Deploy to database proxy at runtime
   become: true
   hosts: database_proxy
+  vars_files:
+    - ../shared/network.yaml
   roles:
     - haproxy_runtime

@@ -2,7 +2,7 @@ global
     maxconn 100
 
 listen database
-    bind {{ private_ip }}:5432
+    bind {{ private_ip }}:{{ ports.haproxy_database }}
     mode tcp
 
     option httpchk GET /primary
@@ -13,7 +13,7 @@ listen database
 {% endfor %}
 
 listen database-write
-    bind {{ private_ip }}:5433
+    bind {{ private_ip }}:{{ ports.haproxy_database_write }}
     mode tcp
 
     option httpchk GET /primary
@@ -24,7 +24,7 @@ listen database-write
 {% endfor %}
 
 listen database-read
-    bind {{ private_ip }}:5434
+    bind {{ private_ip }}:{{ ports.haproxy_database_read }}
     mode tcp
 
     option httpchk GET /replica
@@ -37,7 +37,7 @@ listen database-read
 {% endfor %}
 
 listen status
-    bind {{ private_ip }}:7000
+    bind {{ private_ip }}:{{ ports.haproxy_stats }}
     mode http
 
     stats enable

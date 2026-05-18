@@ -2,13 +2,13 @@ scope: nordar
 name: {{ inventory_hostname }}
 
 restapi:
-    listen: {{ private_ip }}:8008
-    connect_address: {{ private_ip }}:8008
+    listen: {{ private_ip }}:{{ ports.patroni_rest }}
+    connect_address: {{ private_ip }}:{{ ports.patroni_rest }}
 
 etcd3:
     hosts:
 {% for host in groups["database"] | sort %}
-        - {{ hostvars[host].private_ip }}:2379
+        - {{ hostvars[host].private_ip }}:{{ ports.etcd_client }}
 {% endfor %}
     # protocol: https # TODO: COMPLETE HTTPS CONFIG
 
@@ -32,8 +32,8 @@ bootstrap:
 
 
 postgresql:
-    listen: {{ private_ip }}:5432
-    connect_address: {{ private_ip }}:5432
+    listen: {{ private_ip }}:{{ ports.postgres }}
+    connect_address: {{ private_ip }}:{{ ports.postgres }}
 
     data_dir: /var/lib/postgresql/{{ postgresql_version }}/main
     bin_dir: /usr/lib/postgresql/{{ postgresql_version }}/bin

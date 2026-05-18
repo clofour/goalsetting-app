@@ -3,5 +3,7 @@
 - name: Deploy to backend at runtime
   become: true
   hosts: backend
+  vars_files:
+    - ../shared/network.yaml
   roles:
     - backend_runtime

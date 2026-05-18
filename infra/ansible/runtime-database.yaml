@@ -3,6 +3,8 @@
 - name: Deploy to database at runtime
   become: true
   hosts: database
+  vars_files:
+    - ../shared/network.yaml
   roles:
     - etcd_runtime
     - patroni_runtime

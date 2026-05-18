@@ -1,6 +1,11 @@
 name: ansible-deploy
 on:
   workflow_dispatch:
+    inputs:
+      backend_version:
+        description: "Backend version"
+        default: main
+        type: string
 jobs:
   validate:
     name: Ansible Deploy
@@ -23,3 +28,4 @@ jobs:
         run: ansible-playbook -i digitalocean.yml runtime-site.yaml
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DO_API_TOKEN }}
+          BACKEND_VERSION: ${{ inputs.backend_version }}
