@@ -8,6 +8,6 @@
       - 80:8080
     env:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__Default: "Server={{ dbproxy_runtime_host }};Port={{ dbproxy_runtime_port }};Database={{ dbproxy_runtime_database }};User Id={{ dbproxy_runtime_user }};Password={{ dbproxy_runtime_password }}"
+      ConnectionStrings__Default: "Server={{ hostnames.database }};Port={{ ports.haproxy_database }};Database={{ database.app_db }};User Id={{ database.app_user }};Password={{ dbproxy_runtime_password }}"
     state: started
   no_log: true

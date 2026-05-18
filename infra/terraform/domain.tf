@@ -1,4 +1,7 @@
 locals {
+    network = yamldecode(file("${path.module}/../shared/network.yaml"))
+    hostnames = network.hostnames
+
     public_records = {
         frontend = {
             type = "CNAME",
@@ -15,7 +18,7 @@ locals {
     private_records = {
         for name, instance in digitalocean_droplet.database_proxy : name => {
             type = "A",
-            name = "database",
+            name = hostnames.database,
             value = instance.ipv4_address_private
         }
     }

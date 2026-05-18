@@ -4,6 +4,7 @@
   become: true
   hosts: backend
   vars_files:
+    - ../shared/database.yaml
     - ../shared/network.yaml
   roles:
     - backend_runtime

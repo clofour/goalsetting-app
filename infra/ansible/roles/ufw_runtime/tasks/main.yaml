@@ -1,10 +1,5 @@
 ---
 
-- name: Install ufw
-  ansible.builtin.apt:
-    name: ufw
-    state: present
-
 - name: Allow SSH
   community.general.ufw:
     port: ssh

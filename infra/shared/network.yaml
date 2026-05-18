@@ -1,5 +1,8 @@
 ---
 
+hostnames:
+  database: database
+
 ports:
   ssh: 22
   http: 80

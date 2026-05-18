@@ -4,6 +4,7 @@
   become: true
   hosts: database
   vars_files:
+    - ../shared/database.yaml
     - ../shared/network.yaml
   roles:
     - etcd_runtime

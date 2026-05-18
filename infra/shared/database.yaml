@@ -1,0 +1,5 @@
+---
+
+database:
+  app_db: nordar_db
+  app_user: nordar_user
