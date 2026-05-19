@@ -1,0 +1,41 @@
+---
+
+- name: Create certificate directories
+  ansible.builtin.file:
+    path: "{{ certificate_base_dir }}/{{ item }}"
+  loop:
+    - public
+    - private
+
+- name: Install certificates
+  ansible.builtin.copy:
+    src: "{{ certificate_source_dir }}/{{ item }}"
+    dest: "{{ certificate_base_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - "{{ root_crt_name }}"
+    - "{{ ansible_crt_name }}"
+    - "{{ chain_crt_name }}"
+
+- name: Create CA trust directory
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates/app
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install root CA into system trust store
+  ansible.builtin.copy:
+    src: "{{ certificate_source_dir }}/{{ root_crt_name }}"
+    dest: "{{ certificate_base_dir }}/{{ root_crt_name }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Update system trust store
+
+- name: Create service private key
+  community.crypto.openssl_privatekey:
+    

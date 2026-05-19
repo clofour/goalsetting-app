@@ -1,0 +1,7 @@
+---
+
+root_crt_name: root.crt
+ansible_crt_name: ansible.crt
+chain_crt_name: chain.crt
+certificate_source_dir: ~/.data
+certificate_base_dir: /etc/app
