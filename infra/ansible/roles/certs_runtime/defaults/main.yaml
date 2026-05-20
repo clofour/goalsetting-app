@@ -1,7 +1,11 @@
 ---
 
-root_crt_name: root.crt
-ansible_crt_name: ansible.crt
-chain_crt_name: chain.crt
 certificate_source_dir: ~/.data
-certificate_base_dir: /etc/app
+certificate_target_dir: /etc/app
+root_crt_name: root
+ansible_crt_name: ansible
+chain_crt_name: chain
+system_trust_dir: /usr/local/share/ca-certificates
+app_trust_name: app
+public_cert_dir: public
+private_key_dir: private
