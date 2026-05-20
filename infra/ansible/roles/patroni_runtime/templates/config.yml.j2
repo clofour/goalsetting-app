@@ -1,0 +1,67 @@
+scope: nordar
+name: {{ inventory_hostname }}
+
+restapi:
+    listen: {{ private_ip }}:{{ ports.patroni_rest }}
+    connect_address: {{ private_ip }}:{{ ports.patroni_rest }}
+
+etcd3:
+    hosts:
+{% for host in groups["database"] | sort %}
+        - {{ hostvars[host].private_ip }}:{{ ports.etcd_client }}
+{% endfor %}
+    # protocol: https # TODO: COMPLETE HTTPS CONFIG
+
+bootstrap:
+    dcs:
+        ttl: 30
+        loop_wait: 10
+        retry_timeout: 10
+        maximum_lag_on_failover: 1048576
+
+        postgresql:
+            use_pg_rewind: true
+            use_slots: true
+            parameters:
+                wal_level: replica
+                hot_standby: "on"
+
+    initdb:
+        - encoding: UTF8
+        - data-checksums
+
+
+postgresql:
+    listen: {{ private_ip }}:{{ ports.postgres }}
+    connect_address: {{ private_ip }}:{{ ports.postgres }}
+
+    data_dir: /var/lib/postgresql/{{ postgresql_version }}/main
+    bin_dir: /usr/lib/postgresql/{{ postgresql_version }}/bin
+    pgpass: /var/lib/postgresql/.pgpass
+
+    authentication:
+        superuser:
+            username: postgres
+            password: TBA
+        replication:
+            username: replication_user
+            password: TBA
+        rewind:
+            username: rewind_user
+            password: TBA
+
+    pg_hba:
+        - local all all peer
+        - host all all 127.0.0.1/32 scram-sha-256
+        - host all all ::1/128 scram-sha-256
+{% for host in groups["database"] | sort %}
+        - host replication replication_user {{ hostvars[host].private_ip}}/32 scram-sha-256
+        - host all rewind_user {{ hostvars[host].private_ip}}/32 scram-sha-256
+{% endfor %}
+{% for host in groups["database_proxy"] | sort %}
+        - host nordar nordar_user {{ hostvars[host].private_ip }}/32 scram-sha-256
+{% endfor %}
+
+tags:
+    noloadbalance: false
+    nofailover: false

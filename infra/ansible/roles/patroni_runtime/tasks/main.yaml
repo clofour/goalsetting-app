@@ -1,0 +1,10 @@
+---
+
+- name: Configure Patroni
+  ansible.builtin.template:
+    src: templates/config.yml.j2
+    dest: /etc/patroni/config.yml
+    owner: root
+    group: etcd
+    mode: "0640"
+  no_log: true
